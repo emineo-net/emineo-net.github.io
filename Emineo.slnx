@@ -1,3 +1,8 @@
 <Solution>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Project Path="EmineoBlazor/EmineoBlazor.csproj" Id="2917253b-05d0-4ef8-a879-0740dc8eb490" />
+  <Project Path="PaddleRcl/PaddleRcl.csproj" Id="0012d5b5-1027-4983-a13a-af485a39703a" />
+  <Project Path="SupabaseRcl/SupabaseRcl.csproj" Id="392a0efe-ee04-4d6f-bd11-0162fb5384de" />
 </Solution>
