@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EmineoBlazor/EmineoBlazor.Client/EmineoBlazor.Client.csproj" />
+  <Project Path="EmineoBlazor/EmineoBlazor/EmineoBlazor.csproj" />
+</Solution>
