@@ -1,0 +1,50 @@
+﻿@namespace SupabaseRcl.Components
+@using Supabase
+
+<div class="supabase-auth-container">
+    @if (IsAuthenticated)
+    {
+        <div class="alert alert-success">
+            <p>Erfolgreich angemeldet als: <strong>@CurrentUserEmail</strong></p>
+            <button class="btn btn-danger" @onclick="HandleLogout">Abmelden</button>
+        </div>
+    }
+    else
+    {
+        <div class="card p-4 style="max-width: 400px; margin: auto;">
+        <h3>@((IsRegisterMode ? "Registrieren" : "Anmelden"))</h3>
+            
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alert alert-danger">@ErrorMessage</div>
+        }
+
+        <div class="form-group mb-3">
+            <label>E-Mail-Adresse</label>
+            <input type="email" class="form-control" @bind="Email" placeholder="name@example.com" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Passwort</label>
+            <input type="password" class="form-control" @bind="Password" placeholder="******" />
+        </div>
+
+        <button class="btn btn-primary w-100" @onclick="HandleSubmit" disabled="@IsLoading">
+            @if (IsLoading)
+            {
+                <span>Lädt...</span>
+            }
+            else
+            {
+                <span>@((IsRegisterMode ? "Account erstellen" : "Einloggen"))</span>
+            }
+        </button>
+
+        <div class="mt-3 text-center">
+            <a href="javascript:void(0)" @onclick="ToggleMode">
+                @((IsRegisterMode ? "Bereits ein Konto? Hier anmelden" : "Noch kein Konto? Hier registrieren"))
+            </a>
+        </div>
+        </div>
+    }
+</div>
