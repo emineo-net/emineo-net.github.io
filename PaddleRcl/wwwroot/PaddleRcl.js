@@ -5,7 +5,7 @@ export function initializePaddle(token, environment) {
 
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = "https://paddle.com";
+        script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"; 
         script.async = true;
         script.onload = () => {
             window.Paddle.Environment.set(environment);

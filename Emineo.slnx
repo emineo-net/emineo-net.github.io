@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Projektmappenelemente/">
     <File Path="Directory.Packages.props" />
+    <File Path="TODO.md" />
   </Folder>
   <Project Path="EmineoBlazor/EmineoBlazor.csproj" Id="2917253b-05d0-4ef8-a879-0740dc8eb490" />
   <Project Path="PaddleRcl/PaddleRcl.csproj" Id="0012d5b5-1027-4983-a13a-af485a39703a" />
