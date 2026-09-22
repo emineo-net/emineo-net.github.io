@@ -1,7 +1,6 @@
 ﻿using Microsoft.JSInterop;
-using Supabase;
+using Supabase; // Wichtig für DefaultSupabaseSessionHandler
 using Supabase.Gotrue;
-using Supabase.Interfaces; // Hier liegt das korrekte Interface
 using System.Text.Json;
 
 namespace SupabaseRcl.Handlers;
@@ -22,7 +21,7 @@ public class BlazorSessionHandler : DefaultSupabaseSessionHandler
             "import", "./_content/SupabaseRcl/supabaseAuth.js");
     }
 
-    // Speichern der Session im LocalStorage
+    // Überschreibt das Speichern der Session synchron
     public void SaveSession(Session session)
     {
         Task.Run(async () =>
@@ -40,7 +39,7 @@ public class BlazorSessionHandler : DefaultSupabaseSessionHandler
         }).GetAwaiter().GetResult();
     }
 
-    // Laden der Session aus dem LocalStorage
+    // Überschreibt das Laden der Session synchron
     public Session? LoadSession()
     {
         return Task.Run(async () =>
@@ -61,7 +60,7 @@ public class BlazorSessionHandler : DefaultSupabaseSessionHandler
         }).GetAwaiter().GetResult();
     }
 
-    // Löschen der Session beim Logout
+    // Überschreibt das Löschen der Session synchron
     public void DestroySession()
     {
         Task.Run(async () =>

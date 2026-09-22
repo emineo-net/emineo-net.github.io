@@ -1,7 +1,25 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+
+<AuthorizeView>
+    <Authorized>
+        <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
+        <p>Dieser Inhalt ist streng geheim.</p>
+        
+        <SupabaseRcl.Components.Checkout />
+        
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>Halt!</h3>
+        <p>Bitte logge dich zuerst ein.</p>
+        <SupabaseRcl.Components.Checkout />
+    </NotAuthorized>
+</AuthorizeView>

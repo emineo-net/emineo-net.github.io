@@ -25,6 +25,10 @@ public partial class Checkout : ComponentBase
         {
             IsAuthenticated = true;
             CurrentUserEmail = client.Auth.CurrentSession.User.Email ?? string.Empty;
+
+            // Holt die ID des Benutzers aus der bestehenden Session und übergibt sie an den Provider
+            var userId = client.Auth.CurrentSession.User.Id ?? string.Empty;
+            ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserAuthentication(CurrentUserEmail, userId);
         }
     }
 
@@ -60,8 +64,9 @@ public partial class Checkout : ComponentBase
                     IsAuthenticated = true;
                     CurrentUserEmail = session.User.Email ?? string.Empty;
 
-                    // Blazor Bescheid geben!
-                    ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserAuthentication(CurrentUserEmail);
+                    // Übergibt die Email UND die ID an den Provider
+                    var userId = session.User.Id ?? string.Empty;
+                    ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserAuthentication(CurrentUserEmail, userId);
                 }
             }
         }
