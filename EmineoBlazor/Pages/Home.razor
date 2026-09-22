@@ -18,6 +18,31 @@ Welcome to your new app.
     <NotAuthorized>
         <h3>Halt!</h3>
         <p>Bitte logge dich zuerst ein.</p>
-        <SupabaseRcl.Components.Checkout />
+        <SupabaseRcl.Components.Login />
     </NotAuthorized>
 </AuthorizeView>
+
+
+
+<PaddleRcl.Checkout VendorToken="test_abc123..."
+                    PriceId="pri_xyz789..."
+                    CustomerEmail="user@example.com"
+                    ButtonText="Premium aktivieren"
+                    Environment="sandbox"
+                    OnSuccess="HandlePaymentSuccess"
+                    OnClosed="HandleCheckoutClosed" />
+
+
+
+@code {
+    private void HandlePaymentSuccess(object data)
+    {
+        // Hier Code ausführen (z.B. UI-Meldung anzeigen, User-Rolle updaten)
+        Console.WriteLine("Zahlung war erfolgreich!");
+    }
+
+    private void HandleCheckoutClosed()
+    {
+        Console.WriteLine("Checkout wurde vom Nutzer geschlossen.");
+    }
+}

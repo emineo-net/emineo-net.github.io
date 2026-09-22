@@ -5,7 +5,7 @@ using SupabaseRcl.Providers;
 
 namespace SupabaseRcl.Components;
 
-public partial class Checkout : ComponentBase
+public partial class Login : ComponentBase
 {
     [Inject] private SupabaseService SupabaseService { get; set; } = null!;
     [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = null!;

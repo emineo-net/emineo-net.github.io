@@ -1,0 +1,17 @@
+﻿@namespace PaddleRcl
+@inject IJSRuntime JSRuntime
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+
+<div class="paddle-checkout-container">
+    <button class="btn btn-primary" @onclick="StartCheckoutAsync" disabled="@IsLoading">
+        @if (IsLoading)
+        {
+            <span>Wird geladen...</span>
+        }
+        else
+        {
+            @ButtonText
+        }
+    </button>
+</div>
