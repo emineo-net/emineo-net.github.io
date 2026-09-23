@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 
 <PageTitle>Home</PageTitle>
@@ -14,13 +15,30 @@ Welcome to your new app 230920261117.
 
      <Authorized>
          
- <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
-   <p>Dieser Inhalt ist streng geheim.</p>
+         <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
+         
+         
+         @* --- TEMPORÄR zum Debuggen --- *@
+         <div style="background:#eee;padding:8px;font-family:monospace;font-size:12px;">
+             <strong>Verfügbare Claims:</strong>
+             <ul>
+                 @foreach (var claim in context.User.Claims)
+                 {
+                     <li>@claim.Type = "@claim.Value"</li>
+                 }
+             </ul>
+         </div>
+         @* --- Ende Debug --- *@
+
+       
+         <p>Dieser Inhalt ist streng geheim.</p>
 
         @{
-            var userId = context.User.FindFirst("sub")?.Value ?? string.Empty;
+             var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
             var userEmail = context.User.Identity?.Name ?? string.Empty;
         }
+        
+     
         <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
                             PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
                             CustomerEmail="@userEmail"
