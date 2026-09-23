@@ -30,8 +30,8 @@ public class Program
             {
                 var supabaseService = host.Services.GetRequiredService<SupabaseService>();
                 await supabaseService.InitializeAsync(
-                    "https://supabase.co",
-                    "dein-anon-key"
+                    "https://otyvyonmcdigfrhngsqe.supabase.co",
+                    "sb_publishable_sx9-w8GWInjebZ_YNQxMuA_9XydYfKo"
                 );
             }
             catch (Exception ex)
