@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /SupabaseRcl/Properties/bootstrap.min.css
 /SupabaseRcl/Properties/bootstrap.min.css
+/SupabaseRcl/DumyCss/bootstrap.min.css
