@@ -8,12 +8,11 @@
 Welcome to your new app 230920261117.
 
 
-<AuthorizeView>
+@* <AuthorizeView>
     <Authorized>
         <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
         <p>Dieser Inhalt ist streng geheim.</p>
         
-
     </Authorized>
     <NotAuthorized>
         <h3>Halt!</h3>
@@ -30,7 +29,7 @@ Welcome to your new app 230920261117.
                     ButtonText="Premium aktivieren"
                     Environment="sandbox"
                     OnSuccess="HandlePaymentSuccess"
-                    OnClosed="HandleCheckoutClosed" />
+                    OnClosed="HandleCheckoutClosed" /> *@
 
 
 
