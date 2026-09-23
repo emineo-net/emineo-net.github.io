@@ -1,23 +1,27 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Microsoft.Extensions.Logging;
 
 namespace PaddleRcl.Services;
 
 public class PaddlePortalService
 {
     private readonly HttpClient _http;
+    private readonly ILogger<PaddlePortalService> _logger;
 
-    // Basis-URL deines Supabase-Projekts, z.B. https://xxxxx.supabase.co
-    private const string SupabaseFunctionsBaseUrl = "https://<project-ref>.supabase.co/functions/v1";
+    // Passe <project-ref> an dein Supabase-Projekt an, z.B. https://abcdefgh.supabase.co/functions/v1
+    private const string SupabaseFunctionsBaseUrl = "https://otyvyonmcdigfrhngsqe.supabase.co/functions/v1";
 
-    public PaddlePortalService(HttpClient http)
+    public PaddlePortalService(HttpClient http, ILogger<PaddlePortalService> logger)
     {
         _http = http;
+        _logger = logger;
     }
 
     /// <summary>
     /// Ruft das Paddle Customer Portal für den eingeloggten User ab.
-    /// accessToken = das Supabase-Access-Token des aktuell eingeloggten Users.
+    /// accessToken = das Supabase-Access-Token des aktuell eingeloggten Users
+    /// (client.Auth.CurrentSession?.AccessToken).
     /// </summary>
     public async Task<string?> GetCustomerPortalUrlAsync(string accessToken, CancellationToken ct = default)
     {
@@ -28,9 +32,13 @@ public class PaddlePortalService
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         using var response = await _http.SendAsync(request, ct);
+
         if (!response.IsSuccessStatusCode)
         {
-            // Hier ggf. Logging / Fehlerbehandlung ergänzen
+            var body = await response.Content.ReadAsStringAsync(ct);
+            _logger.LogWarning(
+                "paddle-customer-portal Aufruf fehlgeschlagen ({StatusCode}): {Body}",
+                response.StatusCode, body);
             return null;
         }
 

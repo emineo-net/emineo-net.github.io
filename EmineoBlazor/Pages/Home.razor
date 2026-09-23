@@ -1,6 +1,30 @@
 ﻿@page "/"
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
+@using PaddleRcl.Services
+@using SupabaseRcl.Services
+@inject SupabaseService SupabaseService
+@inject PaddlePortalService PortalService
+@inject IJSRuntime JSRuntime
+
+
+
+
+<button @onclick="OpenCustomerPortal">Abo verwalten</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <PageTitle>Home</PageTitle>
 
@@ -77,5 +101,18 @@ Welcome to your new app 230920261117.
     private void HandleCheckoutClosed()
     {
         Console.WriteLine("Checkout wurde vom Nutzer geschlossen.");
+    }
+
+
+    private async Task OpenCustomerPortal()
+    {
+        await SupabaseService.WaitForInitializationAsync();
+        var token = SupabaseService.Client.Auth.CurrentSession?.AccessToken;
+        if (string.IsNullOrWhiteSpace(token))
+            return;
+
+        var url = await PortalService.GetCustomerPortalUrlAsync(token);
+        if (url is not null)
+            await JSRuntime.InvokeVoidAsync("open", url, "_blank");
     }
 }
