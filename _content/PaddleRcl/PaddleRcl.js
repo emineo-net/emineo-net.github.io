@@ -5,7 +5,7 @@ export function initializePaddle(token, environment) {
 
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"; 
+        script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
         script.async = true;
         script.onload = () => {
             window.Paddle.Environment.set(environment);
@@ -18,7 +18,7 @@ export function initializePaddle(token, environment) {
     });
 }
 
-export function openPaddleCheckout(priceId, customerEmail, dotNetHelper) {
+export function openPaddleCheckout(priceId, customerEmail, customerId, dotNetHelper) {
     if (!window.Paddle) {
         console.error("Paddle ist nicht initialisiert.");
         return;
@@ -35,6 +35,11 @@ export function openPaddleCheckout(priceId, customerEmail, dotNetHelper) {
         items: items,
         customer: {
             email: customerEmail
+        },
+        // Wichtig: landet 1:1 im Webhook-Payload unter data.custom_data.
+        // So kann die Edge Function das Abo dem Supabase-User zuordnen.
+        customData: {
+            user_id: customerId
         },
         eventCallback: function (data) {
             // Wir leiten wichtige Events an Blazor weiter
