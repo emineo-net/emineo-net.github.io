@@ -4,6 +4,12 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="Properties\bootstrap.min.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
