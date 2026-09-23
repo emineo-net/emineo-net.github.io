@@ -2,8 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - production # Der Workflow reagiert ab jetzt nur noch auf diesen Branch
+    branches: [ main ] # Oder 'master', je nach Ihrem Haupt-Branch
 
 jobs:
   deploy:
