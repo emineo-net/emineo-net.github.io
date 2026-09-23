@@ -3,10 +3,10 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AppDesignerFolder>DumyCss</AppDesignerFolder>
+		<AppDesignerFolder>DumyCss2</AppDesignerFolder>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Include="DumyCss\bootstrap.min.css">
+	  <Content Include="DumyCss2\bootstrap.min.css">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
