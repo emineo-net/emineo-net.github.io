@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Components.Authorization;
+using PaddleRcl.Services;
 using SupabaseRcl.Services;
 using SupabaseRcl.Providers;
 
@@ -19,6 +20,7 @@ public class Program
         builder.Services.AddAuthorizationCore();
         builder.Services.AddSingleton<SupabaseService>();
         builder.Services.AddScoped<AuthenticationStateProvider, SupabaseAuthStateProvider>();
+        builder.Services.AddPaddleRcl();
 
         var host = builder.Build();
 

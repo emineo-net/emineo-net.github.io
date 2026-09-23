@@ -8,11 +8,27 @@
 Welcome to your new app 230920261117.
 
 
-@* <AuthorizeView>
-    <Authorized>
-        <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
-        <p>Dieser Inhalt ist streng geheim.</p>
-        
+<AuthorizeView>
+ 
+    
+
+     <Authorized>
+         
+ <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
+   <p>Dieser Inhalt ist streng geheim.</p>
+
+        @{
+            var userId = context.User.FindFirst("sub")?.Value ?? string.Empty;
+            var userEmail = context.User.Identity?.Name ?? string.Empty;
+        }
+        <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
+                            PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
+                            CustomerEmail="@userEmail"
+                            CustomerId="@userId"
+                            ButtonText="Premium aktivieren"
+                            Environment="sandbox"
+                            OnSuccess="HandlePaymentSuccess"
+                            OnClosed="HandleCheckoutClosed" />
     </Authorized>
     <NotAuthorized>
         <h3>Halt!</h3>
@@ -23,7 +39,7 @@ Welcome to your new app 230920261117.
 
 
 
-<PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
+@* <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
                     PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
                     CustomerEmail="user_mail_aus_dem_authentication_state_user@example.com"
                     ButtonText="Premium aktivieren"

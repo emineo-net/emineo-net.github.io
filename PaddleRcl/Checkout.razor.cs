@@ -1,60 +1,91 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 namespace PaddleRcl;
 
 public partial class Checkout : ComponentBase, IAsyncDisposable
 {
+    [Parameter][EditorRequired] public string CustomerId { get; set; } = string.Empty;
     [Parameter][EditorRequired] public string VendorToken { get; set; } = string.Empty;
     [Parameter][EditorRequired] public string PriceId { get; set; } = string.Empty;
     [Parameter] public string CustomerEmail { get; set; } = string.Empty;
     [Parameter] public string ButtonText { get; set; } = "Jetzt kaufen";
     [Parameter] public string Environment { get; set; } = "sandbox"; // oder "production"
 
-    // Neue Callbacks für die Haupt-App
     [Parameter] public EventCallback<object> OnSuccess { get; set; }
     [Parameter] public EventCallback OnClosed { get; set; }
     [Parameter] public EventCallback<(string EventName, string JsonData)> OnGenericEvent { get; set; }
 
+    // Neu: Fehler nach außen durchreichen, statt sie nur zu loggen.
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    [Inject] private ILogger<Checkout> Logger { get; set; } = default!;
+
     private IJSObjectReference? _jsModule;
     private DotNetObjectReference<Checkout>? _dotNetRef;
-    protected bool IsLoading { get; private set; } = false;
+    private bool _isCheckoutInProgress;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected bool IsLoading { get; private set; }
+
+    // Modul wird nicht mehr in OnAfterRenderAsync geladen, sondern erst
+    // wenn der Checkout tatsächlich gestartet wird ("lazy").
+    private async Task<IJSObjectReference> GetModuleAsync()
     {
-        if (firstRender)
-            _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/PaddleRcl/PaddleRcl.js");
+        _jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
+            "import", "./_content/PaddleRcl/PaddleRcl.js");
+        return _jsModule;
     }
 
     protected async Task StartCheckoutAsync()
     {
-        if (_jsModule is null) return;
+        // Schutz gegen Doppel-/Mehrfachklicks, solange ein Checkout bereits läuft.
+        if (_isCheckoutInProgress) return;
+
+        if (string.IsNullOrWhiteSpace(CustomerId))
+        {
+            const string msg = "CustomerId fehlt – Checkout kann ohne eingeloggten User nicht gestartet werden.";
+            Logger.LogWarning(msg);
+            await OnError.InvokeAsync(msg);
+            return;
+        }
+
+        _isCheckoutInProgress = true;
+        IsLoading = true;
+        StateHasChanged();
 
         try
         {
-            IsLoading = true;
-            StateHasChanged();
+            var module = await GetModuleAsync();
 
-            await _jsModule.InvokeVoidAsync("initializePaddle", VendorToken, Environment);
+            await module.InvokeVoidAsync("initializePaddle", VendorToken, Environment);
 
-            // Referenz auf diese C#-Klasse für JS erstellen
-            _dotNetRef = DotNetObjectReference.Create(this);
+            _dotNetRef ??= DotNetObjectReference.Create(this);
 
-            // Wir übergeben die Referenz an die Checkout-Funktion
-            await _jsModule.InvokeVoidAsync("openPaddleCheckout", PriceId, CustomerEmail, _dotNetRef);
+            await module.InvokeVoidAsync(
+                "openPaddleCheckout", PriceId, CustomerEmail, CustomerId, _dotNetRef);
+        }
+        catch (JSDisconnectedException)
+        {
+            // Seite wurde gewechselt / Verbindung getrennt, während der Checkout startete.
+            // Kein echter Fehlerfall, einfach ignorieren.
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Fehler beim Paddle-Checkout: {ex.Message}");
+            Logger.LogError(ex, "Fehler beim Starten des Paddle-Checkouts");
+            await OnError.InvokeAsync($"Checkout konnte nicht gestartet werden: {ex.Message}");
         }
         finally
         {
+            // IsLoading bleibt bewusst bis checkout.completed/closed/Fehler bestehen,
+            // _isCheckoutInProgress wird hier zurückgesetzt, da Paddle.Checkout.open
+            // asynchron über eventCallback weiterläuft, nicht über diesen Task.
+            _isCheckoutInProgress = false;
             IsLoading = false;
             StateHasChanged();
         }
     }
 
-    // Diese Methoden werden vom JavaScript aufgerufen
     [JSInvokable]
     public async Task OnCheckoutCompleted(object paddleData)
     {
@@ -89,9 +120,10 @@ public partial class Checkout : ComponentBase, IAsyncDisposable
             }
             catch (JSDisconnectedException)
             {
-                // Ignorieren im WASM-Kontext bei Seitenwechsel
+                // Ignorieren im WASM-Kontext bei Seitenwechsel.
             }
         }
+
         GC.SuppressFinalize(this);
     }
 }

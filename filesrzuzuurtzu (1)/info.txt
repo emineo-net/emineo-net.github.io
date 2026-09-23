@@ -1,0 +1,23 @@
+So richtest du es ein:
+
+Migration ausführen (supabase db push oder in den SQL-Editor kopieren).
+
+Zwei Paddle-Webhook-Destinations anlegen (Sandbox-Dashboard + Live-Dashboard), 
+beide zeigen auf https://<project-ref>.supabase.co/functions/v1/paddle-webhook. 
+
+Die jeweiligen Secrets als PADDLE_WEBHOOK_SECRET_SANDBOX / PADDLE_WEBHOOK_SECRET_LIVE setzen (supabase secrets set ...).
+
+API-Keys aus Paddle als PADDLE_API_KEY_SANDBOX / PADDLE_API_KEY_LIVE setzen.
+
+Beide Functions deployen: supabase functions deploy paddle-webhook und supabase functions deploy paddle-customer-portal.
+
+Wichtig beim Checkout: Beim Erstellen der Paddle-Checkout-Session im Blazor-Frontend musst du custom_data: { user_id: <supabase auth.uid()> } 
+mitgeben – nur so kann der Webhook das Abo dem richtigen User zuordnen.
+
+Im Blazor-Code rufst du PaddlePortalService.GetCustomerPortalUrlAsync(accessToken) auf und öffnest die zurückgegebene URL z.B. per IJSRuntime (window.open).
+
+
+Was ich noch nicht abgedeckt habe, weil es optional ist: 
+
+Behandlung von transaction.completed (einmalige Käufe) und die Absicherung der CORS-Origin in paddle-customer-portal 
+(aktuell *, solltest du in Produktion auf deine Domain einschränken). Sag Bescheid, falls du das auch brauchst.
