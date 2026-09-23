@@ -18,8 +18,16 @@ public partial class Login : ComponentBase
     protected bool IsAuthenticated { get; set; } = false;
     protected string CurrentUserEmail { get; set; } = string.Empty;
 
+    // Neu: zeigt an, ob Supabase noch initialisiert wird (z.B. für einen Spinner im Markup)
+    protected bool IsInitializing { get; set; } = true;
+
     protected override async Task OnInitializedAsync()
     {
+        // Wichtig: warten, bis SupabaseService.Client wirklich gesetzt ist,
+        // bevor wir darauf zugreifen. Verhindert die "Client ist null"-Race-Condition.
+        await SupabaseService.WaitForInitializationAsync();
+        IsInitializing = false;
+
         var client = SupabaseService.Client;
         if (client?.Auth.CurrentSession?.User != null)
         {
@@ -47,6 +55,9 @@ public partial class Login : ComponentBase
 
         try
         {
+            // Auch hier absichern, falls HandleSubmit vor abgeschlossener Init aufgerufen wird
+            await SupabaseService.WaitForInitializationAsync();
+
             if (IsRegisterMode)
             {
                 var signUpResult = await SupabaseService.Client.Auth.SignUp(Email, Password);
@@ -82,6 +93,7 @@ public partial class Login : ComponentBase
 
     protected async Task HandleLogout()
     {
+        await SupabaseService.WaitForInitializationAsync();
         await SupabaseService.Client.Auth.SignOut();
         IsAuthenticated = false;
         CurrentUserEmail = string.Empty;

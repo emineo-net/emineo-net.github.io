@@ -22,23 +22,13 @@ public class Program
 
         var host = builder.Build();
 
-        // LÖSUNG: Initialisierung in den Hintergrund verlagern (entkoppeln),
-        // damit der WASM-EntryPoint ohne JS-Interop-Blockade starten kann.
-        _ = Task.Run(async () =>
-        {
-            try
-            {
-                var supabaseService = host.Services.GetRequiredService<SupabaseService>();
-                await supabaseService.InitializeAsync(
-                    "https://otyvyonmcdigfrhngsqe.supabase.co",
-                    "sb_publishable_sx9-w8GWInjebZ_YNQxMuA_9XydYfKo"
-                );
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Supabase Init Fehler: {ex.Message}");
-            }
-        });
+        // Initialisierung anstoßen (Task wird intern in SupabaseService gespeichert),
+        // aber NICHT hier awaiten, damit host.RunAsync() nicht blockiert.
+        var supabaseService = host.Services.GetRequiredService<SupabaseService>();
+        _ = supabaseService.InitializeAsync(
+            "https://otyvyonmcdigfrhngsqe.supabase.co",
+            "sb_publishable_sx9-w8GWInjebZ_YNQxMuA_9XydYfKo"
+        );
 
         await host.RunAsync();
     }
