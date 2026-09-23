@@ -1,0 +1,29 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - production # Der Workflow reagiert ab jetzt nur noch auf diesen Branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x' # Passen Sie dies an Ihre .NET-Version an (z.B. 8.0.x oder 9.0.x)
+
+    - name: Publish Project
+      run: dotnet publish -c Release -o release
+
+    - name: Change base-tag in index.html to match repository
+      run: sed -i 's/<base href="\/" \/>/<base href="\/" \/>/g' release/wwwroot/index.html
+
+    - name: Commit to GitHub Pages Branch
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: release/wwwroot # Der Ordner, der veröffentlicht wird
+        branch: gh-pages # Der Branch, auf den das Build-Ergebnis gepusht wird
