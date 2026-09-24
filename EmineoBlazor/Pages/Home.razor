@@ -1,5 +1,4 @@
-﻿
-@page "/"
+﻿@page "/"
 
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
@@ -40,78 +39,39 @@
 </header>
 
 
-
-
-
-
+@* ============ AUTHENTICATION ============ *@
 <section id="authentication" class="bg-body-secondary">
     <div class="container">
         <AuthorizeView>
-     <Authorized>
-         
-         <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
-         
-         
-         <button @onclick="OpenCustomerPortal">Abo verwalten</button>
+            <Authorized>
+                <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
 
-         
-         @* --- TEMPORÄR zum Debuggen --- *@
-        @*  <div style="background:#eee;padding:8px;font-family:monospace;font-size:12px;">
-             <strong>Verfügbare Claims:</strong>
-             <ul>
-                 @foreach (var claim in context.User.Claims)
-                 {
-                     <li>@claim.Type = "@claim.Value"</li>
-                 }
-             </ul>
-         </div> *@
-         @* --- Ende Debug --- *@
+                <button @onclick="OpenCustomerPortal">Abo verwalten</button>
 
-       
-         <p>Dieser Inhalt ist streng geheim.</p>
+                <p>Dieser Inhalt ist streng geheim.</p>
 
-        @{
-             var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
-            var userEmail = context.User.Identity?.Name ?? string.Empty;
-        }
-        
-     
-        <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
-                            PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
-                            CustomerEmail="@userEmail"
-                            CustomerId="@userId"
-                            ButtonText="Premium aktivieren"
-                            Environment="sandbox"
-                            OnSuccess="HandlePaymentSuccess"
-                            OnClosed="HandleCheckoutClosed" />
-    </Authorized>
-    <NotAuthorized>
-        <h3>Halt!</h3>
-        <p>Bitte logge dich zuerst ein.</p>
-        @* <SupabaseRcl.Components.Login /> *@
-    </NotAuthorized>
-</AuthorizeView>
+                @{
+                    var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+                    var userEmail = context.User.Identity?.Name ?? string.Empty;
+                }
 
-
-
-@* <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
-                    PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
-                    CustomerEmail="user_mail_aus_dem_authentication_state_user@example.com"
-                    ButtonText="Premium aktivieren"
-                    Environment="sandbox"
-                    OnSuccess="HandlePaymentSuccess"
-                    OnClosed="HandleCheckoutClosed" /> *@
+                <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
+                                    PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
+                                    CustomerEmail="@userEmail"
+                                    CustomerId="@userId"
+                                    ButtonText="Premium aktivieren"
+                                    Environment="sandbox"
+                                    OnSuccess="HandlePaymentSuccess"
+                                    OnClosed="HandleCheckoutClosed" />
+            </Authorized>
+            <NotAuthorized>
+                <h3>Halt!</h3>
+                <p>Bitte logge dich zuerst ein.</p>
+                @* <SupabaseRcl.Components.Login /> *@
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 </section>
-
-
-
-
-
-
-
-
-
 
 
 @* ============ TRUST LOGOS ============ *@
@@ -130,6 +90,58 @@
         </div>
     </div>
 </div>
+
+
+@* ============ A) HOW IT WORKS ============ *@
+<section id="how-it-works" class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">How it works</span>
+            <h2 class="display-custom mb-3">From config to committed in three steps.</h2>
+            <p class="lead-muted mx-auto" style="max-width: 620px;">
+                No dashboards to log into, no pipelines to rebuild.
+                Drop it in, run it, review the diff like any other PR.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="ent-card text-center h-100">
+                    <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">01</div>
+                    <h3 class="h5 fw-bold mb-2">Configure</h3>
+                    <p class="text-secondary small mb-0">
+                        Drop a <code>resx.config.json</code> or <code>unittest.config.json</code>
+                        into your repo. Pick your AI provider – Ollama locally, or a cloud API key.
+                        Set languages, framework, and naming conventions.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ent-card text-center h-100">
+                    <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">02</div>
+                    <h3 class="h5 fw-bold mb-2">Scan</h3>
+                    <p class="text-secondary small mb-0">
+                        The tool walks your solution, detects missing translations
+                        or untested methods, and produces a report. You see exactly
+                        what would change before anything is written.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ent-card text-center h-100">
+                    <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">03</div>
+                    <h3 class="h5 fw-bold mb-2">Generate</h3>
+                    <p class="text-secondary small mb-0">
+                        Run from the CLI, MSBuild, or your CI pipeline.
+                        The AI fills the gaps, placeholders stay intact, and your team
+                        reviews the change like any other PR.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 @* ============ RESX TRANSLATOR ============ *@
 <section id="resx">
@@ -160,7 +172,13 @@
                     <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>CLI + MSBuild integration</li>
                 </ul>
 
-                <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
+                @* D) Deep-dive link *@
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
+                    <a href="/products/resx-translator" class="btn btn-outline-brand btn-lg-custom">
+                        Read the deep dive →
+                    </a>
+                </div>
             </div>
 
             <div class="col-lg-6">
@@ -180,8 +198,87 @@
                 </div>
             </div>
         </div>
+
+        @* ============ B) BEFORE / AFTER – RESX ============ *@
+        <div class="row g-4 mt-5 pt-5" style="border-top: 1px solid var(--bs-border-color);">
+            <div class="col-12 mb-2">
+                <span class="eyebrow d-block">Before / After</span>
+                <h3 class="h4 fw-bold mt-2">What it actually does to your files.</h3>
+            </div>
+
+            <div class="col-lg-6">
+                <p class="eyebrow mb-2">Before · locales/Strings.de.resx</p>
+                <div class="product-visual">
+                    <div class="terminal-head"><span></span><span></span><span></span></div>
+<pre><span class="c">&lt;!-- 47 keys · 12 untranslated --&gt;</span>
+&lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
+  &lt;<span class="k">value</span>&gt;Sign in to your account&lt;/<span class="k">value</span>&gt;
+&lt;/<span class="k">data</span>&gt;
+&lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
+  &lt;<span class="k">value</span>&gt;Email&lt;/<span class="k">value</span>&gt;
+&lt;/<span class="k">data</span>&gt;
+&lt;<span class="k">data</span> name=<span class="s">"Login_Password"</span>&gt;
+  &lt;<span class="k">value</span>&gt;Password&lt;/<span class="k">value</span>&gt;
+&lt;/<span class="k">data</span>&gt;
+<span class="c">// ⚠️ 12 entries still in English</span></pre>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <p class="eyebrow mb-2">After · dotnet resx-translate fill</p>
+                <div class="product-visual">
+                    <div class="terminal-head"><span></span><span></span><span></span></div>
+<pre><span class="c">&lt;!-- 47 keys · 0 untranslated --&gt;</span>
+&lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
+  &lt;<span class="k">value</span>&gt;Bei Ihrem Konto anmelden&lt;/<span class="k">value</span>&gt;
+&lt;/<span class="k">data</span>&gt;
+&lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
+  &lt;<span class="k">value</span>&gt;E-Mail-Adresse&lt;/<span class="k">value</span>&gt;
+&lt;/<span class="k">data</span>&gt;
+&lt;<span class="k">data</span> name=<span class="s">"Login_Password"</span>&gt;
+  &lt;<span class="k">value</span>&gt;Passwort&lt;/<span class="k">value</span>&gt;
+&lt;/<span class="k">data</span>&gt;
+<span class="c">// ✅ Translated via Ollama · llama3.1:8b</span></pre>
+                </div>
+            </div>
+        </div>
+
+        @* ============ B) USE CASES – RESX ============ *@
+        <div class="row g-4 mt-4">
+            <div class="col-lg-4">
+                <div class="ent-card h-100">
+                    <div class="ent-icon">🌍</div>
+                    <h4 class="h6 fw-bold mb-2">Multi-tenant SaaS</h4>
+                    <p class="text-secondary small mb-0">
+                        Ship in 12 languages without a dedicated localization team.
+                        New keys land in every culture before the PR is merged.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ent-card h-100">
+                    <div class="ent-icon">🧹</div>
+                    <h4 class="h6 fw-bold mb-2">Legacy .NET migrations</h4>
+                    <p class="text-secondary small mb-0">
+                        Years of "TODO: translate" cleared in one pass.
+                        Audit reports show exactly what changed per culture.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ent-card h-100">
+                    <div class="ent-icon">🔐</div>
+                    <h4 class="h6 fw-bold mb-2">Regulated &amp; air-gapped</h4>
+                    <p class="text-secondary small mb-0">
+                        Run Ollama inside your network. Nothing leaves the machine,
+                        no cloud vendor ever sees your strings.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
 
 @* ============ UNITTEST GENERATOR ============ *@
 <section id="unittest" class="bg-body-secondary">
@@ -211,7 +308,13 @@
                     <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>JSON-based configuration</li>
                 </ul>
 
-                <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
+                @* D) Deep-dive link *@
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
+                    <a href="/products/unittest-generator" class="btn btn-outline-brand btn-lg-custom">
+                        Read the deep dive →
+                    </a>
+                </div>
             </div>
 
             <div class="col-lg-6">
@@ -231,8 +334,88 @@
                 </div>
             </div>
         </div>
+
+        @* ============ B) BEFORE / AFTER – UNITTEST ============ *@
+        <div class="row g-4 mt-5 pt-5" style="border-top: 1px solid var(--bs-border-color);">
+            <div class="col-12 mb-2">
+                <span class="eyebrow d-block">Before / After</span>
+                <h3 class="h4 fw-bold mt-2">From empty shell to real coverage.</h3>
+            </div>
+
+            <div class="col-lg-6">
+                <p class="eyebrow mb-2">Before · Services/InvoiceServiceTests.cs</p>
+                <div class="product-visual">
+                    <div class="terminal-head"><span></span><span></span><span></span></div>
+<pre><span class="c">// 0 tests · 14 methods untested</span>
+<span class="k">public class</span> <span class="b">InvoiceServiceTests</span>
+{
+    <span class="c">// TODO: write tests</span>
+}
+<span class="c">// ⚠️ Coverage: 0%</span></pre>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <p class="eyebrow mb-2">After · dotnet unittest-generate</p>
+                <div class="product-visual">
+                    <div class="terminal-head"><span></span><span></span><span></span></div>
+<pre><span class="c">// 14 tests · coverage 82%</span>
+[<span class="b">Fact</span>]
+<span class="k">public void</span> <span class="b">CalculateTotal_WithTax_ReturnsGross</span>()
+{
+    <span class="k">var</span> svc = <span class="k">new</span> <span class="b">InvoiceService</span>();
+    <span class="k">var</span> result = svc.CalculateTotal(<span class="b">100m</span>, <span class="b">0.19m</span>);
+    Assert.Equal(<span class="b">119m</span>, result);
+}
+
+[<span class="b">Fact</span>]
+<span class="k">public void</span> <span class="b">CalculateTotal_Negative_Throws</span>()
+{
+    <span class="k">var</span> svc = <span class="k">new</span> <span class="b">InvoiceService</span>();
+    Assert.Throws&lt;<span class="b">ArgumentOutOfRangeException</span>&gt;(
+        () =&gt; svc.CalculateTotal(<span class="b">-1m</span>, <span class="b">0.19m</span>));
+}
+<span class="c">// ✅ Generated via OpenAI · gpt-4o-mini</span></pre>
+                </div>
+            </div>
+        </div>
+
+        @* ============ B) USE CASES – UNITTEST ============ *@
+        <div class="row g-4 mt-4">
+            <div class="col-lg-4">
+                <div class="ent-card h-100">
+                    <div class="ent-icon">📈</div>
+                    <h4 class="h6 fw-bold mb-2">Legacy coverage rescue</h4>
+                    <p class="text-secondary small mb-0">
+                        Take a project from 12% to 80% coverage without
+                        hand-writing hundreds of test methods.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ent-card h-100">
+                    <div class="ent-icon">🚦</div>
+                    <h4 class="h6 fw-bold mb-2">CI quality gates</h4>
+                    <p class="text-secondary small mb-0">
+                        Fail the build when coverage drops or when new methods
+                        ship without tests. Zero-tolerance, zero-effort.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ent-card h-100">
+                    <div class="ent-icon">📚</div>
+                    <h4 class="h6 fw-bold mb-2">Onboarding &amp; docs</h4>
+                    <p class="text-secondary small mb-0">
+                        Generated tests double as executable documentation –
+                        new team members see exactly how the code is meant to be used.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
 
 @* ============ PRICING ============ *@
 <section id="pricing">
@@ -347,6 +530,120 @@
     </div>
 </section>
 
+
+@* ============ C) COMPARISON TABLE ============ *@
+<section id="compare" class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">Compare plans</span>
+            <h2 class="display-custom mb-3">MIT vs. Enterprise vs. Bundle.</h2>
+            <p class="lead-muted mx-auto" style="max-width: 620px;">
+                Same core engine. Enterprise adds the team-scale features – and the contracts.
+            </p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle" style="--bs-table-bg: transparent; --bs-table-color: var(--bs-body-color); --bs-table-border-color: var(--bs-border-color);">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 44%;">Feature</th>
+                        <th scope="col" class="text-center">MIT</th>
+                        <th scope="col" class="text-center">Enterprise</th>
+                        <th scope="col" class="text-center">Bundle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Commercial use allowed</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>API key or local Ollama</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>CLI + MSBuild integration</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>JSON-based configuration</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Glossary / translation memory</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Review workflow &amp; drafts</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>CI/CD pipeline integration</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Coverage gate &amp; branch analysis</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Central team conventions</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Priority support with SLA</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>1:1 onboarding session</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>All major + minor updates</td>
+                        <td class="text-center text-secondary small">Community</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Both products included</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                    <tr>
+                        <td>PO / invoice to company</td>
+                        <td class="text-center text-secondary">—</td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                        <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
 @* ============ ENTERPRISE ============ *@
 <section id="enterprise">
     <div class="container">
@@ -423,6 +720,7 @@
         </div>
     </div>
 </section>
+
 
 @* ============ FAQ ============ *@
 <section id="faq">
@@ -553,6 +851,7 @@
         </div>
     </div>
 </section>
+
 
 @* ============ CONTACT SALES MODAL ============ *@
 <div class="modal fade" id="salesModal" tabindex="-1" aria-hidden="true">
