@@ -10,17 +10,6 @@
 
 
 
-<button @onclick="OpenCustomerPortal">Abo verwalten</button>
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -41,6 +30,9 @@ Welcome to your new app 230920261117.
          
          <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
          
+         
+         <button @onclick="OpenCustomerPortal">Abo verwalten</button>
+
          
          @* --- TEMPORÄR zum Debuggen --- *@
         @*  <div style="background:#eee;padding:8px;font-family:monospace;font-size:12px;">
@@ -75,7 +67,7 @@ Welcome to your new app 230920261117.
     <NotAuthorized>
         <h3>Halt!</h3>
         <p>Bitte logge dich zuerst ein.</p>
-        <SupabaseRcl.Components.Login />
+        @* <SupabaseRcl.Components.Login /> *@
     </NotAuthorized>
 </AuthorizeView>
 

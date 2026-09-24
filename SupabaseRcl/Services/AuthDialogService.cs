@@ -1,4 +1,4 @@
-﻿namespace SupabaseRcl.Services;
+namespace SupabaseRcl.Services;
 
 public enum AuthDialogView { Login, Register }
 
@@ -9,7 +9,7 @@ public class AuthDialogService
     public bool IsVisible { get; private set; }
     public AuthDialogView CurrentView { get; private set; } = AuthDialogView.Login;
 
-    public void ShowLogin() => Show(AuthDialogView.Login);
+    public void ShowLogin()    => Show(AuthDialogView.Login);
     public void ShowRegister() => Show(AuthDialogView.Register);
 
     public void SwitchView(AuthDialogView view)
