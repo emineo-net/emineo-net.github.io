@@ -1,0 +1,69 @@
+﻿@page "/auth/register"
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+
+<PageTitle>Registrieren</PageTitle>
+
+<div class="auth-container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Konto erstellen</h3>
+
+            <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-Mail-Adresse</label>
+                    <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
+                    <ValidationMessage For="@(() => registerModel.Email)" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Passwort</label>
+                    <InputText id="password" type="password" class="form-control" @bind-Value="registerModel.Password" />
+                    <ValidationMessage For="@(() => registerModel.Password)" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Passwort bestätigen</label>
+                    <InputText id="confirmPassword" type="password" class="form-control" @bind-Value="registerModel.ConfirmPassword" />
+                    <ValidationMessage For="@(() => registerModel.ConfirmPassword)" class="text-danger" />
+                </div>
+
+                <button type="submit" class="btn btn-success w-100" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span class="spinner-border spinner-border-sm"></span>
+                    }
+                    else
+                    {
+
+                        <span>Registrieren</span>
+                    }
+                </button>
+            </EditForm>
+            <div class="mt-3 text-center">Bereits ein Konto? <a href="auth/login">Hier einloggen</a></div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel registerModel = new();
+    private bool isSubmitting = false;
+
+    private async Task HandleRegister()
+    {
+        isSubmitting = true;
+        await Task.Delay(1000);
+        Navigation.NavigateTo("auth/login");
+        isSubmitting = false;
+    }
+
+    public class RegisterModel
+    {
+        [Required, EmailAddress] public string Email { get; set; } = string.Empty;
+        [Required, MinLength(6)] public string Password { get; set; } = string.Empty;
+        [Required, Compare(nameof(Password), ErrorMessage = "Passwörter weichen ab.")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+}
