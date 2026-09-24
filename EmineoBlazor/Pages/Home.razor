@@ -16,171 +16,172 @@
 @* ============ AUTHENTICATION ============ *@
 <section id="authentication" class="bg-body-secondary">
     <div class="container">
-        <AuthorizeView>
-            <Authorized  Context="auth">
-                <p>Willkommen zurück, @auth.User.Identity?.Name!</p>
-                <button @onclick="OpenCustomerPortal">Abo verwalten</button>
+    <AuthorizeView>
 
-                @{
-                    var userId = auth.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
-                    var userEmail = auth.User.Identity?.Name ?? string.Empty;
-                }
+    <Authorized Context="auth">
+    <p>Willkommen zurück, @auth.User.Identity?.Name!</p>
+    <button @onclick="OpenCustomerPortal">Abo verwalten</button>
 
-                <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
-                                    PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
-                                    CustomerEmail="@userEmail"
-                                    CustomerId="@userId"
-                                    ButtonText="Premium aktivieren"
-                                    Environment="sandbox"
-                                    OnSuccess="HandlePaymentSuccess"
-                                    OnClosed="HandleCheckoutClosed" />
-            
+    @{
+        var userId = auth.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        var userEmail = auth.User.Identity?.Name ?? string.Empty;
+    }
 
-
-
-
-@* ============ HERO ============ *@
-<header class="hero">
-    <div class="container text-center">
-        <div class="badge-soft mb-4 d-inline-block">
-            <span class="dot"></span>
-            New · v1.0 available
-        </div>
-
-        <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
-            AI tools for .NET teams<br>
-            who <span class="text-gradient">don't have time for boilerplate.</span>
-        </h1>
-
-        <p class="lead-muted mb-5 mx-auto" style="max-width: 640px;">
-            Translations. Tests. Run locally via Ollama or with your own API key.
-            Shipped as NuGet packages, MIT-licensed, with optional Enterprise support.
-        </p>
-
-        <div class="d-flex gap-3 justify-content-center flex-wrap mb-4">
-            <a href="#pricing" class="btn btn-brand btn-lg-custom">Start for free</a>
-            <a href="#resx" class="btn btn-outline-brand btn-lg-custom">See products</a>
-        </div>
-
-        <div class="code-pill">dotnet add package Emineo.ResXTranslator</div>
-    </div>
-</header>
+    <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
+                        PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
+                        CustomerEmail="@userEmail"
+                        CustomerId="@userId"
+                        ButtonText="Premium aktivieren"
+                        Environment="sandbox"
+                        OnSuccess="HandlePaymentSuccess"
+                        OnClosed="HandleCheckoutClosed"/>
 
 
 
 
 
-@* ============ TRUST LOGOS ============ *@
-<div class="trust-strip">
-    <div class="container text-center">
-        <p class="text-uppercase small fw-semibold text-secondary mb-4" style="letter-spacing: 0.1em;">
-            Trusted by developer teams &amp; enterprises
-        </p>
-        @* PLACEHOLDER: replace .logo-slot with <img> once you have customer logos *@
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <div class="logo-slot">LOGO 1</div>
-            <div class="logo-slot">LOGO 2</div>
-            <div class="logo-slot">LOGO 3</div>
-            <div class="logo-slot">LOGO 4</div>
-            <div class="logo-slot">LOGO 5</div>
-        </div>
-    </div>
-</div>
+    @* ============ HERO ============ *@
+    <header class="hero">
+        <div class="container text-center">
+            <div class="badge-soft mb-4 d-inline-block">
+                <span class="dot"></span>
+                New · v1.0 available
+            </div>
 
+            <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
+                AI tools for .NET teams<br>
+                who <span class="text-gradient">don't have time for boilerplate.</span>
+            </h1>
 
-@* ============ A) HOW IT WORKS ============ *@
-<section id="how-it-works" class="bg-body-secondary">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="eyebrow d-block mb-2">How it works</span>
-            <h2 class="display-custom mb-3">From config to committed in three steps.</h2>
-            <p class="lead-muted mx-auto" style="max-width: 620px;">
-                No dashboards to log into, no pipelines to rebuild.
-                Drop it in, run it, review the diff like any other PR.
+            <p class="lead-muted mb-5 mx-auto" style="max-width: 640px;">
+                Translations. Tests. Run locally via Ollama or with your own API key.
+                Shipped as NuGet packages, MIT-licensed, with optional Enterprise support.
             </p>
-        </div>
 
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="ent-card text-center h-100">
-                    <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">01</div>
-                    <h3 class="h5 fw-bold mb-2">Configure</h3>
-                    <p class="text-secondary small mb-0">
-                        Drop a <code>resx.config.json</code> or <code>unittest.config.json</code>
-                        into your repo. Pick your AI provider – Ollama locally, or a cloud API key.
-                        Set languages, framework, and naming conventions.
-                    </p>
-                </div>
+            <div class="d-flex gap-3 justify-content-center flex-wrap mb-4">
+                <a href="#pricing" class="btn btn-brand btn-lg-custom">Start for free</a>
+                <a href="#resx" class="btn btn-outline-brand btn-lg-custom">See products</a>
             </div>
-            <div class="col-lg-4">
-                <div class="ent-card text-center h-100">
-                    <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">02</div>
-                    <h3 class="h5 fw-bold mb-2">Scan</h3>
-                    <p class="text-secondary small mb-0">
-                        The tool walks your solution, detects missing translations
-                        or untested methods, and produces a report. You see exactly
-                        what would change before anything is written.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="ent-card text-center h-100">
-                    <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">03</div>
-                    <h3 class="h5 fw-bold mb-2">Generate</h3>
-                    <p class="text-secondary small mb-0">
-                        Run from the CLI, MSBuild, or your CI pipeline.
-                        The AI fills the gaps, placeholders stay intact, and your team
-                        reviews the change like any other PR.
-                    </p>
-                </div>
+
+            <div class="code-pill">dotnet add package Emineo.ResXTranslator</div>
+        </div>
+    </header>
+
+
+
+
+
+    @* ============ TRUST LOGOS ============ *@
+    <div class="trust-strip">
+        <div class="container text-center">
+            <p class="text-uppercase small fw-semibold text-secondary mb-4" style="letter-spacing: 0.1em;">
+                Trusted by developer teams &amp; enterprises
+            </p>
+            @* PLACEHOLDER: replace .logo-slot with <img> once you have customer logos *@
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <div class="logo-slot">LOGO 1</div>
+                <div class="logo-slot">LOGO 2</div>
+                <div class="logo-slot">LOGO 3</div>
+                <div class="logo-slot">LOGO 4</div>
+                <div class="logo-slot">LOGO 5</div>
             </div>
         </div>
     </div>
-</section>
 
 
-@* ============ RESX TRANSLATOR ============ *@
-<section id="resx">
-    <div class="container">
-        <div class="row align-items-center g-5 py-4">
-            <div class="col-lg-6">
-                <span class="eyebrow d-block mb-3">ResX AI Translator</span>
-                <h2 class="fw-bold mb-3" style="letter-spacing:-0.02em;">
-                    No more "TODO: translate" in your .resx files.
-                </h2>
-                <p class="mb-3">
-                    Scans your resource files for missing translations and fills them in automatically –
-                    using your AI model, your languages, your rules.
+    @* ============ A) HOW IT WORKS ============ *@
+    <section id="how-it-works" class="bg-body-secondary">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow d-block mb-2">How it works</span>
+                <h2 class="display-custom mb-3">From config to committed in three steps.</h2>
+                <p class="lead-muted mx-auto" style="max-width: 620px;">
+                    No dashboards to log into, no pipelines to rebuild.
+                    Drop it in, run it, review the diff like any other PR.
                 </p>
-                <p class="text-secondary mb-4">
-                    Every .NET localization eventually hits the same wall: new keys in English, empty
-                    <code class="text-info">.de.resx</code>, and someone copies the English text just to make
-                    it compile. ResX AI Translator cleans that up – with your own API key, or entirely
-                    local via Ollama.
-                </p>
-
-                <ul class="row row-cols-1 row-cols-md-2 g-2 mb-4 list-unstyled">
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Detect missing keys automatically</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>API key or local Ollama</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Multiple target languages in parallel</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Placeholders stay intact</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>JSON-based configuration</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>CLI + MSBuild integration</li>
-                </ul>
-
-                @* D) Deep-dive link *@
-                <div class="d-flex gap-2 flex-wrap">
-                    <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
-                    <a href="/products/resx-translator" class="btn btn-outline-brand btn-lg-custom">
-                        Read the deep dive →
-                    </a>
-                </div>
             </div>
 
-            <div class="col-lg-6">
-                <div class="product-visual">
-                    <div class="terminal-head"><span></span><span></span><span></span></div>
-                    <pre><span class="c">// resx.config.json</span>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="ent-card text-center h-100">
+                        <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">01</div>
+                        <h3 class="h5 fw-bold mb-2">Configure</h3>
+                        <p class="text-secondary small mb-0">
+                            Drop a <code>resx.config.json</code> or <code>unittest.config.json</code>
+                            into your repo. Pick your AI provider – Ollama locally, or a cloud API key.
+                            Set languages, framework, and naming conventions.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ent-card text-center h-100">
+                        <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">02</div>
+                        <h3 class="h5 fw-bold mb-2">Scan</h3>
+                        <p class="text-secondary small mb-0">
+                            The tool walks your solution, detects missing translations
+                            or untested methods, and produces a report. You see exactly
+                            what would change before anything is written.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ent-card text-center h-100">
+                        <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">03</div>
+                        <h3 class="h5 fw-bold mb-2">Generate</h3>
+                        <p class="text-secondary small mb-0">
+                            Run from the CLI, MSBuild, or your CI pipeline.
+                            The AI fills the gaps, placeholders stay intact, and your team
+                            reviews the change like any other PR.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @* ============ RESX TRANSLATOR ============ *@
+    <section id="resx">
+        <div class="container">
+            <div class="row align-items-center g-5 py-4">
+                <div class="col-lg-6">
+                    <span class="eyebrow d-block mb-3">ResX AI Translator</span>
+                    <h2 class="fw-bold mb-3" style="letter-spacing:-0.02em;">
+                        No more "TODO: translate" in your .resx files.
+                    </h2>
+                    <p class="mb-3">
+                        Scans your resource files for missing translations and fills them in automatically –
+                        using your AI model, your languages, your rules.
+                    </p>
+                    <p class="text-secondary mb-4">
+                        Every .NET localization eventually hits the same wall: new keys in English, empty
+                        <code class="text-info">.de.resx</code>, and someone copies the English text just to make
+                        it compile. ResX AI Translator cleans that up – with your own API key, or entirely
+                        local via Ollama.
+                    </p>
+
+                    <ul class="row row-cols-1 row-cols-md-2 g-2 mb-4 list-unstyled">
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Detect missing keys automatically</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>API key or local Ollama</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Multiple target languages in parallel</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Placeholders stay intact</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>JSON-based configuration</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>CLI + MSBuild integration</li>
+                    </ul>
+
+                    @* D) Deep-dive link *@
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
+                        <a href="/products/resx-translator" class="btn btn-outline-brand btn-lg-custom">
+                            Read the deep dive →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="product-visual">
+                        <div class="terminal-head"><span></span><span></span><span></span></div>
+                        <pre><span class="c">// resx.config.json</span>
 {
   <span class="k">"provider"</span>: <span class="s">"ollama"</span>,
   <span class="k">"model"</span>: <span class="s">"llama3.1:8b"</span>,
@@ -191,22 +192,22 @@
     <span class="k">"Login"</span>: <span class="s">"Anmeldung"</span>
   }
 }</pre>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        @* ============ B) BEFORE / AFTER – RESX ============ *@
-        <div class="row g-4 mt-5 pt-5" style="border-top: 1px solid var(--bs-border-color);">
-            <div class="col-12 mb-2">
-                <span class="eyebrow d-block">Before / After</span>
-                <h3 class="h4 fw-bold mt-2">What it actually does to your files.</h3>
-            </div>
+            @* ============ B) BEFORE / AFTER – RESX ============ *@
+            <div class="row g-4 mt-5 pt-5" style="border-top: 1px solid var(--bs-border-color);">
+                <div class="col-12 mb-2">
+                    <span class="eyebrow d-block">Before / After</span>
+                    <h3 class="h4 fw-bold mt-2">What it actually does to your files.</h3>
+                </div>
 
-            <div class="col-lg-6">
-                <p class="eyebrow mb-2">Before · locales/Strings.de.resx</p>
-                <div class="product-visual">
-                    <div class="terminal-head"><span></span><span></span><span></span></div>
-<pre><span class="c">&lt;!-- 47 keys · 12 untranslated --&gt;</span>
+                <div class="col-lg-6">
+                    <p class="eyebrow mb-2">Before · locales/Strings.de.resx</p>
+                    <div class="product-visual">
+                        <div class="terminal-head"><span></span><span></span><span></span></div>
+                        <pre><span class="c">&lt;!-- 47 keys · 12 untranslated --&gt;</span>
 &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
   &lt;<span class="k">value</span>&gt;Sign in to your account&lt;/<span class="k">value</span>&gt;
 &lt;/<span class="k">data</span>&gt;
@@ -217,14 +218,14 @@
   &lt;<span class="k">value</span>&gt;Password&lt;/<span class="k">value</span>&gt;
 &lt;/<span class="k">data</span>&gt;
 <span class="c">// ⚠️ 12 entries still in English</span></pre>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6">
-                <p class="eyebrow mb-2">After · dotnet resx-translate fill</p>
-                <div class="product-visual">
-                    <div class="terminal-head"><span></span><span></span><span></span></div>
-<pre><span class="c">&lt;!-- 47 keys · 0 untranslated --&gt;</span>
+                <div class="col-lg-6">
+                    <p class="eyebrow mb-2">After · dotnet resx-translate fill</p>
+                    <div class="product-visual">
+                        <div class="terminal-head"><span></span><span></span><span></span></div>
+                        <pre><span class="c">&lt;!-- 47 keys · 0 untranslated --&gt;</span>
 &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
   &lt;<span class="k">value</span>&gt;Bei Ihrem Konto anmelden&lt;/<span class="k">value</span>&gt;
 &lt;/<span class="k">data</span>&gt;
@@ -235,88 +236,88 @@
   &lt;<span class="k">value</span>&gt;Passwort&lt;/<span class="k">value</span>&gt;
 &lt;/<span class="k">data</span>&gt;
 <span class="c">// ✅ Translated via Ollama · llama3.1:8b</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            @* ============ B) USE CASES – RESX ============ *@
+            <div class="row g-4 mt-4">
+                <div class="col-lg-4">
+                    <div class="ent-card h-100">
+                        <div class="ent-icon">🌍</div>
+                        <h4 class="h6 fw-bold mb-2">Multi-tenant SaaS</h4>
+                        <p class="text-secondary small mb-0">
+                            Ship in 12 languages without a dedicated localization team.
+                            New keys land in every culture before the PR is merged.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ent-card h-100">
+                        <div class="ent-icon">🧹</div>
+                        <h4 class="h6 fw-bold mb-2">Legacy .NET migrations</h4>
+                        <p class="text-secondary small mb-0">
+                            Years of "TODO: translate" cleared in one pass.
+                            Audit reports show exactly what changed per culture.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ent-card h-100">
+                        <div class="ent-icon">🔐</div>
+                        <h4 class="h6 fw-bold mb-2">Regulated &amp; air-gapped</h4>
+                        <p class="text-secondary small mb-0">
+                            Run Ollama inside your network. Nothing leaves the machine,
+                            no cloud vendor ever sees your strings.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        @* ============ B) USE CASES – RESX ============ *@
-        <div class="row g-4 mt-4">
-            <div class="col-lg-4">
-                <div class="ent-card h-100">
-                    <div class="ent-icon">🌍</div>
-                    <h4 class="h6 fw-bold mb-2">Multi-tenant SaaS</h4>
-                    <p class="text-secondary small mb-0">
-                        Ship in 12 languages without a dedicated localization team.
-                        New keys land in every culture before the PR is merged.
+
+    @* ============ UNITTEST GENERATOR ============ *@
+    <section id="unittest" class="bg-body-secondary">
+        <div class="container">
+            <div class="row align-items-center g-5 py-4 flex-lg-row-reverse">
+                <div class="col-lg-6">
+                    <span class="eyebrow d-block mb-3">UnitTest AI Generator</span>
+                    <h2 class="fw-bold mb-3" style="letter-spacing:-0.02em;">
+                        Your tests won't write themselves. But almost.
+                    </h2>
+                    <p class="mb-3">
+                        Analyzes your classes and methods and generates matching unit tests –
+                        with xUnit, NUnit, or MSTest. Your model, your conventions.
                     </p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="ent-card h-100">
-                    <div class="ent-icon">🧹</div>
-                    <h4 class="h6 fw-bold mb-2">Legacy .NET migrations</h4>
-                    <p class="text-secondary small mb-0">
-                        Years of "TODO: translate" cleared in one pass.
-                        Audit reports show exactly what changed per culture.
+                    <p class="text-secondary mb-4">
+                        Test coverage matters – but nobody enjoys writing 400 test methods by hand.
+                        The generator understands signatures, dependencies, and edge cases, and produces
+                        runnable tests in your framework of choice.
                     </p>
+
+                    <ul class="row row-cols-1 row-cols-md-2 g-2 mb-4 list-unstyled">
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Auto-tests for all methods</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>xUnit, NUnit, MSTest</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Moq / NSubstitute / FakeItEasy</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>API key or local Ollama</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Arrange-Act-Assert structure</li>
+                        <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>JSON-based configuration</li>
+                    </ul>
+
+                    @* D) Deep-dive link *@
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
+                        <a href="/products/unittest-generator" class="btn btn-outline-brand btn-lg-custom">
+                            Read the deep dive →
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="ent-card h-100">
-                    <div class="ent-icon">🔐</div>
-                    <h4 class="h6 fw-bold mb-2">Regulated &amp; air-gapped</h4>
-                    <p class="text-secondary small mb-0">
-                        Run Ollama inside your network. Nothing leaves the machine,
-                        no cloud vendor ever sees your strings.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-
-@* ============ UNITTEST GENERATOR ============ *@
-<section id="unittest" class="bg-body-secondary">
-    <div class="container">
-        <div class="row align-items-center g-5 py-4 flex-lg-row-reverse">
-            <div class="col-lg-6">
-                <span class="eyebrow d-block mb-3">UnitTest AI Generator</span>
-                <h2 class="fw-bold mb-3" style="letter-spacing:-0.02em;">
-                    Your tests won't write themselves. But almost.
-                </h2>
-                <p class="mb-3">
-                    Analyzes your classes and methods and generates matching unit tests –
-                    with xUnit, NUnit, or MSTest. Your model, your conventions.
-                </p>
-                <p class="text-secondary mb-4">
-                    Test coverage matters – but nobody enjoys writing 400 test methods by hand.
-                    The generator understands signatures, dependencies, and edge cases, and produces
-                    runnable tests in your framework of choice.
-                </p>
-
-                <ul class="row row-cols-1 row-cols-md-2 g-2 mb-4 list-unstyled">
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Auto-tests for all methods</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>xUnit, NUnit, MSTest</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Moq / NSubstitute / FakeItEasy</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>API key or local Ollama</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>Arrange-Act-Assert structure</li>
-                    <li class="col d-flex gap-2"><i class="bi bi-check-lg text-success"></i>JSON-based configuration</li>
-                </ul>
-
-                @* D) Deep-dive link *@
-                <div class="d-flex gap-2 flex-wrap">
-                    <a href="#pricing" class="btn btn-brand btn-lg-custom">Choose a license →</a>
-                    <a href="/products/unittest-generator" class="btn btn-outline-brand btn-lg-custom">
-                        Read the deep dive →
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="product-visual">
-                    <div class="terminal-head"><span></span><span></span><span></span></div>
-                    <pre><span class="c">// unittest.config.json</span>
+                <div class="col-lg-6">
+                    <div class="product-visual">
+                        <div class="terminal-head"><span></span><span></span><span></span></div>
+                        <pre><span class="c">// unittest.config.json</span>
 {
   <span class="k">"provider"</span>: <span class="s">"openai"</span>,
   <span class="k">"model"</span>: <span class="s">"gpt-4o-mini"</span>,
@@ -327,35 +328,35 @@
   <span class="k">"namingConvention"</span>:
     <span class="s">"MethodName_Scenario_ExpectedResult"</span>
 }</pre>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        @* ============ B) BEFORE / AFTER – UNITTEST ============ *@
-        <div class="row g-4 mt-5 pt-5" style="border-top: 1px solid var(--bs-border-color);">
-            <div class="col-12 mb-2">
-                <span class="eyebrow d-block">Before / After</span>
-                <h3 class="h4 fw-bold mt-2">From empty shell to real coverage.</h3>
-            </div>
+            @* ============ B) BEFORE / AFTER – UNITTEST ============ *@
+            <div class="row g-4 mt-5 pt-5" style="border-top: 1px solid var(--bs-border-color);">
+                <div class="col-12 mb-2">
+                    <span class="eyebrow d-block">Before / After</span>
+                    <h3 class="h4 fw-bold mt-2">From empty shell to real coverage.</h3>
+                </div>
 
-            <div class="col-lg-6">
-                <p class="eyebrow mb-2">Before · Services/InvoiceServiceTests.cs</p>
-                <div class="product-visual">
-                    <div class="terminal-head"><span></span><span></span><span></span></div>
-<pre><span class="c">// 0 tests · 14 methods untested</span>
+                <div class="col-lg-6">
+                    <p class="eyebrow mb-2">Before · Services/InvoiceServiceTests.cs</p>
+                    <div class="product-visual">
+                        <div class="terminal-head"><span></span><span></span><span></span></div>
+                        <pre><span class="c">// 0 tests · 14 methods untested</span>
 <span class="k">public class</span> <span class="b">InvoiceServiceTests</span>
 {
     <span class="c">// TODO: write tests</span>
 }
 <span class="c">// ⚠️ Coverage: 0%</span></pre>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6">
-                <p class="eyebrow mb-2">After · dotnet unittest-generate</p>
-                <div class="product-visual">
-                    <div class="terminal-head"><span></span><span></span><span></span></div>
-<pre><span class="c">// 14 tests · coverage 82%</span>
+                <div class="col-lg-6">
+                    <p class="eyebrow mb-2">After · dotnet unittest-generate</p>
+                    <div class="product-visual">
+                        <div class="terminal-head"><span></span><span></span><span></span></div>
+                        <pre><span class="c">// 14 tests · coverage 82%</span>
 [<span class="b">Fact</span>]
 <span class="k">public void</span> <span class="b">CalculateTotal_WithTax_ReturnsGross</span>()
 {
@@ -372,183 +373,183 @@
         () =&gt; svc.CalculateTotal(<span class="b">-1m</span>, <span class="b">0.19m</span>));
 }
 <span class="c">// ✅ Generated via OpenAI · gpt-4o-mini</span></pre>
-                </div>
-            </div>
-        </div>
-
-        @* ============ B) USE CASES – UNITTEST ============ *@
-        <div class="row g-4 mt-4">
-            <div class="col-lg-4">
-                <div class="ent-card h-100">
-                    <div class="ent-icon">📈</div>
-                    <h4 class="h6 fw-bold mb-2">Legacy coverage rescue</h4>
-                    <p class="text-secondary small mb-0">
-                        Take a project from 12% to 80% coverage without
-                        hand-writing hundreds of test methods.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="ent-card h-100">
-                    <div class="ent-icon">🚦</div>
-                    <h4 class="h6 fw-bold mb-2">CI quality gates</h4>
-                    <p class="text-secondary small mb-0">
-                        Fail the build when coverage drops or when new methods
-                        ship without tests. Zero-tolerance, zero-effort.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="ent-card h-100">
-                    <div class="ent-icon">📚</div>
-                    <h4 class="h6 fw-bold mb-2">Onboarding &amp; docs</h4>
-                    <p class="text-secondary small mb-0">
-                        Generated tests double as executable documentation –
-                        new team members see exactly how the code is meant to be used.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-@* ============ PRICING ============ *@
-<section id="pricing">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="eyebrow d-block mb-2">Pricing</span>
-            <h2 class="display-custom mb-3">Start for free. Scale when you're ready.</h2>
-            <p class="lead-muted mx-auto" style="max-width: 620px;">
-                Both products are available as MIT-licensed community editions or as Enterprise licenses
-                with pro features and support.
-            </p>
-        </div>
-
-        <div class="row g-4 align-items-stretch">
-
-            @* MIT *@
-            <div class="col-lg-4">
-                <div class="price-card d-flex flex-column">
-                    <h3 class="h5 fw-bold mb-1">MIT (Free)</h3>
-                    <p class="text-secondary small mb-4" style="min-height: 40px;">
-                        For solo developers, OSS projects, and trying things out.
-                    </p>
-                    <div class="mb-2">
-                        <span class="price-amount">€0</span>
                     </div>
-                    <p class="text-secondary small mb-4">Free forever</p>
-
-                    <ul class="feature-list flex-grow-1 pt-4 mb-4" style="border-top: 1px solid var(--bs-border-color);">
-                        <li>Commercial use allowed</li>
-                        <li>API key or Ollama</li>
-                        <li>All base features</li>
-                        <li>CLI + MSBuild integration</li>
-                        <li class="muted">Pro features</li>
-                        <li class="muted">Priority support</li>
-                        <li class="muted">CI/CD integration</li>
-                    </ul>
-
-                    <a href="https://www.nuget.org/" target="_blank" rel="noopener" class="btn btn-outline-brand w-100 mt-auto">
-                        View on NuGet
-                    </a>
                 </div>
             </div>
 
-            @* Enterprise *@
-            <div class="col-lg-4">
-                <div class="price-card featured d-flex flex-column">
-                    <div class="ribbon">Popular</div>
-                    <h3 class="h5 fw-bold mb-1">Enterprise</h3>
-                    <p class="text-secondary small mb-4" style="min-height: 40px;">
-                        For teams that scale productively and need support.
-                    </p>
-                    <div class="mb-2">
-                        <span class="price-amount">€249</span>
-                        <span class="text-secondary">/ year</span>
+            @* ============ B) USE CASES – UNITTEST ============ *@
+            <div class="row g-4 mt-4">
+                <div class="col-lg-4">
+                    <div class="ent-card h-100">
+                        <div class="ent-icon">📈</div>
+                        <h4 class="h6 fw-bold mb-2">Legacy coverage rescue</h4>
+                        <p class="text-secondary small mb-0">
+                            Take a project from 12% to 80% coverage without
+                            hand-writing hundreds of test methods.
+                        </p>
                     </div>
-                    <p class="text-secondary small mb-4">or €29 / month · per product</p>
-
-                    <ul class="feature-list flex-grow-1 pt-4 mb-4" style="border-top: 1px solid var(--bs-border-color);">
-                        <li>All MIT features</li>
-                        <li>All pro features</li>
-                        <li>CI/CD pipeline integration</li>
-                        <li>Review workflow &amp; drafts</li>
-                        <li>Glossary / translation memory</li>
-                        <li>Priority support with SLA</li>
-                        <li>All major + minor updates</li>
-                    </ul>
-
-                    <button class="btn btn-brand w-100" @onclick='() => Checkout("enterprise_single")'>
-                        Buy now
-                    </button>
-                    <button class="btn btn-outline-brand w-100 mt-2" @onclick='() => ContactSales("Enterprise")'>
-                        Contact sales
-                    </button>
-                    <p class="sales-note">Invoice, PO &amp; MSA available on request</p>
                 </div>
-            </div>
-
-            @* Bundle *@
-            <div class="col-lg-4">
-                <div class="price-card d-flex flex-column">
-                    <h3 class="h5 fw-bold mb-1">Bundle Enterprise</h3>
-                    <p class="text-secondary small mb-4" style="min-height: 40px;">
-                        Both products as Enterprise licenses – 20% off.
-                    </p>
-                    <div class="mb-2">
-                        <span class="price-amount">€399</span>
-                        <span class="text-secondary">/ year</span>
+                <div class="col-lg-4">
+                    <div class="ent-card h-100">
+                        <div class="ent-icon">🚦</div>
+                        <h4 class="h6 fw-bold mb-2">CI quality gates</h4>
+                        <p class="text-secondary small mb-0">
+                            Fail the build when coverage drops or when new methods
+                            ship without tests. Zero-tolerance, zero-effort.
+                        </p>
                     </div>
-                    <p class="text-secondary small mb-4">instead of €498 · both products</p>
-
-                    <ul class="feature-list flex-grow-1 pt-4 mb-4" style="border-top: 1px solid var(--bs-border-color);">
-                        <li>ResX Translator Enterprise</li>
-                        <li>UnitTest Generator Enterprise</li>
-                        <li>All pro features of both tools</li>
-                        <li>Priority support with SLA</li>
-                        <li>All major + minor updates</li>
-                        <li>Central team conventions</li>
-                        <li>Invoicing to company name</li>
-                    </ul>
-
-                    <button class="btn btn-outline-brand w-100" @onclick='() => Checkout("bundle_enterprise")'>
-                        Get the bundle
-                    </button>
-                    <button class="btn btn-outline-brand w-100 mt-2" @onclick='() => ContactSales("Bundle Enterprise")'>
-                        Contact sales
-                    </button>
-                    <p class="sales-note">Custom quote for 10+ seats</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ent-card h-100">
+                        <div class="ent-icon">📚</div>
+                        <h4 class="h6 fw-bold mb-2">Onboarding &amp; docs</h4>
+                        <p class="text-secondary small mb-0">
+                            Generated tests double as executable documentation –
+                            new team members see exactly how the code is meant to be used.
+                        </p>
+                    </div>
                 </div>
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
 
-@* ============ C) COMPARISON TABLE ============ *@
-<section id="compare" class="bg-body-secondary">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="eyebrow d-block mb-2">Compare plans</span>
-            <h2 class="display-custom mb-3">MIT vs. Enterprise vs. Bundle.</h2>
-            <p class="lead-muted mx-auto" style="max-width: 620px;">
-                Same core engine. Enterprise adds the team-scale features – and the contracts.
-            </p>
+    @* ============ PRICING ============ *@
+    <section id="pricing">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow d-block mb-2">Pricing</span>
+                <h2 class="display-custom mb-3">Start for free. Scale when you're ready.</h2>
+                <p class="lead-muted mx-auto" style="max-width: 620px;">
+                    Both products are available as MIT-licensed community editions or as Enterprise licenses
+                    with pro features and support.
+                </p>
+            </div>
+
+            <div class="row g-4 align-items-stretch">
+
+                @* MIT *@
+                <div class="col-lg-4">
+                    <div class="price-card d-flex flex-column">
+                        <h3 class="h5 fw-bold mb-1">MIT (Free)</h3>
+                        <p class="text-secondary small mb-4" style="min-height: 40px;">
+                            For solo developers, OSS projects, and trying things out.
+                        </p>
+                        <div class="mb-2">
+                            <span class="price-amount">€0</span>
+                        </div>
+                        <p class="text-secondary small mb-4">Free forever</p>
+
+                        <ul class="feature-list flex-grow-1 pt-4 mb-4" style="border-top: 1px solid var(--bs-border-color);">
+                            <li>Commercial use allowed</li>
+                            <li>API key or Ollama</li>
+                            <li>All base features</li>
+                            <li>CLI + MSBuild integration</li>
+                            <li class="muted">Pro features</li>
+                            <li class="muted">Priority support</li>
+                            <li class="muted">CI/CD integration</li>
+                        </ul>
+
+                        <a href="https://www.nuget.org/" target="_blank" rel="noopener" class="btn btn-outline-brand w-100 mt-auto">
+                            View on NuGet
+                        </a>
+                    </div>
+                </div>
+
+                @* Enterprise *@
+                <div class="col-lg-4">
+                    <div class="price-card featured d-flex flex-column">
+                        <div class="ribbon">Popular</div>
+                        <h3 class="h5 fw-bold mb-1">Enterprise</h3>
+                        <p class="text-secondary small mb-4" style="min-height: 40px;">
+                            For teams that scale productively and need support.
+                        </p>
+                        <div class="mb-2">
+                            <span class="price-amount">€249</span>
+                            <span class="text-secondary">/ year</span>
+                        </div>
+                        <p class="text-secondary small mb-4">or €29 / month · per product</p>
+
+                        <ul class="feature-list flex-grow-1 pt-4 mb-4" style="border-top: 1px solid var(--bs-border-color);">
+                            <li>All MIT features</li>
+                            <li>All pro features</li>
+                            <li>CI/CD pipeline integration</li>
+                            <li>Review workflow &amp; drafts</li>
+                            <li>Glossary / translation memory</li>
+                            <li>Priority support with SLA</li>
+                            <li>All major + minor updates</li>
+                        </ul>
+
+                        <button class="btn btn-brand w-100" @onclick='() => Checkout("enterprise_single")'>
+                            Buy now
+                        </button>
+                        <button class="btn btn-outline-brand w-100 mt-2" @onclick='() => ContactSales("Enterprise")'>
+                            Contact sales
+                        </button>
+                        <p class="sales-note">Invoice, PO &amp; MSA available on request</p>
+                    </div>
+                </div>
+
+                @* Bundle *@
+                <div class="col-lg-4">
+                    <div class="price-card d-flex flex-column">
+                        <h3 class="h5 fw-bold mb-1">Bundle Enterprise</h3>
+                        <p class="text-secondary small mb-4" style="min-height: 40px;">
+                            Both products as Enterprise licenses – 20% off.
+                        </p>
+                        <div class="mb-2">
+                            <span class="price-amount">€399</span>
+                            <span class="text-secondary">/ year</span>
+                        </div>
+                        <p class="text-secondary small mb-4">instead of €498 · both products</p>
+
+                        <ul class="feature-list flex-grow-1 pt-4 mb-4" style="border-top: 1px solid var(--bs-border-color);">
+                            <li>ResX Translator Enterprise</li>
+                            <li>UnitTest Generator Enterprise</li>
+                            <li>All pro features of both tools</li>
+                            <li>Priority support with SLA</li>
+                            <li>All major + minor updates</li>
+                            <li>Central team conventions</li>
+                            <li>Invoicing to company name</li>
+                        </ul>
+
+                        <button class="btn btn-outline-brand w-100" @onclick='() => Checkout("bundle_enterprise")'>
+                            Get the bundle
+                        </button>
+                        <button class="btn btn-outline-brand w-100 mt-2" @onclick='() => ContactSales("Bundle Enterprise")'>
+                            Contact sales
+                        </button>
+                        <p class="sales-note">Custom quote for 10+ seats</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
+    </section>
 
-        <div class="table-responsive">
-            <table class="table align-middle" style="--bs-table-bg: transparent; --bs-table-color: var(--bs-body-color); --bs-table-border-color: var(--bs-border-color);">
-                <thead>
+
+    @* ============ C) COMPARISON TABLE ============ *@
+    <section id="compare" class="bg-body-secondary">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow d-block mb-2">Compare plans</span>
+                <h2 class="display-custom mb-3">MIT vs. Enterprise vs. Bundle.</h2>
+                <p class="lead-muted mx-auto" style="max-width: 620px;">
+                    Same core engine. Enterprise adds the team-scale features – and the contracts.
+                </p>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle" style="--bs-table-bg: transparent; --bs-table-color: var(--bs-body-color); --bs-table-border-color: var(--bs-border-color);">
+                    <thead>
                     <tr>
                         <th scope="col" style="width: 44%;">Feature</th>
                         <th scope="col" class="text-center">MIT</th>
                         <th scope="col" class="text-center">Enterprise</th>
                         <th scope="col" class="text-center">Bundle</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>Commercial use allowed</td>
                         <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
@@ -633,304 +634,304 @@
                         <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
                         <td class="text-center text-success"><i class="bi bi-check-lg"></i></td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-
-@* ============ ENTERPRISE ============ *@
-<section id="enterprise">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="eyebrow d-block mb-2">Enterprise-ready</span>
-            <h2 class="display-custom mb-3">Built for teams that take compliance seriously.</h2>
-            <p class="lead-muted mx-auto" style="max-width: 620px;">
-                Your code, your data, your rules. We provide the tooling – you stay in control.
-            </p>
-        </div>
-
-        <div class="row g-4 mb-5">
-            <div class="col-lg-4">
-                <div class="ent-card">
-                    <div class="ent-icon">🔒</div>
-                    <h3 class="h5 fw-bold mb-2">Data Residency</h3>
-                    <p class="text-secondary small mb-3">
-                        Full control over where your code and data are processed.
-                    </p>
-                    <ul class="ent-list">
-                        <li><strong>Ollama</strong> On-prem, air-gapped, EU region</li>
-                        <li><strong>Cloud</strong> OpenAI, Azure EU, Anthropic – with your key</li>
-                        <li><strong>Hybrid</strong> Sensitive keys local, rest in cloud</li>
-                        <li><strong>Never</strong> logged, never trained on your data</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="ent-card">
-                    <div class="ent-icon">🛡️</div>
-                    <h3 class="h5 fw-bold mb-2">Compliance</h3>
-                    <p class="text-secondary small mb-3">
-                        Every contract and certification your procurement and legal teams need.
-                    </p>
-                    <ul class="ent-list">
-                        <li><strong>GDPR</strong> DPA available on request</li>
-                        <li><strong>ISO 27001</strong> certification in progress</li>
-                        <li><strong>MSA</strong> individual contracts possible</li>
-                        <li><strong>Invoices</strong> to company name, PO-ready</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="ent-card">
-                    <div class="ent-icon">⚡</div>
-                    <h3 class="h5 fw-bold mb-2">Support &amp; SLA</h3>
-                    <p class="text-secondary small mb-3">
-                        A direct line to the team – no ticket roulette.
-                    </p>
-                    <ul class="ent-list">
-                        <li><strong>Response</strong> within 8h on business days</li>
-                        <li><strong>Channels</strong> Email, Slack Connect, video</li>
-                        <li><strong>Onboarding</strong> 1:1 session included</li>
-                        <li><strong>Updates</strong> all major &amp; minor versions</li>
-                    </ul>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <div class="ent-cta-bar">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                <div>
-                    <h3 class="h5 fw-bold mb-1">Questions about security, contracts, or onboarding?</h3>
-                    <p class="text-secondary small mb-0">
-                        We get back to you within one business day – with concrete answers, not marketing.
-                    </p>
-                </div>
-                <button class="btn btn-brand btn-lg-custom" @onclick='() => ContactSales("Enterprise (general)")'>
-                    Contact sales →
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
 
-@* ============ FAQ ============ *@
-<section id="faq">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="eyebrow d-block mb-2">FAQ for procurement &amp; IT</span>
-            <h2 class="display-custom mb-3">The questions that come up before the order.</h2>
-            <p class="lead-muted mx-auto" style="max-width: 620px;">
-                Everything procurement, legal, and IT want to know before sign-off.
-            </p>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="accordion" id="faqAccordion">
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#faq1">
-                                Can we pay by invoice (purchase order)?
-                            </button>
-                        </h2>
-                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes. For Enterprise and Bundle licenses we issue standard invoices with VAT –
-                                made out to your company name, with PO number and 30-day net payment terms.
-                                Contact us via the
-                                <a href="#" @onclick:preventDefault @onclick='() => ContactSales("Invoice / PO")'>sales form</a>
-                                with your billing address, VAT ID, and PO number, and the invoice will arrive by email.
-                                For individual purchases via Paddle, the invoice is available in your dashboard
-                                immediately after checkout.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#faq2">
-                                Is there an MSA or DPA available?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes. On request we provide a <strong>Master Service Agreement (MSA)</strong> and a
-                                <strong>Data Processing Agreement (DPA) per GDPR Art. 28</strong>.
-                                Because running with Ollama processes no personal data at all, an on-prem
-                                deployment often doesn't require a DPA – and when using cloud providers with your
-                                own API key, the data processing is between you and your chosen AI vendor.
-                                Custom contracts and NDAs are possible.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#faq3">
-                                Where is our data processed?
-                            </button>
-                        </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                You decide. There are three modes:
-                                <br><br>
-                                <strong>1. Local (Ollama)</strong> – Code and translations stay entirely on your
-                                machine or server. No external calls, no telemetry. Ideal for air-gapped
-                                environments and regulated industries.
-                                <br><br>
-                                <strong>2. Cloud with your API key</strong> – Requests go directly from your
-                                machine to your AI provider (OpenAI, Azure OpenAI EU, Anthropic). We never see
-                                the data. Billing runs through your existing contract.
-                                <br><br>
-                                <strong>3. Hybrid</strong> – Sensitive resources locally, non-critical ones in the
-                                cloud. Configurable per project or per file.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#faq4">
-                                What happens after purchase – how do we get the license keys?
-                            </button>
-                        </h2>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                After successful payment (via Paddle or invoice) you receive automatically,
-                                <strong>within minutes</strong>:
-                                <br><br>
-                                • The <strong>license key</strong> by email (format
-                                <code>EMN-XXXX-XXXX-XXXX-XXXX</code>)<br>
-                                • Access to the <strong>user dashboard</strong> with all licenses and invoices<br>
-                                • An <strong>onboarding email</strong> with quickstart instructions<br>
-                                • For Enterprise: a proposed slot for the 1:1 onboarding session<br><br>
-                                The key is set once in the NuGet package or as an environment variable, and
-                                covers all team members on your account.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#faq5">
-                                Can we integrate the tools into our CI/CD pipeline?
-                            </button>
-                        </h2>
-                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes – that's exactly what the Enterprise licenses are for. Ready-made integrations
-                                exist for <strong>GitHub Actions</strong>, <strong>Azure DevOps</strong>,
-                                <strong>GitLab CI</strong>, and generic <strong>MSBuild targets</strong>.
-                                The tools run headless, read their configuration from
-                                <code>resx.config.json</code> or <code>unittest.config.json</code>, and can act as
-                                a quality gate (e.g., fail the build if coverage target isn't met).
-                                <br><br>
-                                For air-gapped setups we recommend Ollama in the runner – that way no byte
-                                leaves your network.
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-@* ============ CONTACT SALES MODAL ============ *@
-<div class="modal fade" id="salesModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">Contact sales</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body pt-2">
-                <p class="text-secondary small mb-4">
-                    We'll get back to you within one business day – with concrete answers, not marketing.
+    @* ============ ENTERPRISE ============ *@
+    <section id="enterprise">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow d-block mb-2">Enterprise-ready</span>
+                <h2 class="display-custom mb-3">Built for teams that take compliance seriously.</h2>
+                <p class="lead-muted mx-auto" style="max-width: 620px;">
+                    Your code, your data, your rules. We provide the tooling – you stay in control.
                 </p>
+            </div>
 
-                <EditForm Model="salesModel" OnValidSubmit="SubmitSales">
-                    <DataAnnotationsValidator />
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="salesName" class="form-label">Name *</label>
-                            <InputText id="salesName" class="form-control" @bind-Value="salesModel.Name" />
-                        </div>
-                        <div class="col-md-6">
-                            <label for="salesCompany" class="form-label">Company *</label>
-                            <InputText id="salesCompany" class="form-control" @bind-Value="salesModel.Company" />
-                        </div>
-
-                        <div class="col-12">
-                            <label for="salesEmail" class="form-label">Work email *</label>
-                            <InputText id="salesEmail" type="email" class="form-control" @bind-Value="salesModel.Email" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="salesTeamSize" class="form-label">Team size</label>
-                            <InputSelect id="salesTeamSize" class="form-select" @bind-Value="salesModel.TeamSize">
-                                <option value="1-5">1 – 5 developers</option>
-                                <option value="6-20">6 – 20 developers</option>
-                                <option value="21-50">21 – 50 developers</option>
-                                <option value="51+">51+ developers</option>
-                            </InputSelect>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="salesDeployment" class="form-label">Deployment</label>
-                            <InputSelect id="salesDeployment" class="form-select" @bind-Value="salesModel.Deployment">
-                                <option value="cloud">Cloud (API key)</option>
-                                <option value="ollama">On-prem (Ollama)</option>
-                                <option value="hybrid">Hybrid</option>
-                                <option value="unsure">Not sure yet</option>
-                            </InputSelect>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="salesMessage" class="form-label">Message</label>
-                            <InputTextArea id="salesMessage" class="form-control" rows="3"
-                                           placeholder="What's it about? (e.g., PO, DPA, onboarding, custom licensing)"
-                                           @bind-Value="salesModel.Message" />
-                        </div>
-
-                        <div class="col-12 mt-4">
-                            <button type="submit" class="btn btn-brand w-100 btn-lg-custom">
-                                Send request
-                            </button>
-                        </div>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4">
+                    <div class="ent-card">
+                        <div class="ent-icon">🔒</div>
+                        <h3 class="h5 fw-bold mb-2">Data Residency</h3>
+                        <p class="text-secondary small mb-3">
+                            Full control over where your code and data are processed.
+                        </p>
+                        <ul class="ent-list">
+                            <li><strong>Ollama</strong> On-prem, air-gapped, EU region</li>
+                            <li><strong>Cloud</strong> OpenAI, Azure EU, Anthropic – with your key</li>
+                            <li><strong>Hybrid</strong> Sensitive keys local, rest in cloud</li>
+                            <li><strong>Never</strong> logged, never trained on your data</li>
+                        </ul>
                     </div>
+                </div>
 
-                    <p class="text-secondary small text-center mt-3 mb-0">
-                        By submitting, you agree that we may contact you to handle this inquiry.
-                        No data shared with third parties.
+                <div class="col-lg-4">
+                    <div class="ent-card">
+                        <div class="ent-icon">🛡️</div>
+                        <h3 class="h5 fw-bold mb-2">Compliance</h3>
+                        <p class="text-secondary small mb-3">
+                            Every contract and certification your procurement and legal teams need.
+                        </p>
+                        <ul class="ent-list">
+                            <li><strong>GDPR</strong> DPA available on request</li>
+                            <li><strong>ISO 27001</strong> certification in progress</li>
+                            <li><strong>MSA</strong> individual contracts possible</li>
+                            <li><strong>Invoices</strong> to company name, PO-ready</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ent-card">
+                        <div class="ent-icon">⚡</div>
+                        <h3 class="h5 fw-bold mb-2">Support &amp; SLA</h3>
+                        <p class="text-secondary small mb-3">
+                            A direct line to the team – no ticket roulette.
+                        </p>
+                        <ul class="ent-list">
+                            <li><strong>Response</strong> within 8h on business days</li>
+                            <li><strong>Channels</strong> Email, Slack Connect, video</li>
+                            <li><strong>Onboarding</strong> 1:1 session included</li>
+                            <li><strong>Updates</strong> all major &amp; minor versions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ent-cta-bar">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div>
+                        <h3 class="h5 fw-bold mb-1">Questions about security, contracts, or onboarding?</h3>
+                        <p class="text-secondary small mb-0">
+                            We get back to you within one business day – with concrete answers, not marketing.
+                        </p>
+                    </div>
+                    <button class="btn btn-brand btn-lg-custom" @onclick='() => ContactSales("Enterprise (general)")'>
+                        Contact sales →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @* ============ FAQ ============ *@
+    <section id="faq">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow d-block mb-2">FAQ for procurement &amp; IT</span>
+                <h2 class="display-custom mb-3">The questions that come up before the order.</h2>
+                <p class="lead-muted mx-auto" style="max-width: 620px;">
+                    Everything procurement, legal, and IT want to know before sign-off.
+                </p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="accordion" id="faqAccordion">
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Can we pay by invoice (purchase order)?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes. For Enterprise and Bundle licenses we issue standard invoices with VAT –
+                                    made out to your company name, with PO number and 30-day net payment terms.
+                                    Contact us via the
+                                    <a href="#" @onclick:preventDefault @onclick='() => ContactSales("Invoice / PO")'>sales form</a>
+                                    with your billing address, VAT ID, and PO number, and the invoice will arrive by email.
+                                    For individual purchases via Paddle, the invoice is available in your dashboard
+                                    immediately after checkout.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Is there an MSA or DPA available?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes. On request we provide a <strong>Master Service Agreement (MSA)</strong> and a
+                                    <strong>Data Processing Agreement (DPA) per GDPR Art. 28</strong>.
+                                    Because running with Ollama processes no personal data at all, an on-prem
+                                    deployment often doesn't require a DPA – and when using cloud providers with your
+                                    own API key, the data processing is between you and your chosen AI vendor.
+                                    Custom contracts and NDAs are possible.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Where is our data processed?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You decide. There are three modes:
+                                    <br><br>
+                                    <strong>1. Local (Ollama)</strong> – Code and translations stay entirely on your
+                                    machine or server. No external calls, no telemetry. Ideal for air-gapped
+                                    environments and regulated industries.
+                                    <br><br>
+                                    <strong>2. Cloud with your API key</strong> – Requests go directly from your
+                                    machine to your AI provider (OpenAI, Azure OpenAI EU, Anthropic). We never see
+                                    the data. Billing runs through your existing contract.
+                                    <br><br>
+                                    <strong>3. Hybrid</strong> – Sensitive resources locally, non-critical ones in the
+                                    cloud. Configurable per project or per file.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    What happens after purchase – how do we get the license keys?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    After successful payment (via Paddle or invoice) you receive automatically,
+                                    <strong>within minutes</strong>:
+                                    <br><br>
+                                    • The <strong>license key</strong> by email (format
+                                    <code>EMN-XXXX-XXXX-XXXX-XXXX</code>)<br>
+                                    • Access to the <strong>user dashboard</strong> with all licenses and invoices<br>
+                                    • An <strong>onboarding email</strong> with quickstart instructions<br>
+                                    • For Enterprise: a proposed slot for the 1:1 onboarding session<br><br>
+                                    The key is set once in the NuGet package or as an environment variable, and
+                                    covers all team members on your account.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Can we integrate the tools into our CI/CD pipeline?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes – that's exactly what the Enterprise licenses are for. Ready-made integrations
+                                    exist for <strong>GitHub Actions</strong>, <strong>Azure DevOps</strong>,
+                                    <strong>GitLab CI</strong>, and generic <strong>MSBuild targets</strong>.
+                                    The tools run headless, read their configuration from
+                                    <code>resx.config.json</code> or <code>unittest.config.json</code>, and can act as
+                                    a quality gate (e.g., fail the build if coverage target isn't met).
+                                    <br><br>
+                                    For air-gapped setups we recommend Ollama in the runner – that way no byte
+                                    leaves your network.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @* ============ CONTACT SALES MODAL ============ *@
+    <div class="modal fade" id="salesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">Contact sales</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body pt-2">
+                    <p class="text-secondary small mb-4">
+                        We'll get back to you within one business day – with concrete answers, not marketing.
                     </p>
-                </EditForm>
+
+                    <EditForm Model="salesModel" OnValidSubmit="SubmitSales">
+                        <DataAnnotationsValidator/>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="salesName" class="form-label">Name *</label>
+                                <InputText id="salesName" class="form-control" @bind-Value="salesModel.Name"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="salesCompany" class="form-label">Company *</label>
+                                <InputText id="salesCompany" class="form-control" @bind-Value="salesModel.Company"/>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="salesEmail" class="form-label">Work email *</label>
+                                <InputText id="salesEmail" type="email" class="form-control" @bind-Value="salesModel.Email"/>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="salesTeamSize" class="form-label">Team size</label>
+                                <InputSelect id="salesTeamSize" class="form-select" @bind-Value="salesModel.TeamSize">
+                                    <option value="1-5">1 – 5 developers</option>
+                                    <option value="6-20">6 – 20 developers</option>
+                                    <option value="21-50">21 – 50 developers</option>
+                                    <option value="51+">51+ developers</option>
+                                </InputSelect>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="salesDeployment" class="form-label">Deployment</label>
+                                <InputSelect id="salesDeployment" class="form-select" @bind-Value="salesModel.Deployment">
+                                    <option value="cloud">Cloud (API key)</option>
+                                    <option value="ollama">On-prem (Ollama)</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="unsure">Not sure yet</option>
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="salesMessage" class="form-label">Message</label>
+                                <InputTextArea id="salesMessage" class="form-control" rows="3"
+                                               placeholder="What's it about? (e.g., PO, DPA, onboarding, custom licensing)"
+                                               @bind-Value="salesModel.Message"/>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-brand w-100 btn-lg-custom">
+                                    Send request
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary small text-center mt-3 mb-0">
+                            By submitting, you agree that we may contact you to handle this inquiry.
+                            No data shared with third parties.
+                        </p>
+                    </EditForm>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-                            
-</Authorized>
-<NotAuthorized>
-    <h3>Halt!</h3>
-    <p>Bitte logge dich zuerst ein.</p>
-    @* <SupabaseRcl.Components.Login /> *@
-</NotAuthorized>
-</AuthorizeView>
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>Halt!</h3>
+        <p>Bitte logge dich zuerst ein.</p>
+        @* <SupabaseRcl.Components.Login /> *@
+    </NotAuthorized>
+    </AuthorizeView>
 </div>
 </section>
