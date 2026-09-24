@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.Components.Routing
+@using SupabaseRcl.Components
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="" @onclick="Close">MyApp</a>
+
+        <button class="navbar-toggler" type="button"
+                aria-controls="mainNav"
+                aria-expanded="@isOpen.ToString().ToLower()"
+                aria-label="Navigation umschalten"
+                @onclick="Toggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        @* "show" wird von Blazor gesetzt, dadurch braucht es kein Bootstrap-JavaScript *@
+        <div class="collapse navbar-collapse @(isOpen ? "show" : null)" id="mainNav">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="Close">
+                        Start
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="dashboard" @onclick="Close">
+                        Dashboard
+                    </NavLink>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center">
+                <AuthStatus />
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+@code {
+    private bool isOpen;
+
+    private void Toggle() => isOpen = !isOpen;
+    private void Close() => isOpen = false;
+}

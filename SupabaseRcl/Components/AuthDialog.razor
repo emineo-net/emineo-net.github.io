@@ -1,0 +1,93 @@
+@using Microsoft.AspNetCore.Components.Forms
+@using SupabaseRcl.Services
+@implements IDisposable
+
+@if (DialogService.IsVisible)
+{
+    <div class="modal-backdrop fade show"></div>
+
+    <div class="modal fade show d-block" tabindex="-1" @onclick="DialogService.Close">
+        <div class="modal-dialog modal-dialog-centered" @onclick:stopPropagation="true">
+            <div class="modal-content shadow-lg">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">
+                        @(DialogService.CurrentView == AuthDialogView.Login ? "Anmelden" : "Registrieren")
+                    </h5>
+                    <button type="button" class="btn-close" aria-label="Schließen"
+                            @onclick="DialogService.Close"></button>
+                </div>
+
+                <div class="modal-body p-4 pt-0">
+                    @if (DialogService.CurrentView == AuthDialogView.Login)
+                    {
+                        <EditForm Model="loginModel" OnValidSubmit="LoginAsync">
+                            <DataAnnotationsValidator />
+                            <div class="form-floating mb-3">
+                                <InputText @bind-Value="loginModel.Email" class="form-control"
+                                           id="loginEmail" placeholder="name@example.com" />
+                                <label for="loginEmail">E-Mail-Adresse</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <InputText @bind-Value="loginModel.Password" type="password" class="form-control"
+                                           id="loginPassword" placeholder="Passwort" />
+                                <label for="loginPassword">Passwort</label>
+                            </div>
+                            <ValidationSummary class="text-danger small" />
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" disabled="@isSubmitting">
+                                @if (isSubmitting) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                                Einloggen
+                            </button>
+                        </EditForm>
+
+                        <div class="text-center mt-3 small text-muted">
+                            Noch kein Konto?
+                            <a href="javascript:void(0)" class="text-decoration-none"
+                               @onclick="() => DialogService.SwitchView(AuthDialogView.Register)">Jetzt registrieren</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <EditForm Model="registerModel" OnValidSubmit="RegisterAsync">
+                            <DataAnnotationsValidator />
+                            <div class="form-floating mb-3">
+                                <InputText @bind-Value="registerModel.Email" class="form-control"
+                                           id="regEmail" placeholder="name@example.com" />
+                                <label for="regEmail">E-Mail-Adresse</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <InputText @bind-Value="registerModel.Password" type="password" class="form-control"
+                                           id="regPassword" placeholder="Passwort" />
+                                <label for="regPassword">Passwort</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <InputText @bind-Value="registerModel.ConfirmPassword" type="password" class="form-control"
+                                           id="regConfirm" placeholder="Passwort wiederholen" />
+                                <label for="regConfirm">Passwort wiederholen</label>
+                            </div>
+                            <ValidationSummary class="text-danger small" />
+
+                            <button type="submit" class="btn btn-success w-100 py-2 fw-semibold" disabled="@isSubmitting">
+                                @if (isSubmitting) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                                Registrieren
+                            </button>
+                        </EditForm>
+
+                        <div class="text-center mt-3 small text-muted">
+                            Bereits registriert?
+                            <a href="javascript:void(0)" class="text-decoration-none"
+                               @onclick="() => DialogService.SwitchView(AuthDialogView.Login)">Hier einloggen</a>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(message))
+                    {
+                        <div class="alert @(isSuccess ? "alert-success" : "alert-danger") mt-3 py-2 small">@message</div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

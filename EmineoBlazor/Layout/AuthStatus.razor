@@ -1,0 +1,71 @@
+﻿@implements IDisposable
+@using Microsoft.AspNetCore.Components.Authorization
+@using SupabaseRcl.Providers
+@using SupabaseRcl.Services
+@inject AuthDialogService DialogService
+@inject SupabaseService SupabaseService
+@inject AuthenticationStateProvider AuthStateProvider
+
+@if (isInitializing)
+{
+    <span class="spinner-border spinner-border-sm"></span>
+}
+else if (isAuthenticated)
+{
+    <span class="navbar-text me-2">@userName</span>
+    <button class="btn btn-outline-secondary btn-sm" @onclick="LogoutAsync">Abmelden</button>
+}
+else
+{
+    <button class="btn btn-outline-primary btn-sm me-2" @onclick="DialogService.ShowLogin">Anmelden</button>
+    <button class="btn btn-primary btn-sm" @onclick="DialogService.ShowRegister">Registrieren</button>
+}
+
+@code {
+    private bool isInitializing = true;
+    private bool isAuthenticated;
+    private string userName = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthStateProvider.AuthenticationStateChanged += OnAuthStateChanged;
+
+        await SupabaseService.WaitForInitializationAsync();
+
+        // Bestehende Session (aus dem Storage geladen) dem Provider melden
+        var user = SupabaseService.Client?.Auth.CurrentSession?.User;
+        if (user != null)
+        {
+            ((SupabaseAuthStateProvider)AuthStateProvider)
+                .NotifyUserAuthentication(user.Email ?? string.Empty, user.Id ?? string.Empty);
+        }
+
+        await UpdateAsync(AuthStateProvider.GetAuthenticationStateAsync());
+        isInitializing = false;
+    }
+
+    private void OnAuthStateChanged(Task<AuthenticationState> task) =>
+        _ = InvokeAsync(async () =>
+        {
+            await UpdateAsync(task);
+            StateHasChanged();
+        });
+
+    private async Task UpdateAsync(Task<AuthenticationState> task)
+    {
+        var principal = (await task).User;
+        isAuthenticated = principal.Identity?.IsAuthenticated == true;
+        userName = isAuthenticated
+            ? principal.Identity?.Name ?? principal.FindFirst("email")?.Value ?? "User"
+            : string.Empty;
+    }
+
+    private async Task LogoutAsync()
+    {
+        await SupabaseService.WaitForInitializationAsync();
+        await SupabaseService.Client.Auth.SignOut();
+        ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserLogout();
+    }
+
+    public void Dispose() => AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
+}

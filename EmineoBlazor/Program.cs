@@ -21,6 +21,7 @@ public class Program
         builder.Services.AddSingleton<SupabaseService>();
         builder.Services.AddScoped<AuthenticationStateProvider, SupabaseAuthStateProvider>();
         builder.Services.AddPaddleRcl();
+        builder.Services.AddScoped<AuthDialogService>();
 
         var host = builder.Build();
 
