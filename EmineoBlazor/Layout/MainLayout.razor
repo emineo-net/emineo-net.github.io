@@ -1,19 +1,77 @@
 @inherits LayoutComponentBase
 @using SupabaseRcl.Components
 
-<div class="d-flex flex-column min-vh-100">
 
+
+<div class="page">
     <NavMenu />
 
-    <main class="flex-grow-1 container py-4">
+    <main>
         @Body
     </main>
 
-    <footer class="border-top py-3 text-center text-body-secondary small">
-        &copy; @DateTime.Now.Year MyApp
-    </footer>
+    <footer>
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4">
+                    <div class="navbar-brand mb-3">
+                        <span class="logo-dot"></span>
+                        Emineo
+                    </div>
+                    <p style="max-width: 320px;">
+                        AI-powered NuGet packages for .NET teams.
+                        Local or in the cloud. With or without Enterprise support.
+                    </p>
 
+                    @* MANDATORY INFO – please fill in *@
+                    <div class="footer-legal">
+                        <strong class="text-body">Emineo [Legal Form]</strong><br>
+                        Musterstraße 1<br>
+                        12345 Musterstadt, Germany<br>
+                        VAT ID: DE000000000<br>
+                        <a href="mailto:sales@emineo.dev">sales@emineo.dev</a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-2 offset-lg-2">
+                    <h5>Products</h5>
+                    <ul>
+                        <li><a href="/#resx">ResX AI Translator</a></li>
+                        <li><a href="/#unittest">UnitTest AI Generator</a></li>
+                        <li><a href="/#pricing">Pricing</a></li>
+                        <li><a href="/#enterprise">Enterprise</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="/docs">Documentation</a></li>
+                        <li><a href="/docs/quickstart">Quickstart</a></li>
+                        <li><a href="/changelog">Changelog</a></li>
+                        <li><a href="https://github.com/emineo-net" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-lg-2">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="/imprint">Imprint</a></li>
+                        <li><a href="/privacy">Privacy</a></li>
+                        <li><a href="/terms">Terms</a></li>
+                        <li><a href="/dpa">DPA</a></li>
+                        <li><a href="/license-terms">License terms</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-between gap-2 pt-4"
+                 style="border-top: 1px solid var(--bs-border-color); font-size: 0.82rem;">
+                <span>© 2025 Emineo. All rights reserved.</span>
+                <span>Made with ⚡ in Germany</span>
+            </div>
+        </div>
+    </footer>
 </div>
 
-@* Login/Register-Dialog: einmal im Layout, wird über den AuthDialogService ein-/ausgeblendet *@
 <AuthDialog />

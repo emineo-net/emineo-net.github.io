@@ -1,10 +1,14 @@
+@* Components/Layout/NavMenu.razor *@
 @using Microsoft.AspNetCore.Components.Routing
 @using SupabaseRcl.Components
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="" @onclick="Close">MyApp</a>
+        <a class="navbar-brand fw-bold" href="" @onclick="Close">
+            <span class="logo-dot"></span>
+            Emineo
+        </a>
 
         <button class="navbar-toggler" type="button"
                 aria-controls="mainNav"
@@ -17,7 +21,46 @@
         @* "show" wird von Blazor gesetzt, dadurch braucht es kein Bootstrap-JavaScript *@
         <div class="collapse navbar-collapse @(isOpen ? "show" : null)" id="mainNav">
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+                @* ---- Products dropdown (Blazor-gesteuert, kein Bootstrap-JS) ---- *@
+                <li class="nav-item dropdown @(isProductsOpen ? "show" : null)">
+                    <a class="nav-link dropdown-toggle @(isProductsOpen ? "show" : null)"
+                       href="#"
+                       role="button"
+                       aria-expanded="@isProductsOpen.ToString().ToLower()"
+                       @onclick="ToggleProducts"
+                       @onclick:preventDefault>
+                        Products
+                    </a>
+                    <ul class="dropdown-menu @(isProductsOpen ? "show" : null)">
+                        <li>
+                            <a class="dropdown-item" href="/#resx" @onclick="CloseAll">
+                                <strong>ResX AI Translator</strong>
+                                <div class="small text-secondary">Fill missing translations automatically</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/#unittest" @onclick="CloseAll">
+                                <strong>UnitTest AI Generator</strong>
+                                <div class="small text-secondary">Generate unit tests with AI</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                @* ---- Marketing anchor links (start page) ---- *@
+                <li class="nav-item">
+                    <a class="nav-link" href="/#pricing" @onclick="Close">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#enterprise" @onclick="Close">Enterprise</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#faq" @onclick="Close">FAQ</a>
+                </li>
+
+                @* ---- App routes (Blazor routing) ---- *@
                 <li class="nav-item">
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="Close">
                         Start
@@ -28,10 +71,20 @@
                         Dashboard
                     </NavLink>
                 </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="docs" @onclick="Close">
+                        Docs
+                    </NavLink>
+                </li>
             </ul>
 
-            <div class="d-flex align-items-center">
+            @* ---- Auth status + CTA ---- *@
+            <div class="d-flex align-items-center gap-2 flex-wrap">
                 <AuthStatus />
+
+                <a href="/#pricing" class="btn btn-brand" @onclick="Close">
+                    Get Started
+                </a>
             </div>
 
         </div>
@@ -40,7 +93,17 @@
 
 @code {
     private bool isOpen;
+    private bool isProductsOpen;
 
     private void Toggle() => isOpen = !isOpen;
-    private void Close() => isOpen = false;
+
+    private void ToggleProducts() => isProductsOpen = !isProductsOpen;
+
+    private void Close()
+    {
+        isOpen = false;
+        isProductsOpen = false;
+    }
+
+    private void CloseAll() => Close();
 }
