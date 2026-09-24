@@ -11,6 +11,34 @@
 
 <PageTitle>Emineo – AI Tools for .NET Teams</PageTitle>
 
+
+
+@* ============ AUTHENTICATION ============ *@
+<section id="authentication" class="bg-body-secondary">
+    <div class="container">
+        <AuthorizeView>
+            <Authorized  Context="auth">
+                <p>Willkommen zurück, @auth.User.Identity?.Name!</p>
+                <button @onclick="OpenCustomerPortal">Abo verwalten</button>
+
+                @{
+                    var userId = auth.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+                    var userEmail = auth.User.Identity?.Name ?? string.Empty;
+                }
+
+                <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
+                                    PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
+                                    CustomerEmail="@userEmail"
+                                    CustomerId="@userId"
+                                    ButtonText="Premium aktivieren"
+                                    Environment="sandbox"
+                                    OnSuccess="HandlePaymentSuccess"
+                                    OnClosed="HandleCheckoutClosed" />
+            
+
+
+
+
 @* ============ HERO ============ *@
 <header class="hero">
     <div class="container text-center">
@@ -39,39 +67,7 @@
 </header>
 
 
-@* ============ AUTHENTICATION ============ *@
-<section id="authentication" class="bg-body-secondary">
-    <div class="container">
-        <AuthorizeView>
-            <Authorized>
-                <h3>Willkommen zurück, @context.User.Identity?.Name!</h3>
 
-                <button @onclick="OpenCustomerPortal">Abo verwalten</button>
-
-                <p>Dieser Inhalt ist streng geheim.</p>
-
-                @{
-                    var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
-                    var userEmail = context.User.Identity?.Name ?? string.Empty;
-                }
-
-                <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
-                                    PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
-                                    CustomerEmail="@userEmail"
-                                    CustomerId="@userId"
-                                    ButtonText="Premium aktivieren"
-                                    Environment="sandbox"
-                                    OnSuccess="HandlePaymentSuccess"
-                                    OnClosed="HandleCheckoutClosed" />
-            </Authorized>
-            <NotAuthorized>
-                <h3>Halt!</h3>
-                <p>Bitte logge dich zuerst ein.</p>
-                @* <SupabaseRcl.Components.Login /> *@
-            </NotAuthorized>
-        </AuthorizeView>
-    </div>
-</section>
 
 
 @* ============ TRUST LOGOS ============ *@
@@ -927,3 +923,14 @@
         </div>
     </div>
 </div>
+
+                            
+</Authorized>
+<NotAuthorized>
+    <h3>Halt!</h3>
+    <p>Bitte logge dich zuerst ein.</p>
+    @* <SupabaseRcl.Components.Login /> *@
+</NotAuthorized>
+</AuthorizeView>
+</div>
+</section>
