@@ -1,0 +1,381 @@
+﻿@page "/docs/quickstart"
+
+<PageTitle>NetAI.TestGenerator – Quickstart</PageTitle>
+
+<h3 class="mb-4">Quickstart</h3>
+
+<!-- 1. Voraussetzungen -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">1. Voraussetzungen</h2>
+    <ul class="list-group list-group-flush shadow-sm rounded">
+        <li class="list-group-item">✅ <strong>.NET SDK</strong> installiert (getestet mit .NET 10)</li>
+        <li class="list-group-item">✅ Solution oder Projektverzeichnis mit <code class="inline">.sln</code> / <code class="inline">.slnx</code></li>
+        <li class="list-group-item">✅ Ein OpenAI-kompatibler LLM-Endpoint (lokal oder gehostet)</li>
+        <li class="list-group-item">✅ Optional: API-Key über Umgebungsvariable</li>
+    </ul>
+</section>
+
+<!-- 2. Installation -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">2. Installation</h2>
+
+    <p class="mb-2">Paket hinzufügen:</p>
+    <pre class="code-block mb-4"><code>dotnet add package NetAI.TestGenerator.Tasks</code></pre>
+
+    <p class="mb-2">Alternativ direkt in der <code class="inline">.csproj</code>:</p>
+    <pre class="code-block mb-4"><code>&lt;PackageReference Include="NetAI.TestGenerator.Tasks"
+                  Version="1.0.0"
+                  PrivateAssets="all" /&gt;</code></pre>
+
+    <p class="mb-2">Beim ersten Build werden <code class="inline">aisettings.json</code> und
+    <code class="inline">aisettings-schema.json</code> automatisch ins Projekt kopiert.</p>
+</section>
+
+<!-- 3. Konfiguration -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">3. Konfiguration</h2>
+
+    <p class="mb-2">Erstelle eine <code class="inline">aisettings.json</code> im Host-Projekt:</p>
+<pre class="code-block mb-4"><code>{
+  "$schema": "aisettings-schema.json",
+  "version": "1.1",
+  "buildConfigurationFilter": "all",
+  "environment": {
+    "targetDotNetVersion": "net10.0",
+    "testProjectName": "{ProjectName}.Tests"
+  },
+  "frameworks": {
+    "testFramework": "xunit",
+    "mockingFramework": "moq",
+    "useFluentAssertions": true,
+    "useAutoFixture": true,
+    "verbosePrompt": true
+  },
+  "codeStyle": {
+    "useFileScopedNamespace": true,
+    "useAsyncSuffix": true,
+    "maxLineLength": 120
+  },
+  "generationBehavior": {
+    "testStrategy": "Both",
+    "splitTestsByMethod": false,
+    "maxTestsPerClass": 15
+  },
+  "aiConfiguration": {
+    "baseUrl": "http://localhost:8080/",
+    "model": "gpt-4o",
+    "temperature": 0.2,
+    "timeoutMinutes": 5,
+    "systemPrompt": "You are an expert .NET developer. Write clean, maintainable code following Clean Code principles. Always use the Arrange-Act-Assert (AAA) pattern.",
+    "apiKey": null,
+    "apiKeyEnvVar": null
+  }
+}</code></pre>
+
+    <h6 class="fw-bold mt-4 mb-2">Wichtige Optionen</h6>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle bg-white shadow-sm">
+            <thead class="table-light">
+                <tr><th>Property</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var opt in Options)
+                {
+                    <tr>
+                        <td><code class="inline">@opt.Key</code></td>
+                        <td class="small">@opt.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- 4. Usage -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">4. Verwendung</h2>
+
+    <h6 class="fw-bold mb-2">MSBuild-Integration</h6>
+    <p class="mb-2">
+        Sobald das Paket referenziert ist und <code class="inline">aisettings.json</code>
+        existiert, läuft die Task automatisch während des Builds.
+    </p>
+
+    <p class="mb-2">Verhalten per MSBuild-Property steuern:</p>
+<pre class="code-block mb-4"><code>&lt;PropertyGroup&gt;
+  &lt;TestGeneratorEnabled&gt;true&lt;/TestGeneratorEnabled&gt;
+  &lt;TestGeneratorSemanticAnalysisEnabled&gt;true&lt;/TestGeneratorSemanticAnalysisEnabled&gt;
+  &lt;TestGeneratorPromptOnly&gt;false&lt;/TestGeneratorPromptOnly&gt;
+  &lt;TestGeneratorFailOnError&gt;false&lt;/TestGeneratorFailOnError&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <ul class="list-group shadow-sm mb-4">
+        <li class="list-group-item"><code class="inline">TestGeneratorEnabled=false</code> – deaktiviert die Task.</li>
+        <li class="list-group-item"><code class="inline">TestGeneratorSemanticAnalysisEnabled=false</code> – überspringt die semantische Analyse.</li>
+        <li class="list-group-item"><code class="inline">TestGeneratorPromptOnly=true</code> – schreibt nur Prompts und Entwürfe, ohne zu kompilieren.</li>
+        <li class="list-group-item"><code class="inline">TestGeneratorFailOnError=true</code> – lässt den Build bei Fehlern fehlschlagen.</li>
+    </ul>
+
+    <h6 class="fw-bold mb-2">Prompt-Only-Modus</h6>
+    <pre class="code-block mb-4"><code>dotnet build -p:TestGeneratorPromptOnly=true</code></pre>
+
+    <h6 class="fw-bold mb-2">Programmatische Verwendung</h6>
+<pre class="code-block"><code>using NetAI.TestGenerator.Core;
+using NetAI.TestGenerator.Core.Config;
+
+var config = AiSettingsLoader.Load(projectDir);
+
+// Der Klassenname ist historisch – der Orchestrator generiert Tests.
+var orchestrator = new ResxTranslationOrchestrator(config);
+
+var result = await orchestrator.ProcessProjectAsync(
+    sourceFilePath: @@"C:\src\MyApp\Services\OrderService.cs",
+    testProjectDirectory: @@"C:\src\MyApp\tests\UnitTests\MyApp.Tests",
+    logInfo: Console.WriteLine,
+    solutionPath: @@"C:\src\MyApp\MyApp.sln",
+    promptOnly: false);
+
+Console.WriteLine(result);</code></pre>
+</section>
+
+<!-- 5. Unterstützte Frameworks -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">5. Unterstützte Frameworks</h2>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle bg-white shadow-sm">
+            <thead class="table-light">
+                <tr><th>Bereich</th><th>Support</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var fw in Frameworks)
+                {
+                    <tr>
+                        <td>@fw.Area</td>
+                        <td class="small">@fw.Support</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- 6. Beispiele -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">6. Beispiele</h2>
+
+    <h6 class="fw-bold mb-2">Generierter Test – xUnit + Moq</h6>
+<pre class="code-block mb-4"><code>using Moq;
+using Xunit;
+
+namespace MyProject.Tests
+{
+    public class OrderServiceTests
+    {
+        [Fact]
+        public async Task ProcessOrder_EmptyCart_ThrowsInvalidOperationException()
+        {
+            var mockRepo = new Mock&lt;IOrderRepository&gt;();
+            var service = new OrderService(mockRepo.Object);
+
+            await Assert.ThrowsAsync&lt;InvalidOperationException&gt;(
+                () =&gt; service.ProcessOrderAsync(new Cart()));
+        }
+    }
+}</code></pre>
+
+    <h6 class="fw-bold mb-2">Übersprungener Test – nicht testbares <code class="inline">async void</code></h6>
+<pre class="code-block"><code>[Fact(Skip = "Method is async void. Refactor into a testable async Task.")]
+public void OnButtonClick_IsNotDirectlyTestable()
+{
+}</code></pre>
+</section>
+
+<!-- 7. Technische Highlights -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">7. Technische Highlights</h2>
+    <div class="row g-3">
+        @foreach (var h in Highlights)
+        {
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title">@h.Title</h6>
+                        <p class="card-text small text-muted mb-0">@h.Description</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- 8. API Overview -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">8. API Overview</h2>
+    <div class="accordion shadow-sm" id="apiAccordion">
+        @{ var i = 0; }
+        @foreach (var api in ApiItems)
+        {
+            var id = $"api{i++}";
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#@id">
+                        <code class="inline">@api.Name</code>
+                    </button>
+                </h2>
+                <div id="@id" class="accordion-collapse collapse" data-bs-parent="#apiAccordion">
+                    <div class="accordion-body small">
+                        <p class="mb-2">@api.Description</p>
+                        <pre class="code-block mb-0"><code>@api.Signature</code></pre>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- 9. Troubleshooting -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">9. Troubleshooting</h2>
+    <div class="accordion shadow-sm" id="tsAccordion">
+        @{ var j = 0; }
+        @foreach (var ts in Troubleshooting)
+        {
+            var id = $"ts{j++}";
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#@id">
+                        @ts.Title
+                    </button>
+                </h2>
+                <div id="@id" class="accordion-collapse collapse" data-bs-parent="#tsAccordion">
+                    <div class="accordion-body small">@ts.Description</div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- 10. Bekannte Einschränkungen -->
+<section class="mb-5">
+    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">10. Bekannte Einschränkungen</h2>
+    <div class="alert alert-warning shadow-sm mb-0" role="alert">
+        <ul class="mb-0 ps-3">
+            @foreach (var limit in Limitations)
+            {
+                <li>@limit</li>
+            }
+        </ul>
+    </div>
+</section>
+
+
+@code {
+    private record Option(string Key, string Value);
+    private record Framework(string Area, string Support);
+    private record Highlight(string Title, string Description);
+    private record ApiItem(string Name, string Description, string Signature);
+    private record TroubleItem(string Title, string Description);
+
+    private static readonly Option[] Options =
+    {
+        new("buildConfigurationFilter", "all, Debug oder Release – steuert, wann die Task läuft."),
+        new("environment.targetDotNetVersion", "Target Framework für das Test-Projekt."),
+        new("environment.testProjectName", "Name des generierten Test-Projekts."),
+        new("frameworks.testFramework", "xunit, nunit oder mstest."),
+        new("frameworks.mockingFramework", "moq, nsubstitute oder fakeiteasy."),
+        new("frameworks.useFluentAssertions", "Aktiviert FluentAssertions in generierten Tests."),
+        new("frameworks.useAutoFixture", "Aktiviert AutoFixture für Testdaten."),
+        new("frameworks.verbosePrompt", "Erweiterte Prompt-Erklärungen für das Modell."),
+        new("codeStyle.useFileScopedNamespace", "File-scoped Namespaces im generierten Code."),
+        new("codeStyle.useAsyncSuffix", "Async-Methoden mit Async-Suffix."),
+        new("generationBehavior.testStrategy", "unit, integration oder both."),
+        new("generationBehavior.maxTestsPerClass", "Maximale Anzahl Tests pro Testklasse."),
+        new("aiConfiguration.baseUrl", "OpenAI-kompatibler Endpoint. Muss mit / enden."),
+        new("aiConfiguration.model", "Modellname, z. B. gpt-4o oder ein lokales Modell."),
+        new("aiConfiguration.apiKey / apiKeyEnvVar", "API-Key direkt oder über Umgebungsvariable.")
+    };
+
+    private static readonly Framework[] Frameworks =
+    {
+        new("Test-Frameworks",   "xUnit, NUnit, MSTest"),
+        new("Mocking",           "Moq, NSubstitute, FakeItEasy"),
+        new("Assertions",        "FluentAssertions oder Framework-Asserts"),
+        new("Testdaten",         "AutoFixture optional"),
+        new("UI/STA",            "WPF-Erkennung, Xunit.StaFact, NUnit [Apartment(ApartmentState.STA)], MSTest [STATestMethod]"),
+        new("Projektformate",    "SDK-Style, Central Package Management, Directory.Packages.props"),
+        new("Target Frameworks", "netstandard2.0 (Task), net10.0 (Core)")
+    };
+
+    private static readonly Highlight[] Highlights =
+    {
+        new("1. Semantische Analyse mit Roslyn",
+            "IMethodSymbol, INamedTypeSymbol, IOperation, Interface-/Abstract-/Static-Erkennung, Call-Graph, async void, CancellationToken, WPF/STA – erzeugt einen TestabilityReport mit Strategie, Blockern und Empfehlungen."),
+        new("2. KI füllt nur das Skelett",
+            "Usings, Namespace, Klassenname, Mock-Felder, SUT-Konstruktor und Attribute bleiben unverändert. Das Modell füllt ausschließlich den AI-AREA-Bereich."),
+        new("3. Compile-Validierung & Auto-Repair",
+            "TestProjectManager erstellt/aktualisiert das Test-Projekt, referenziert die Quelle, löst NuGet-Pakete, ergänzt InternalsVisibleTo, kompiliert und repariert in mehreren Stufen."),
+        new("4. WPF- und STA-Support",
+            "WPF-Typen (Window, UserControl, DependencyObject, DispatcherObject) werden erkannt; passende STA-Test-Attribute oder Skip-Attribute inkl. Kommentar werden gesetzt."),
+        new("5. Optional: .resx-Übersetzung",
+            "Der TranslationPromptBuilder unterstützt zusätzlich KI-gestützte Lokalisierung von .resx-Dateien – unabhängig von der Test-Generierung."),
+        new("6. MSBuild-first",
+            "Läuft automatisch beim Build – ohne zusätzlichen CLI-Aufruf. Verhalten per MSBuild-Properties steuerbar.")
+    };
+
+    private static readonly ApiItem[] ApiItems =
+    {
+        new("AiSettingsLoader",
+            "Lädt die aisettings.json-Konfiguration für ein Projektverzeichnis.",
+            "AiSettings Load(string projectDir)"),
+        new("ResxTranslationOrchestrator",
+            "Haupt-Orchestrator für die Test-Generierung. Der Klassenname ist historisch; er generiert Tests, keine Übersetzungen.",
+@"ResxTranslationOrchestrator(AiSettings config)
+
+Task<string> ProcessProjectAsync(
+    string sourceFilePath,
+    string testProjectDirectory,
+    Action<string> logInfo,
+    string solutionPath,
+    bool promptOnly)"),
+        new("TestProjectManager",
+            "Erstellt/aktualisiert das Test-Projekt, löst Pakete auf, referenziert das Quellprojekt und kompiliert die generierten Tests.",
+            "class TestProjectManager"),
+        new("RoslynDllTestabilityAnalyzer",
+            "Führt die semantische Analyse durch und erzeugt einen TestabilityReport mit Strategie, Blockern und Empfehlungen.",
+            "class RoslynDllTestabilityAnalyzer"),
+        new("UnitTestSkeletonGenerator",
+            "Erzeugt das bindende Test-Skelett, das das LLM ausfüllen muss.",
+            "class UnitTestSkeletonGenerator"),
+        new("LocalLlmClient",
+            "Übernimmt die Kommunikation mit einem OpenAI-kompatiblen LLM-Endpoint.",
+            "class LocalLlmClient")
+    };
+
+    private static readonly TroubleItem[] Troubleshooting =
+    {
+        new("Fehlende AI-Konfiguration",
+            "Stelle sicher, dass aisettings.json im Projekt-Root oder im erwarteten Build-Verzeichnis vorhanden ist."),
+        new("Compilation-Fehler",
+            "Prüfe Target-Framework-Versionen und Paket-Referenzen. Verifiziere, ob das generierte Test-Projekt das Quellprojekt korrekt referenziert."),
+        new("API-Zugriffsprobleme",
+            "Bestätige, dass der lokale LLM-Endpoint bzw. die Modell-Credentials korrekt konfiguriert sind. Die baseUrl muss mit / enden."),
+        new("File Locks während des Builds",
+            "Der Generator unterscheidet Umgebungsprobleme wie gesperrte Dateien von echten Test-Fehlern. Schließe Prozesse, die die Test-Assembly halten."),
+        new("WPF/STA-Tests werden übersprungen",
+            "Stelle sicher, dass die passenden STA-Test-Pakete für dein Test-Framework verfügbar sind, z. B. Xunit.StaFact für xUnit."),
+        new("NuGet-Pakete fehlen",
+            "Der Generator versucht, fehlende Pakete automatisch aufzulösen. Bei Central Package Management muss Directory.Packages.props vorhanden und valide sein.")
+    };
+
+    private static readonly string[] Limitations =
+    {
+        "Beste Ergebnisse erfordern aussagekräftige XML-Dokumentationskommentare und klare Methodennamen.",
+        "Komplexe Abhängigkeitsgraphen können manuelle Anpassungen erfordern.",
+        "Die Performance hängt vom lokalen LLM und der verfügbaren Hardware ab.",
+        "async void-Methoden werden erkannt, sind aber nicht direkt testbar; der Generator fügt ein Skip-Attribut und einen Refactoring-Hinweis hinzu.",
+        "WPF/STA-Support hängt vom gewählten Test-Framework und der Verfügbarkeit passender STA-Pakete ab.",
+        "Die KI-Repair-Schleife verbessert die Kompilierbarkeit, garantiert aber keine perfekte semantische Korrektheit in jedem komplexen Szenario."
+    };
+}

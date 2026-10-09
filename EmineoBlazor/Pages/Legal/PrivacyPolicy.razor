@@ -1,0 +1,324 @@
+@page "/legal/privacy-policy"
+
+<PageTitle>Privacy Policy</PageTitle>
+
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-8">
+
+            <h1 class="mb-3">Privacy Policy</h1>
+
+            <p class="text-body-secondary fst-italic mb-4">
+                Last updated: [TODO: Date]<br />
+                Version: [TODO: 1.0]
+            </p>
+
+            <section>
+                <h2 class="h4 mb-3">1. Controller</h2>
+                <p>The controller within the meaning of the GDPR is:</p>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <address class="mb-0">
+                            [TODO: Company name]<br />
+                            [TODO: Street No.]<br />
+                            [TODO: ZIP City]<br />
+                            [TODO: Country]<br />
+                            Email: <a href="mailto:[TODO: privacy email]" class="link-primary">[TODO: privacy email]</a><br />
+                            Phone: [TODO]
+                        </address>
+                    </div>
+                </div>
+
+                <p class="mb-0">
+                    Data Protection Officer (if required): [TODO: Name, contact]
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">2. Overview</h2>
+                <p class="mb-0">
+                    This Privacy Policy informs you about the nature, scope, and purpose of the
+                    processing of personal data when using our website and our SaaS Service.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">3. Categories of Data Processed</h2>
+                <p>We process the following categories of personal data:</p>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Registration data</dt>
+                    <dd class="col-sm-8">email address, possibly name, password hash (via Supabase)</dd>
+
+                    <dt class="col-sm-4">Payment data</dt>
+                    <dd class="col-sm-8">processed by Paddle; we may receive payment status, not full card data</dd>
+
+                    <dt class="col-sm-4">Usage data</dt>
+                    <dd class="col-sm-8">IP address, timestamps, pages visited, log files</dd>
+
+                    <dt class="col-sm-4">Content data</dt>
+                    <dd class="col-sm-8">uploaded source code, prompts, generated tests</dd>
+
+                    <dt class="col-sm-4">Communication data</dt>
+                    <dd class="col-sm-8">support requests, emails</dd>
+
+                    <dt class="col-sm-4">Contract data</dt>
+                    <dd class="col-sm-8 mb-0">subscription, invoices, cancellations</dd>
+                </dl>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">4. Purposes and Legal Bases</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Purpose</th>
+                                <th scope="col">Legal basis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Provision of the Service</td>
+                                <td>Art. 6(1)(b) GDPR (contract)</td>
+                            </tr>
+                            <tr>
+                                <td>Payment processing</td>
+                                <td>Art. 6(1)(b) GDPR</td>
+                            </tr>
+                            <tr>
+                                <td>Security, fraud prevention</td>
+                                <td>Art. 6(1)(f) GDPR (legitimate interest)</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing / newsletter</td>
+                                <td>Art. 6(1)(a) GDPR (consent)</td>
+                            </tr>
+                            <tr>
+                                <td>Compliance with legal obligations</td>
+                                <td>Art. 6(1)(c) GDPR</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">5. Recipients and Subprocessors</h2>
+                <p>We use the following third-party providers:</p>
+
+                <div class="accordion mb-3" id="subprocessorsAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingSupabase">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseSupabase"
+                                    aria-expanded="false" aria-controls="collapseSupabase">
+                                <strong>Supabase</strong>&nbsp;– authentication and data storage
+                            </button>
+                        </h3>
+                        <div id="collapseSupabase" class="accordion-collapse collapse"
+                             aria-labelledby="headingSupabase" data-bs-parent="#subprocessorsAccordion">
+                            <div class="accordion-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Provider</dt>
+                                    <dd class="col-sm-8">[TODO]</dd>
+
+                                    <dt class="col-sm-4">Region</dt>
+                                    <dd class="col-sm-8">[TODO]</dd>
+
+                                    <dt class="col-sm-4">DPA</dt>
+                                    <dd class="col-sm-8 mb-0">[TODO: yes/no]</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingPaddle">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapsePaddle"
+                                    aria-expanded="false" aria-controls="collapsePaddle">
+                                <strong>Paddle</strong>&nbsp;– payment processing (Merchant of Record)
+                            </button>
+                        </h3>
+                        <div id="collapsePaddle" class="accordion-collapse collapse"
+                             aria-labelledby="headingPaddle" data-bs-parent="#subprocessorsAccordion">
+                            <div class="accordion-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Provider</dt>
+                                    <dd class="col-sm-8">[TODO]</dd>
+
+                                    <dt class="col-sm-4">DPA</dt>
+                                    <dd class="col-sm-8 mb-0">[TODO]</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingLlm">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseLlm"
+                                    aria-expanded="false" aria-controls="collapseLlm">
+                                <strong>LLM provider</strong>&nbsp;– processing of prompts and code
+                            </button>
+                        </h3>
+                        <div id="collapseLlm" class="accordion-collapse collapse"
+                             aria-labelledby="headingLlm" data-bs-parent="#subprocessorsAccordion">
+                            <div class="accordion-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Provider</dt>
+                                    <dd class="col-sm-8">[TODO]</dd>
+
+                                    <dt class="col-sm-4">Hosting region</dt>
+                                    <dd class="col-sm-8">[TODO]</dd>
+
+                                    <dt class="col-sm-4">DPA</dt>
+                                    <dd class="col-sm-8 mb-0">[TODO]</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingHosting">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseHosting"
+                                    aria-expanded="false" aria-controls="collapseHosting">
+                                <strong>Hosting</strong>&nbsp;– server operation
+                            </button>
+                        </h3>
+                        <div id="collapseHosting" class="accordion-collapse collapse"
+                             aria-labelledby="headingHosting" data-bs-parent="#subprocessorsAccordion">
+                            <div class="accordion-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Provider</dt>
+                                    <dd class="col-sm-8">[TODO]</dd>
+
+                                    <dt class="col-sm-4">Region</dt>
+                                    <dd class="col-sm-8 mb-0">[TODO]</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mb-0">
+                    A current subprocessor list is available at
+                    <a href="[TODO: URL]" class="link-primary">[TODO: URL]</a>.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">6. Transfers to Third Countries</h2>
+                <div class="alert alert-secondary mb-0" role="alert">
+                    [TODO: State whether data is transferred to third countries, e.g. USA. If so:
+                    legal basis, Standard Contractual Clauses, adequacy decision.]
+                </div>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">7. Retention Period</h2>
+                <p>
+                    We store personal data only as long as necessary for the stated purposes or as
+                    required by statutory retention obligations.
+                </p>
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Account data</dt>
+                    <dd class="col-sm-7">until account deletion + [TODO: e.g. 30 days]</dd>
+
+                    <dt class="col-sm-5">Invoice data</dt>
+                    <dd class="col-sm-7">[TODO: e.g. 10 years] (statutory retention)</dd>
+
+                    <dt class="col-sm-5">Log files</dt>
+                    <dd class="col-sm-7">[TODO: e.g. 30 days]</dd>
+
+                    <dt class="col-sm-5">Content data (code, prompts)</dt>
+                    <dd class="col-sm-7 mb-0">[TODO: e.g. 30 days] after contract end</dd>
+                </dl>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">8. Data Subject Rights</h2>
+                <p>You have the following rights:</p>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item">Access (Art. 15 GDPR)</li>
+                    <li class="list-group-item">Rectification (Art. 16 GDPR)</li>
+                    <li class="list-group-item">Erasure (Art. 17 GDPR)</li>
+                    <li class="list-group-item">Restriction of processing (Art. 18 GDPR)</li>
+                    <li class="list-group-item">Data portability (Art. 20 GDPR)</li>
+                    <li class="list-group-item">Objection (Art. 21 GDPR)</li>
+                    <li class="list-group-item">Withdrawal of consent (Art. 7(3) GDPR)</li>
+                </ul>
+                <p>
+                    To exercise these rights, contact us at
+                    <a href="mailto:[TODO: email]" class="link-primary">[TODO: email]</a>.
+                </p>
+                <p class="mb-0">
+                    You also have the right to lodge a complaint with a supervisory authority.
+                    The competent authority is [TODO: supervisory authority].
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">9. Cookies and Tracking</h2>
+                <p>We use the following cookies / technologies:</p>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Essential cookies</span>
+                        <span class="badge text-bg-secondary">[TODO]</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Analytics cookies</span>
+                        <span class="badge text-bg-secondary">[TODO]</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Marketing cookies</span>
+                        <span class="badge text-bg-secondary">[TODO]</span>
+                    </li>
+                </ul>
+                <p class="mb-0">
+                    Further information is available in our Cookie Policy at
+                    <a href="[TODO: URL]" class="link-primary">[TODO: URL]</a>.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">10. Security</h2>
+                <p class="mb-0">
+                    We implement appropriate technical and organizational measures to protect
+                    personal data. These include
+                    [TODO: e.g. encryption, access controls, RLS in Supabase].
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">11. AI Processing</h2>
+                <div class="alert alert-warning mb-0" role="alert">
+                    <p class="mb-0">
+                        When using AI-powered features, inputs (e.g. source code, prompts) may be
+                        transmitted to the LLM provider. We recommend not including personal data
+                        in prompts.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">12. Changes</h2>
+                <p class="mb-0">
+                    We reserve the right to update this Privacy Policy. The current version is
+                    always available at
+                    <a href="https://emineo-net.github.io//legal/privacy-policy" target="_blank" class="link-primary">emineo-net.github.io//legal/privacy-policy</a>.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="h4 mb-3">13. Contact</h2>
+                <p class="mb-0">
+                    For privacy questions:
+                    <a href="mailto:[TODO: email]" class="link-primary">[TODO: email]</a>
+                </p>
+            </section>
+
+        </div>
+    </div>
