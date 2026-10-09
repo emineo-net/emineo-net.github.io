@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.JSInterop;
 using SupabaseRcl.Services;
 
 namespace EmineoBlazor.Pages;
@@ -33,13 +34,25 @@ namespace EmineoBlazor.Pages;
         public class SalesInquiry
         {
             public string Plan { get; set; } = "";
-            public string Name { get; set; } = "";
-            public string Company { get; set; } = "";
-            public string Email { get; set; } = "";
+
+            [Required(ErrorMessage = "Please enter your name.")]
+            public string Name { get; set; } = string.Empty;
+
+            [Required(ErrorMessage = "Please enter your company.")]
+            public string Company { get; set; } = string.Empty;
+
+            [Required(ErrorMessage = "Please enter your work email.")]
+            [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+            public string Email { get; set; } = string.Empty;
+
             public string TeamSize { get; set; } = "6-20";
             public string Deployment { get; set; } = "cloud";
-            public string Message { get; set; } = "";
-        }
+
+            // 👇 NEU
+            public string Product { get; set; } = "resx";
+
+            public string Message { get; set; } = string.Empty;
+    }
 
         private SalesInquiry salesModel = new();
 
