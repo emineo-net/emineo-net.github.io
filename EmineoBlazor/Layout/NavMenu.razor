@@ -1,6 +1,7 @@
 @* Components/Layout/NavMenu.razor *@
 @using Microsoft.AspNetCore.Components.Routing
 @using SupabaseRcl.Components
+@inject IJSRuntime JS
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
     <div class="container">
@@ -78,13 +79,21 @@
                 </li>
             </ul>
 
-            @* ---- Auth status + CTA ---- *@
+            @* ---- Auth status + CTA + theme toggle ---- *@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <AuthStatus />
 
                 <a href="/docs/getstarted" class="btn btn-brand" @onclick="Close">
                     Get Started
                 </a>
+
+                <button type="button"
+                        class="theme-toggle"
+                        @onclick="ToggleTheme"
+                        title="@ThemeToggleTitle"
+                        aria-label="@ThemeToggleTitle">
+                    <span aria-hidden="true">@themeIcon</span>
+                </button>
             </div>
 
         </div>
@@ -94,6 +103,11 @@
 @code {
     private bool isOpen;
     private bool isProductsOpen;
+
+    private string themeIcon = "☀️"; // will be corrected on first render
+
+    private string ThemeToggleTitle =>
+        themeIcon == "☀️" ? "Switch to light theme" : "Switch to dark theme";
 
     private void Toggle() => isOpen = !isOpen;
 
@@ -106,4 +120,42 @@
     }
 
     private void CloseAll() => Close();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        // Read the theme that the inline script in index.html already applied.
+        // Falls back gracefully if JS is unavailable.
+        try
+        {
+            var theme = await JS.InvokeAsync<string>("emineoTheme.get");
+            UpdateIcon(theme);
+            StateHasChanged();
+        }
+        catch
+        {
+            // no-op: keep default icon
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        try
+        {
+            var newTheme = await JS.InvokeAsync<string>("emineoTheme.toggle");
+            UpdateIcon(newTheme);
+        }
+        catch
+        {
+            // no-op
+        }
+    }
+
+    private void UpdateIcon(string theme)
+    {
+        // Show the icon of the mode you'll switch TO.
+        // Dark mode → sun (click to go light). Light mode → moon (click to go dark).
+        themeIcon = theme == "dark" ? "☀️" : "🌙";
+    }
 }
