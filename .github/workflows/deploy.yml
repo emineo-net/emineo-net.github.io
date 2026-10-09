@@ -18,8 +18,8 @@ jobs:
     - name: Publish Project
       run: dotnet publish -c Release -o release
 
-    - name: Add .nojekyll
-      run: touch release/wwwroot/.nojekyll
+    # - name: Add .nojekyll
+    #   run: touch release/wwwroot/.nojekyll
 
     - name: Change base-tag in index.html to match repository
       run: sed -i 's/<base href="\/" \/>/<base href="\/" \/>/g' release/wwwroot/index.html
