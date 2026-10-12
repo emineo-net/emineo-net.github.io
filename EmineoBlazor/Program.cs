@@ -20,7 +20,6 @@ public class Program
         builder.Services.AddAuthorizationCore();
         builder.Services.AddSingleton<SupabaseService>();
         builder.Services.AddScoped<AuthenticationStateProvider, SupabaseAuthStateProvider>();
-        builder.Services.AddPaddleRcl();
         builder.Services.AddScoped<AuthDialogService>();
         builder.Services.AddScoped<DocsContentService>();
 

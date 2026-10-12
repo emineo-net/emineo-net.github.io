@@ -2,13 +2,9 @@
 
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
-@using EmineoBlazor.Components.Marketing
-@using EmineoBlazor.Data
-@using PaddleRcl.Services
 @using SupabaseRcl.Services
 
 @inject SupabaseService SupabaseService
-@inject PaddlePortalService PortalService
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Emineo – AI tools for .NET teams</PageTitle>
@@ -34,7 +30,6 @@
 
         <div class="d-flex gap-3 justify-content-center flex-wrap mb-4">
             <a href="/products" class="btn btn-brand btn-lg-custom">Explore products</a>
-            <a href="/pricing" class="btn btn-outline-brand btn-lg-custom">See pricing</a>
         </div>
     </div>
 </header>
@@ -53,19 +48,7 @@
                     <div class="small">
                         Welcome back, <strong>@auth.User.Identity?.Name</strong>
                     </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button class="btn btn-outline-brand" @onclick="OpenCustomerPortal">
-                            Manage subscription
-                        </button>
-                        <PaddleRcl.Checkout VendorToken="test_69e4846308930e14bac032aac4d"
-                                            PriceId="pri_01m359hq9t1gmf3j4k7kbhycts"
-                                            CustomerEmail="@userEmail"
-                                            CustomerId="@userId"
-                                            ButtonText="Activate Premium"
-                                            Environment="sandbox"
-                                            OnSuccess="HandlePaymentSuccess"
-                                            OnClosed="HandleCheckoutClosed" />
-                    </div>
+                    
                 </div>
             </div>
         </section>
@@ -180,16 +163,6 @@
     private void HandlePaymentSuccess(object data) => Console.WriteLine("Zahlung war erfolgreich!");
     private void HandleCheckoutClosed() => Console.WriteLine("Checkout geschlossen.");
 
-    private async Task OpenCustomerPortal()
-    {
-        await SupabaseService.WaitForInitializationAsync();
-        var token = SupabaseService.Client.Auth.CurrentSession?.AccessToken;
-        if (string.IsNullOrWhiteSpace(token)) return;
-
-        var url = await PortalService.GetCustomerPortalUrlAsync(token);
-        if (url is not null)
-            await JSRuntime.InvokeVoidAsync("open", url, "_blank");
-    }
 
     private async Task ContactSales(string plan)
     {
