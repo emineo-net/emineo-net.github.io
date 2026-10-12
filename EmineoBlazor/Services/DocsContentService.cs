@@ -1,15 +1,13 @@
-﻿using System.Net.Http;
-
-namespace EmineoBlazor.Services;
+﻿namespace EmineoBlazor.Services;
 
 /// <summary>
-/// Loads README markdown files from wwwroot/docs/ at runtime.
-/// Caches each file after the first load so navigation is instant.
+///     Loads README markdown files from wwwroot/docs/ at runtime.
+///     Caches each file after the first load so navigation is instant.
 /// </summary>
 public sealed class DocsContentService
 {
-    private readonly HttpClient _http;
     private readonly Dictionary<string, string> _cache = new();
+    private readonly HttpClient _http;
 
     public DocsContentService(HttpClient http)
     {
@@ -19,7 +17,9 @@ public sealed class DocsContentService
     public async Task<string> GetMarkdownAsync(string fileName)
     {
         if (_cache.TryGetValue(fileName, out var cached))
+        {
             return cached;
+        }
 
         try
         {

@@ -1,5 +1,4 @@
 ﻿@* Components/Docs/MarkdownView.razor *@
-@using EmineoBlazor.Services
 
 @if (string.IsNullOrWhiteSpace(Markdown))
 {
@@ -16,5 +15,5 @@ else
 }
 
 @code {
-    [Parameter, EditorRequired] public string Markdown { get; set; } = "";
+    [Parameter] [EditorRequired] public string Markdown { get; set; } = "";
 }

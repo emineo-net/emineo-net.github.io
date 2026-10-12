@@ -1,7 +1,4 @@
 @* Layout/NavMenu.razor *@
-@using Microsoft.AspNetCore.Components.Routing
-@using EmineoBlazor.Data
-@using SupabaseRcl.Components
 @inject IJSRuntime JS
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
@@ -42,7 +39,9 @@
                                 </a>
                             </li>
                         }
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <a class="dropdown-item" href="/products" @onclick="CloseAll">
                                 <strong>All products</strong>
@@ -67,7 +66,9 @@
                                 <strong>Documentation hub</strong>
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         @foreach (var product in Products.All)
                         {
                             <li>
@@ -76,10 +77,18 @@
                                 </a>
                             </li>
                         }
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/docs/quickstart" @onclick="CloseAll">Quickstart</a></li>
-                        <li><a class="dropdown-item" href="/docs/getstarted" @onclick="CloseAll">Get started</a></li>
-                        <li><a class="dropdown-item" href="/changelog" @onclick="CloseAll">Changelog</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/docs/quickstart" @onclick="CloseAll">Quickstart</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/docs/getstarted" @onclick="CloseAll">Get started</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/changelog" @onclick="CloseAll">Changelog</a>
+                        </li>
                     </ul>
                 </li>
 
@@ -90,7 +99,7 @@
 
             @* ---- Auth status + CTA + theme toggle ---- *@
             <div class="d-flex align-items-center gap-2 flex-wrap">
-                <AuthStatus />
+                <AuthStatus/>
 
                 <a href="/docs/getstarted" class="btn btn-brand" @onclick="Close">
                     Get Started
@@ -117,14 +126,36 @@
     // Dark mode → sun (click to go light). Light mode → moon (click to go dark).
     private string themeIcon = "bi-sun";
 
-    private string ThemeToggleTitle =>
-        themeIcon == "bi-sun" ? "Switch to light theme" : "Switch to dark theme";
+    private string ThemeToggleTitle => themeIcon == "bi-sun" ? "Switch to light theme" : "Switch to dark theme";
 
-    private void Toggle() => isOpen = !isOpen;
-    private void ToggleProducts() { isProductsOpen = !isProductsOpen; isDocsOpen = false; }
-    private void ToggleDocs() { isDocsOpen = !isDocsOpen; isProductsOpen = false; }
-    private void Close() { isOpen = false; isProductsOpen = false; isDocsOpen = false; }
-    private void CloseAll() => Close();
+    private void Toggle()
+    {
+        isOpen = !isOpen;
+    }
+
+    private void ToggleProducts()
+    {
+        isProductsOpen = !isProductsOpen;
+        isDocsOpen = false;
+    }
+
+    private void ToggleDocs()
+    {
+        isDocsOpen = !isDocsOpen;
+        isProductsOpen = false;
+    }
+
+    private void Close()
+    {
+        isOpen = false;
+        isProductsOpen = false;
+        isDocsOpen = false;
+    }
+
+    private void CloseAll()
+    {
+        Close();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -135,7 +166,9 @@
             UpdateIcon(theme);
             StateHasChanged();
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     private async Task ToggleTheme()
@@ -145,9 +178,14 @@
             var newTheme = await JS.InvokeAsync<string>("emineoTheme.toggle");
             UpdateIcon(newTheme);
         }
-        catch { }
+        catch
+        {
+        }
     }
 
-    private void UpdateIcon(string theme) =>
+    private void UpdateIcon(string theme)
+    {
         themeIcon = theme == "dark" ? "bi-sun" : "bi-moon-stars";
+    }
+
 }

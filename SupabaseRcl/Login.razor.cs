@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using SupabaseRcl.Services;
 using SupabaseRcl.Providers;
+using SupabaseRcl.Services;
 
 namespace SupabaseRcl.Components;
 
@@ -13,9 +13,9 @@ public partial class Login : ComponentBase
     protected string Email { get; set; } = string.Empty;
     protected string Password { get; set; } = string.Empty;
     protected string ErrorMessage { get; set; } = string.Empty;
-    protected bool IsRegisterMode { get; set; } = false;
-    protected bool IsLoading { get; set; } = false;
-    protected bool IsAuthenticated { get; set; } = false;
+    protected bool IsRegisterMode { get; set; }
+    protected bool IsLoading { get; set; }
+    protected bool IsAuthenticated { get; set; }
     protected string CurrentUserEmail { get; set; } = string.Empty;
 
     // Neu: zeigt an, ob Supabase noch initialisiert wird (z.B. für einen Spinner im Markup)
@@ -40,7 +40,10 @@ public partial class Login : ComponentBase
         }
     }
 
-    protected void ToggleMode() => IsRegisterMode = !IsRegisterMode;
+    protected void ToggleMode()
+    {
+        IsRegisterMode = !IsRegisterMode;
+    }
 
     protected async Task HandleSubmit()
     {

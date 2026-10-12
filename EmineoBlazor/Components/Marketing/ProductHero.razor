@@ -1,5 +1,4 @@
 @* Components/Marketing/ProductHero.razor *@
-@using EmineoBlazor.Data
 
 <header class="hero">
     <div class="container text-center">
@@ -33,9 +32,9 @@
 </header>
 
 @code {
-    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+    [Parameter] [EditorRequired] public Product Product { get; set; } = default!;
     [Parameter] public string Badge { get; set; } = "MIT-licensed - NuGet - MSBuild-ready";
-    [Parameter, EditorRequired] public string HeadlineHtml { get; set; } = "";
-    [Parameter, EditorRequired] public string SubLead { get; set; } = "";
+    [Parameter] [EditorRequired] public string HeadlineHtml { get; set; } = "";
+    [Parameter] [EditorRequired] public string SubLead { get; set; } = "";
     [Parameter] public string PrimaryCta { get; set; } = "Start";
 }

@@ -1,12 +1,13 @@
 @* Components/Marketing/UseCaseGrid.razor *@
-@using EmineoBlazor.Data
 
 <div class="row g-4">
     @foreach (var uc in UseCases)
     {
         <div class="col-lg-4">
             <div class="ent-card h-100">
-                <div class="ent-icon"><i class="bi @uc.Icon"></i></div>
+                <div class="ent-icon">
+                    <i class="bi @uc.Icon"></i>
+                </div>
                 <h4 class="h6 fw-bold mb-2">@uc.Title</h4>
                 <p class="text-secondary small mb-0">@uc.Description</p>
             </div>
@@ -15,5 +16,5 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired] public UseCase[] UseCases { get; set; } = [];
+    [Parameter] [EditorRequired] public UseCase[] UseCases { get; set; } = [];
 }

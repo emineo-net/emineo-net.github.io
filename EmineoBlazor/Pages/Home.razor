@@ -1,5 +1,4 @@
 @page "/"
-
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @using SupabaseRcl.Services
@@ -48,7 +47,7 @@
                     <div class="small">
                         Welcome back, <strong>@auth.User.Identity?.Name</strong>
                     </div>
-                    
+
                 </div>
             </div>
         </section>
@@ -59,10 +58,10 @@
 </AuthorizeView>
 
 @* ============ TRUST LOGOS ============ *@
-<TrustStrip />
+<TrustStrip/>
 
 @* ============ HOW IT WORKS ============ *@
-<HowItWorks />
+<HowItWorks/>
 
 @* ============ PRODUCTS OVERVIEW ============ *@
 <section>
@@ -80,7 +79,7 @@
             @foreach (var product in ProductCatalog.All)
             {
                 <div class="col-lg-6">
-                    <ProductCard Product="product" />
+                    <ProductCard Product="product"/>
                 </div>
             }
         </div>
@@ -99,17 +98,17 @@
             </p>
         </div>
 
-        <FeatureGrid Features="BrandFeatures" />
+        <FeatureGrid Features="BrandFeatures"/>
     </div>
 </section>
 
 @* ============ SHARE WITH TEAM LEAD ============ *@
 <ShareWithTeamLead ProductName="Emineo"
                    PainPoint="repetitive .NET boilerplate — translations, test scaffolding, and the compliance paperwork that comes with every new tool"
-                   ValueProposition="builds AI tools that run inside our existing build pipeline, keep code on-prem when we want it, and ship with the compliance paperwork already prepared" />
+                   ValueProposition="builds AI tools that run inside our existing build pipeline, keep code on-prem when we want it, and ship with the compliance paperwork already prepared"/>
 
 @* ============ ENTERPRISE TRUST ============ *@
-<EnterpriseTrustBar />
+<EnterpriseTrustBar/>
 
 @* ============ FAQ ============ *@
 <section>
@@ -120,7 +119,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <FaqAccordion Items="@Faqs.General" AccordionId="faqHome" />
+                <FaqAccordion Items="@Faqs.General" AccordionId="faqHome"/>
             </div>
         </div>
     </div>
@@ -142,30 +141,31 @@
 </section>
 
 @code {
+
     private static readonly FeatureGrid.Feature[] BrandFeatures =
     [
-        new("bi-cpu", "Roslyn-first, not text-based",
-            "Symbol-level analysis (<code>IMethodSymbol</code>, <code>INamedTypeSymbol</code>, <code>IOperation</code>) drives every decision. No guessing from source text."),
-        new("bi-check-circle", "Compile-validated output",
-            "Generated tests are compiled against your real project. Missing usings, NuGet packages, and type errors are detected and repaired automatically."),
-        new("bi-house", "Local-first, cloud-optional",
-            "Ollama, LM Studio, llama.cpp on your machine — or OpenAI, Azure OpenAI, and any corporate gateway. Same configuration, your choice."),
-        new("bi-tools", "MSBuild-native",
-            "Runs during <code>dotnet build</code>. Design-time builds skipped, WPF-safe, multi-targeting aware, and never locks the assembly in Visual Studio."),
-        new("bi-shield-check", "Placeholder-safe",
-            "<code>{0}</code>, <code>{name}</code>, <code>%s</code>, <code>\\n</code>, <code>\\t</code> are treated as immutable by the prompt and validated on return."),
-        new("bi-box-seam", "Batched, incremental",
-            "Missing keys only, 20 per request, already-translated keys never re-sent. Token-efficient and reproducible."),
-        new("bi-bullseye", "Domain-aware",
-            "A one-shot analysis call detects the software's domain and injects it into every prompt — so terminology feels native, not literal.")
+        new("bi-cpu", "Roslyn-first, not text-based", "Symbol-level analysis (<code>IMethodSymbol</code>, <code>INamedTypeSymbol</code>, <code>IOperation</code>) drives every decision. No guessing from source text."),
+        new("bi-check-circle", "Compile-validated output", "Generated tests are compiled against your real project. Missing usings, NuGet packages, and type errors are detected and repaired automatically."),
+        new("bi-house", "Local-first, cloud-optional", "Ollama, LM Studio, llama.cpp on your machine — or OpenAI, Azure OpenAI, and any corporate gateway. Same configuration, your choice."),
+        new("bi-tools", "MSBuild-native", "Runs during <code>dotnet build</code>. Design-time builds skipped, WPF-safe, multi-targeting aware, and never locks the assembly in Visual Studio."),
+        new("bi-shield-check", "Placeholder-safe", "<code>{0}</code>, <code>{name}</code>, <code>%s</code>, <code>\\n</code>, <code>\\t</code> are treated as immutable by the prompt and validated on return."),
+        new("bi-box-seam", "Batched, incremental", "Missing keys only, 20 per request, already-translated keys never re-sent. Token-efficient and reproducible."),
+        new("bi-bullseye", "Domain-aware", "A one-shot analysis call detects the software's domain and injects it into every prompt — so terminology feels native, not literal.")
     ];
 
-    private void HandlePaymentSuccess(object data) => Console.WriteLine("Zahlung war erfolgreich!");
-    private void HandleCheckoutClosed() => Console.WriteLine("Checkout geschlossen.");
+    private void HandlePaymentSuccess(object data)
+    {
+        Console.WriteLine("Zahlung war erfolgreich!");
+    }
 
+    private void HandleCheckoutClosed()
+    {
+        Console.WriteLine("Checkout geschlossen.");
+    }
 
     private async Task ContactSales(string plan)
     {
         await JSRuntime.InvokeVoidAsync("openSalesModal");
     }
+
 }

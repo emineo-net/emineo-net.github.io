@@ -1,6 +1,4 @@
 ﻿@page "/docs/test-generator"
-@using EmineoBlazor.Components.Docs
-@using EmineoBlazor.Services
 
 <PageTitle>NetAI.TestGenerator – Documentation</PageTitle>
 
@@ -8,7 +6,7 @@
             Section="NetAI.TestGenerator"
             SectionUrl="/docs/test-generator"
             GitHubEditUrl="https://github.com/emineo-net/NetAI.TestGenerator/edit/main/README.md">
-    <MarkdownView Markdown="@_md" />
+    <MarkdownView Markdown="@_md"/>
 </DocsLayout>
 
 @code {
@@ -20,4 +18,5 @@
     {
         _md = await Docs.GetMarkdownAsync("test-generator.md");
     }
+
 }

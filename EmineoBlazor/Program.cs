@@ -28,10 +28,7 @@ public class Program
         // Initialisierung anstoßen (Task wird intern in SupabaseService gespeichert),
         // aber NICHT hier awaiten, damit host.RunAsync() nicht blockiert.
         var supabaseService = host.Services.GetRequiredService<SupabaseService>();
-        _ = supabaseService.InitializeAsync(
-            "https://otyvyonmcdigfrhngsqe.supabase.co",
-            "sb_publishable_sx9-w8GWInjebZ_YNQxMuA_9XydYfKo"
-        );
+        _ = supabaseService.InitializeAsync("https://otyvyonmcdigfrhngsqe.supabase.co", "sb_publishable_sx9-w8GWInjebZ_YNQxMuA_9XydYfKo");
 
         await host.RunAsync();
     }

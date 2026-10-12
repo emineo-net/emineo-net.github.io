@@ -1,6 +1,4 @@
 @page "/products/resx-translator"
-@using EmineoBlazor.Components.Marketing
-@using EmineoBlazor.Data
 
 <PageTitle>NetAI.ResxTranslator â€“ AI-powered .resx localization</PageTitle>
 
@@ -11,7 +9,7 @@
 <ProductHero Product="p"
              Badge="MIT-licensed - NuGet - MSBuild-ready"
              HeadlineHtml="No more hand-translating .resx files. <span class=&quot;text-gradient&quot;>Fills itself in during build.</span>"
-             SubLead="@@p.Description Run locally via Ollama or with your own API key. Shipped as a NuGet package." />
+             SubLead="@@p.Description Run locally via Ollama or with your own API key. Shipped as a NuGet package."/>
 
 <section>
     <div class="container">
@@ -42,7 +40,7 @@
             </div>
 
             <div class="col-lg-6">
-                <CodeTerminal Label="aisettings.json" Html="@AisettingsHtml" />
+                <CodeTerminal Label="aisettings.json" Html="@AisettingsHtml"/>
             </div>
         </div>
     </div>
@@ -52,7 +50,7 @@
              BeforeLabel="Before - locales/Strings.de.resx"
              BeforeHtml="@BeforeHtml"
              AfterLabel="After - dotnet build"
-             AfterHtml="@AfterHtml" />
+             AfterHtml="@AfterHtml"/>
 
 <section class="bg-body-secondary">
     <div class="container">
@@ -60,10 +58,9 @@
             <span class="eyebrow d-block mb-2">Use cases</span>
             <h2 class="display-custom">Where teams feel the difference.</h2>
         </div>
-        <UseCaseGrid UseCases="@UseCases.ForProduct(p.Slug)" />
+        <UseCaseGrid UseCases="@UseCases.ForProduct(p.Slug)"/>
     </div>
 </section>
-
 
 
 <section>
@@ -74,55 +71,63 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <FaqAccordion Items="@Faqs.ResxTranslator" AccordionId="faqResx" />
+                <FaqAccordion Items="@Faqs.ResxTranslator" AccordionId="faqResx"/>
             </div>
         </div>
     </div>
 </section>
 
-<CrossSellBox CurrentSlug="@p.Slug" />
+<CrossSellBox CurrentSlug="@p.Slug"/>
 
 @code {
     [Inject] private IJSRuntime JS { get; set; } = default!;
 
     private const string AisettingsHtml = """
-        <span class="c">// aisettings.json</span>
-        {
-          <span class="k">"translator"</span>: {
-            <span class="k">"mode"</span>: <span class="s">"all"</span>,
-            <span class="k">"defaultLanguage"</span>: <span class="s">"en"</span>,
-            <span class="k">"supportedLanguages"</span>: [<span class="s">"de"</span>, <span class="s">"fr"</span>, <span class="s">"es"</span>, <span class="s">"it"</span>]
-          },
-          <span class="k">"aiConfiguration"</span>: {
-            <span class="k">"baseUrl"</span>: <span class="s">"http://localhost:11434/"</span>,
-            <span class="k">"model"</span>: <span class="s">"qwen2.5:14b"</span>,
-            <span class="k">"temperature"</span>: <span class="b">0.2</span>
-          }
-        }
-        """;
+                                          <span class="c">// aisettings.json</span>
+                                          {
+                                            <span class="k">"translator"</span>: {
+                                              <span class="k">"mode"</span>: <span class="s">"all"</span>,
+                                              <span class="k">"defaultLanguage"</span>: <span class="s">"en"</span>,
+                                              <span class="k">"supportedLanguages"</span>: [<span class="s">"de"</span>, <span class="s">"fr"</span>, <span class="s">"es"</span>, <span class="s">"it"</span>]
+                                            },
+                                            <span class="k">"aiConfiguration"</span>: {
+                                              <span class="k">"baseUrl"</span>: <span class="s">"http://localhost:11434/"</span>,
+                                              <span class="k">"model"</span>: <span class="s">"qwen2.5:14b"</span>,
+                                              <span class="k">"temperature"</span>: <span class="b">0.2</span>
+                                            }
+                                          }
+                                          """;
 
     private const string BeforeHtml = """
-        <span class="c">&lt;!-- 47 keys - 12 untranslated --&gt;</span>
-        &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
-          &lt;<span class="k">value</span>&gt;Sign in to your account&lt;/<span class="k">value</span>&gt;
-        &lt;/<span class="k">data</span>&gt;
-        &lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
-          &lt;<span class="k">value</span>&gt;Email&lt;/<span class="k">value</span>&gt;
-        &lt;/<span class="k">data</span>&gt;
-        <span class="c">// âš ï¸ 12 entries still in English</span>
-        """;
+                                      <span class="c">&lt;!-- 47 keys - 12 untranslated --&gt;</span>
+                                      &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
+                                        &lt;<span class="k">value</span>&gt;Sign in to your account&lt;/<span class="k">value</span>&gt;
+                                      &lt;/<span class="k">data</span>&gt;
+                                      &lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
+                                        &lt;<span class="k">value</span>&gt;Email&lt;/<span class="k">value</span>&gt;
+                                      &lt;/<span class="k">data</span>&gt;
+                                      <span class="c">// âš ï¸ 12 entries still in English</span>
+                                      """;
 
     private const string AfterHtml = """
-        <span class="c">&lt;!-- 47 keys - 0 untranslated --&gt;</span>
-        &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
-          &lt;<span class="k">value</span>&gt;Bei Ihrem Konto anmelden&lt;/<span class="k">value</span>&gt;
-        &lt;/<span class="k">data</span>&gt;
-        &lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
-          &lt;<span class="k">value</span>&gt;E-Mail-Adresse&lt;/<span class="k">value</span>&gt;
-        &lt;/<span class="k">data</span>&gt;
-        <span class="c">// âœ… Translated via Ollama · qwen2.5:14b</span>
-        """;
+                                     <span class="c">&lt;!-- 47 keys - 0 untranslated --&gt;</span>
+                                     &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
+                                       &lt;<span class="k">value</span>&gt;Bei Ihrem Konto anmelden&lt;/<span class="k">value</span>&gt;
+                                     &lt;/<span class="k">data</span>&gt;
+                                     &lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
+                                       &lt;<span class="k">value</span>&gt;E-Mail-Adresse&lt;/<span class="k">value</span>&gt;
+                                     &lt;/<span class="k">data</span>&gt;
+                                     <span class="c">// âœ… Translated via Ollama · qwen2.5:14b</span>
+                                     """;
 
-    private Task RequestOnePager(string context) => JS.InvokeVoidAsync("openSalesModal").AsTask();
-    private Task BookDemo() => JS.InvokeVoidAsync("openSalesModal").AsTask();
+    private Task RequestOnePager(string context)
+    {
+        return JS.InvokeVoidAsync("openSalesModal").AsTask();
+    }
+
+    private Task BookDemo()
+    {
+        return JS.InvokeVoidAsync("openSalesModal").AsTask();
+    }
+
 }

@@ -1,5 +1,4 @@
 @* Components/Marketing/BeforeAfter.razor *@
-@using EmineoBlazor.Components.Marketing
 
 <section>
     <div class="container">
@@ -14,10 +13,10 @@
 
         <div class="row g-4">
             <div class="col-lg-6">
-                <CodeTerminal Label="@BeforeLabel" Html="@BeforeHtml" />
+                <CodeTerminal Label="@BeforeLabel" Html="@BeforeHtml"/>
             </div>
             <div class="col-lg-6">
-                <CodeTerminal Label="@AfterLabel" Html="@AfterHtml" />
+                <CodeTerminal Label="@AfterLabel" Html="@AfterHtml"/>
             </div>
         </div>
     </div>
@@ -25,10 +24,10 @@
 
 @code {
     [Parameter] public string Eyebrow { get; set; } = "Before / After";
-    [Parameter, EditorRequired] public string Heading { get; set; } = "";
+    [Parameter] [EditorRequired] public string Heading { get; set; } = "";
     [Parameter] public string? SubHeading { get; set; }
-    [Parameter, EditorRequired] public string BeforeLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string BeforeHtml { get; set; } = "";
-    [Parameter, EditorRequired] public string AfterLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string AfterHtml { get; set; } = "";
+    [Parameter] [EditorRequired] public string BeforeLabel { get; set; } = "";
+    [Parameter] [EditorRequired] public string BeforeHtml { get; set; } = "";
+    [Parameter] [EditorRequired] public string AfterLabel { get; set; } = "";
+    [Parameter] [EditorRequired] public string AfterHtml { get; set; } = "";
 }

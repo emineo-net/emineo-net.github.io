@@ -8,18 +8,26 @@ namespace SupabaseRcl.Components;
 
 public partial class AuthDialog : ComponentBase, IDisposable
 {
+    private bool isSubmitting;
+    private bool isSuccess;
+
+    private LoginModel loginModel = new();
+
+    private string? message;
+    private RegisterModel registerModel = new();
     [Inject] private AuthDialogService DialogService { get; set; } = null!;
     [Inject] private SupabaseService SupabaseService { get; set; } = null!;
     [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = null!;
 
-    private LoginModel loginModel = new();
-    private RegisterModel registerModel = new();
+    public void Dispose()
+    {
+        DialogService.Changed -= OnDialogChanged;
+    }
 
-    private string? message;
-    private bool isSuccess;
-    private bool isSubmitting;
-
-    protected override void OnInitialized() => DialogService.Changed += OnDialogChanged;
+    protected override void OnInitialized()
+    {
+        DialogService.Changed += OnDialogChanged;
+    }
 
     private void OnDialogChanged()
     {
@@ -45,7 +53,7 @@ public partial class AuthDialog : ComponentBase, IDisposable
                 var userId = session.User.Id ?? string.Empty;
                 ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserAuthentication(email, userId);
 
-                loginModel = new();
+                loginModel = new LoginModel();
                 DialogService.Close();
             }
             else
@@ -75,7 +83,7 @@ public partial class AuthDialog : ComponentBase, IDisposable
 
             if (result?.User != null)
             {
-                registerModel = new();
+                registerModel = new RegisterModel();
                 DialogService.SwitchView(AuthDialogView.Login); // setzt message zurück ...
                 message = "Registrierung erfolgreich! Bitte E-Mails prüfen."; // ... daher danach setzen
                 isSuccess = true;
@@ -97,16 +105,13 @@ public partial class AuthDialog : ComponentBase, IDisposable
         }
     }
 
-    public void Dispose() => DialogService.Changed -= OnDialogChanged;
-
     public sealed class LoginModel
     {
         [Required(ErrorMessage = "Bitte E-Mail eingeben.")]
         [EmailAddress(ErrorMessage = "Ungültige E-Mail-Adresse.")]
         public string Email { get; set; } = "";
 
-        [Required(ErrorMessage = "Bitte Passwort eingeben.")]
-        public string Password { get; set; } = "";
+        [Required(ErrorMessage = "Bitte Passwort eingeben.")] public string Password { get; set; } = "";
     }
 
     public sealed class RegisterModel

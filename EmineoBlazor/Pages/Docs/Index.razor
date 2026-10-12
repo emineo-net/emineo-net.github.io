@@ -1,5 +1,4 @@
 ﻿@page "/docs"
-@using EmineoBlazor.Data
 
 <PageTitle>Documentation – Emineo</PageTitle>
 
@@ -25,7 +24,9 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-6">
                 <a href="/docs/getstarted" class="docs-hub-card">
-                    <div class="ent-icon"><i class="bi bi-signpost-split"></i></div>
+                    <div class="ent-icon">
+                        <i class="bi bi-signpost-split"></i>
+                    </div>
                     <h3 class="h5 fw-bold mb-2">Which product for me?</h3>
                     <p class="text-secondary small mb-0">
                         Not sure where to start? Two quick questions and you're in the right place.
@@ -34,7 +35,9 @@
             </div>
             <div class="col-lg-6">
                 <a href="/docs/quickstart" class="docs-hub-card">
-                    <div class="ent-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                    <div class="ent-icon">
+                        <i class="bi bi-rocket-takeoff"></i>
+                    </div>
                     <h3 class="h5 fw-bold mb-2">Quickstart</h3>
                     <p class="text-secondary small mb-0">
                         From <code>dotnet add package</code> to your first generated result in five minutes.
@@ -49,7 +52,9 @@
                 <div class="col-lg-6">
                     <div class="docs-hub-product">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <span class="ent-icon" style="margin-bottom: 0;"><i class="bi @product.Icon"></i></span>
+                            <span class="ent-icon" style="margin-bottom: 0;">
+                                <i class="bi @product.Icon"></i>
+                            </span>
                             <div>
                                 <span class="eyebrow d-block">@product.ShortName</span>
                                 <h3 class="h5 fw-bold mb-0">@product.Name</h3>
@@ -90,7 +95,7 @@
                         </div>
                     </a>
                 </div>
-               
+
                 <div class="col-md-4">
                     <a href="https://github.com/emineo-net" target="_blank" rel="noopener" class="docs-hub-mini">
                         <i class="bi bi-github"></i>

@@ -1,7 +1,8 @@
-﻿using Microsoft.JSInterop;
-using Supabase; // Wichtig für DefaultSupabaseSessionHandler
+﻿using System.Text.Json;
+using Microsoft.JSInterop;
+using Supabase;
 using Supabase.Gotrue;
-using System.Text.Json;
+// Wichtig für DefaultSupabaseSessionHandler
 
 namespace SupabaseRcl.Handlers;
 
@@ -17,8 +18,7 @@ public class BlazorSessionHandler : DefaultSupabaseSessionHandler
 
     private async ValueTask<IJSObjectReference> GetModuleAsync()
     {
-        return _module ??= await _jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/SupabaseRcl/supabaseAuth.js");
+        return _module ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/SupabaseRcl/supabaseAuth.js");
     }
 
     // Überschreibt das Speichern der Session synchron
@@ -49,7 +49,10 @@ public class BlazorSessionHandler : DefaultSupabaseSessionHandler
                 var module = await GetModuleAsync();
                 var json = await module.InvokeAsync<string?>("getSession");
 
-                if (string.IsNullOrEmpty(json)) return null;
+                if (string.IsNullOrEmpty(json))
+                {
+                    return null;
+                }
 
                 return JsonSerializer.Deserialize<Session>(json);
             }

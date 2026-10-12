@@ -1,6 +1,4 @@
 @page "/products"
-@using EmineoBlazor.Components.Marketing
-@using EmineoBlazor.Data
 
 <PageTitle>Products – Emineo</PageTitle>
 
@@ -27,14 +25,14 @@
             @foreach (var product in ProductCatalog.All)
             {
                 <div class="col-lg-6">
-                    <ProductCard Product="product" />
+                    <ProductCard Product="product"/>
                 </div>
             }
         </div>
     </div>
 </section>
 
-<HowItWorks />
+<HowItWorks/>
 
 <section class="bg-body-secondary">
     <div class="container">
@@ -42,27 +40,22 @@
             <span class="eyebrow d-block mb-2">Common foundation</span>
             <h2 class="display-custom mb-3">What both products share.</h2>
         </div>
-        <FeatureGrid Features="SharedFeatures" />
+        <FeatureGrid Features="SharedFeatures"/>
     </div>
 </section>
 
 
 @code {
+
     private static readonly FeatureGrid.Feature[] SharedFeatures =
     [
-        new("bi-cpu", "Roslyn-first engine",
-            "Symbol-level analysis drives every decision — no guessing from source text."),
-        new("bi-house", "Local-first, cloud-optional",
-            "Ollama, LM Studio, llama.cpp on your machine — or OpenAI, Azure, any corporate gateway."),
-        new("bi-check-circle", "Compile-validated output",
-            "Every generated artifact is verified against your real project before it's written."),
-        new("bi-tools", "MSBuild-native",
-            "Runs during <code>dotnet build</code>. Design-time skipped, WPF-safe, multi-targeting aware."),
-        new("bi-puzzle", "MIT core, Enterprise on top",
-            "Free forever for the community. Team-scale features and contracts for Enterprise."),
-        new("bi-shield-check", "Compliance-ready",
-            "DPA, MSA, PO, VAT invoice, EU data residency — prepared before procurement asks."),
-        new("bi-stoplights", "CI/CD friendly",
-            "Headless operation, JSON output, exit codes, quality gates — all without a dashboard.")
+        new("bi-cpu", "Roslyn-first engine", "Symbol-level analysis drives every decision — no guessing from source text."),
+        new("bi-house", "Local-first, cloud-optional", "Ollama, LM Studio, llama.cpp on your machine — or OpenAI, Azure, any corporate gateway."),
+        new("bi-check-circle", "Compile-validated output", "Every generated artifact is verified against your real project before it's written."),
+        new("bi-tools", "MSBuild-native", "Runs during <code>dotnet build</code>. Design-time skipped, WPF-safe, multi-targeting aware."),
+        new("bi-puzzle", "MIT core, Enterprise on top", "Free forever for the community. Team-scale features and contracts for Enterprise."),
+        new("bi-shield-check", "Compliance-ready", "DPA, MSA, PO, VAT invoice, EU data residency — prepared before procurement asks."),
+        new("bi-stoplights", "CI/CD friendly", "Headless operation, JSON output, exit codes, quality gates — all without a dashboard.")
     ];
+
 }

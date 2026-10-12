@@ -1,9 +1,10 @@
 @* Components/Marketing/ProductCard.razor *@
-@using EmineoBlazor.Data
 
 <article class="product-card">
     <div class="product-card-head">
-        <span class="ent-icon"><i class="bi @Product.Icon"></i></span>
+        <span class="ent-icon">
+            <i class="bi @Product.Icon"></i>
+        </span>
         <span class="eyebrow">@Product.ShortName</span>
     </div>
 
@@ -28,5 +29,5 @@
 </article>
 
 @code {
-    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+    [Parameter] [EditorRequired] public Product Product { get; set; } = default!;
 }

@@ -1,7 +1,7 @@
-@implements IDisposable
 @using Microsoft.AspNetCore.Components.Authorization
 @using SupabaseRcl.Providers
 @using SupabaseRcl.Services
+@implements IDisposable
 @inject AuthDialogService DialogService
 @inject SupabaseService SupabaseService
 @inject AuthenticationStateProvider AuthStateProvider
@@ -36,28 +36,27 @@ else
         var user = SupabaseService.Client?.Auth.CurrentSession?.User;
         if (user != null)
         {
-            ((SupabaseAuthStateProvider)AuthStateProvider)
-                .NotifyUserAuthentication(user.Email ?? string.Empty, user.Id ?? string.Empty);
+            ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserAuthentication(user.Email ?? string.Empty, user.Id ?? string.Empty);
         }
 
         await UpdateAsync(AuthStateProvider.GetAuthenticationStateAsync());
         isInitializing = false;
     }
 
-    private void OnAuthStateChanged(Task<AuthenticationState> task) =>
+    private void OnAuthStateChanged(Task<AuthenticationState> task)
+    {
         _ = InvokeAsync(async () =>
         {
             await UpdateAsync(task);
             StateHasChanged();
         });
+    }
 
     private async Task UpdateAsync(Task<AuthenticationState> task)
     {
         var principal = (await task).User;
         isAuthenticated = principal.Identity?.IsAuthenticated == true;
-        userName = isAuthenticated
-            ? principal.Identity?.Name ?? principal.FindFirst("email")?.Value ?? "User"
-            : string.Empty;
+        userName = isAuthenticated ? principal.Identity?.Name ?? principal.FindFirst("email")?.Value ?? "User" : string.Empty;
     }
 
     private async Task LogoutAsync()
@@ -67,5 +66,9 @@ else
         ((SupabaseAuthStateProvider)AuthStateProvider).NotifyUserLogout();
     }
 
-    public void Dispose() => AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
+    public void Dispose()
+    {
+        AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
+    }
+
 }

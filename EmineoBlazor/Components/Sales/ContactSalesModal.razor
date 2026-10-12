@@ -1,5 +1,5 @@
-@* Components/Sales/ContactSalesModal.razor *@
 @using System.ComponentModel.DataAnnotations
+@* Components/Sales/ContactSalesModal.razor *@
 @inject IJSRuntime JS
 
 <div class="modal fade" id="salesModal" tabindex="-1" aria-hidden="true">
@@ -25,24 +25,24 @@
                 else
                 {
                     <EditForm Model="model" OnValidSubmit="SubmitAsync">
-                        <DataAnnotationsValidator />
+                        <DataAnnotationsValidator/>
 
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="salesName" class="form-label">Name *</label>
-                                <InputText id="salesName" class="form-control" @bind-Value="model.Name" />
-                                <ValidationMessage For="@(() => model.Name)" class="text-danger small" />
+                                <InputText id="salesName" class="form-control" @bind-Value="model.Name"/>
+                                <ValidationMessage For="@(() => model.Name)" class="text-danger small"/>
                             </div>
                             <div class="col-md-6">
                                 <label for="salesCompany" class="form-label">Company *</label>
-                                <InputText id="salesCompany" class="form-control" @bind-Value="model.Company" />
-                                <ValidationMessage For="@(() => model.Company)" class="text-danger small" />
+                                <InputText id="salesCompany" class="form-control" @bind-Value="model.Company"/>
+                                <ValidationMessage For="@(() => model.Company)" class="text-danger small"/>
                             </div>
 
                             <div class="col-12">
                                 <label for="salesEmail" class="form-label">Work email *</label>
-                                <InputText id="salesEmail" type="email" class="form-control" @bind-Value="model.Email" />
-                                <ValidationMessage For="@(() => model.Email)" class="text-danger small" />
+                                <InputText id="salesEmail" type="email" class="form-control" @bind-Value="model.Email"/>
+                                <ValidationMessage For="@(() => model.Email)" class="text-danger small"/>
                             </div>
 
                             <div class="col-md-6">
@@ -78,7 +78,7 @@
                                 <label for="salesMessage" class="form-label">Message</label>
                                 <InputTextArea id="salesMessage" class="form-control" rows="3"
                                                placeholder="What's it about? (e.g., PO, DPA, onboarding, custom licensing)"
-                                               @bind-Value="model.Message" />
+                                               @bind-Value="model.Message"/>
                             </div>
 
                             <div class="col-12 mt-4">
@@ -145,11 +145,9 @@
     {
         public string Plan { get; set; } = "";
 
-        [Required(ErrorMessage = "Please enter your name.")]
-        public string Name { get; set; } = "";
+        [Required(ErrorMessage = "Please enter your name.")] public string Name { get; set; } = "";
 
-        [Required(ErrorMessage = "Please enter your company.")]
-        public string Company { get; set; } = "";
+        [Required(ErrorMessage = "Please enter your company.")] public string Company { get; set; } = "";
 
         [Required(ErrorMessage = "Please enter your work email.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
@@ -160,4 +158,5 @@
         public string Product { get; set; } = "resx";
         public string Message { get; set; } = "";
     }
+
 }

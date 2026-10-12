@@ -29,15 +29,15 @@
 </section>
 
 @code {
+
     public sealed record Step(string Title, string Body);
 
-    [Parameter] public Step[] Steps { get; set; } =
+    [Parameter]
+    public Step[] Steps { get; set; } =
     [
-        new("Configure",
-            "Drop an <code>aisettings.json</code> into your repo. Pick your AI provider â€” Ollama locally, or a cloud API key. Set languages, test framework, and naming conventions."),
-        new("Scan",
-            "The tool walks your solution, detects missing translations or untested methods, and produces a report. You see exactly what would change before anything is written."),
-        new("Generate",
-            "Runs from MSBuild during <code>dotnet build</code> or <code>dotnet publish</code>. The AI fills the gaps, placeholders stay intact, and your team reviews the change like any other PR.")
+        new("Configure", "Drop an <code>aisettings.json</code> into your repo. Pick your AI provider â€” Ollama locally, or a cloud API key. Set languages, test framework, and naming conventions."),
+        new("Scan", "The tool walks your solution, detects missing translations or untested methods, and produces a report. You see exactly what would change before anything is written."),
+        new("Generate", "Runs from MSBuild during <code>dotnet build</code> or <code>dotnet publish</code>. The AI fills the gaps, placeholders stay intact, and your team reviews the change like any other PR.")
     ];
+
 }

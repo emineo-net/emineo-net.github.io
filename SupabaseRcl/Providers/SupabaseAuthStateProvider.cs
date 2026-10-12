@@ -7,13 +7,11 @@ namespace SupabaseRcl.Providers;
 
 public class SupabaseAuthStateProvider : AuthenticationStateProvider
 {
-    private readonly SupabaseService _supabaseService;
-    private readonly ILogger<SupabaseAuthStateProvider> _logger;
     private readonly ClaimsPrincipal _anonymous = new(new ClaimsIdentity());
+    private readonly ILogger<SupabaseAuthStateProvider> _logger;
+    private readonly SupabaseService _supabaseService;
 
-    public SupabaseAuthStateProvider(
-        SupabaseService supabaseService,
-        ILogger<SupabaseAuthStateProvider> logger)
+    public SupabaseAuthStateProvider(SupabaseService supabaseService, ILogger<SupabaseAuthStateProvider> logger)
     {
         _supabaseService = supabaseService;
         _logger = logger;
@@ -56,12 +54,13 @@ public class SupabaseAuthStateProvider : AuthenticationStateProvider
 
     // Zentrale Stelle für die Claims, damit Session-Restore (GetAuthenticationStateAsync)
     // und Login-Event (NotifyUserAuthentication) garantiert dieselben Claims liefern.
-    private static ClaimsIdentity BuildIdentity(string email, string id) =>
-        new(new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, id),
-            new Claim("sub", id),
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Name, email)
-        }, "SupabaseAuth");
+    private static ClaimsIdentity BuildIdentity(string email, string id)
+    {
+        return new ClaimsIdentity(
+            new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, id), new Claim("sub", id), new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Name, email)
+            }, "SupabaseAuth");
+    }
 }

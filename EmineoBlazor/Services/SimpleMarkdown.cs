@@ -5,14 +5,17 @@ using System.Text.RegularExpressions;
 namespace EmineoBlazor.Services;
 
 /// <summary>
-/// Minimal CommonMark-flavored renderer, tuned for the shape of our READMEs.
-/// Not a full spec implementation — deliberately small and predictable.
+///     Minimal CommonMark-flavored renderer, tuned for the shape of our READMEs.
+///     Not a full spec implementation — deliberately small and predictable.
 /// </summary>
 public static class SimpleMarkdown
 {
     public static string ToHtml(string markdown)
     {
-        if (string.IsNullOrWhiteSpace(markdown)) return "";
+        if (string.IsNullOrWhiteSpace(markdown))
+        {
+            return "";
+        }
 
         var lines = markdown.Replace("\r\n", "\n").Split('\n');
         var sb = new StringBuilder();
@@ -33,8 +36,10 @@ public static class SimpleMarkdown
                     code.AppendLine(lines[i]);
                     i++;
                 }
+
                 i++; // skip closing fence
-                sb.Append($"<pre class=\"docs-code\"{(string.IsNullOrEmpty(lang) ? "" : $" data-lang=\"{WebUtility.HtmlEncode(lang)}\"")}><code>");
+                sb.Append(
+                    $"<pre class=\"docs-code\"{(string.IsNullOrEmpty(lang) ? "" : $" data-lang=\"{WebUtility.HtmlEncode(lang)}\"")}><code>");
                 sb.Append(WebUtility.HtmlEncode(code.ToString().TrimEnd('\n')));
                 sb.Append("</code></pre>");
                 continue;
@@ -45,17 +50,24 @@ public static class SimpleMarkdown
             {
                 sb.Append("<div class=\"table-responsive\"><table class=\"table docs-table\"><thead><tr>");
                 foreach (var cell in SplitTableRow(line))
+                {
                     sb.Append($"<th>{Inline(cell)}</th>");
+                }
+
                 sb.Append("</tr></thead><tbody>");
                 i += 2;
                 while (i < lines.Length && lines[i].Contains('|') && !string.IsNullOrWhiteSpace(lines[i]))
                 {
                     sb.Append("<tr>");
                     foreach (var cell in SplitTableRow(lines[i]))
+                    {
                         sb.Append($"<td>{Inline(cell)}</td>");
+                    }
+
                     sb.Append("</tr>");
                     i++;
                 }
+
                 sb.Append("</tbody></table></div>");
                 continue;
             }
@@ -84,14 +96,14 @@ public static class SimpleMarkdown
             if (line.TrimStart().StartsWith("> ") || line.TrimStart() == ">")
             {
                 var q = new StringBuilder();
-                while (i < lines.Length &&
-                       (lines[i].TrimStart().StartsWith("> ") || lines[i].TrimStart() == ">"))
+                while (i < lines.Length && (lines[i].TrimStart().StartsWith("> ") || lines[i].TrimStart() == ">"))
                 {
                     var stripped = lines[i].TrimStart();
                     stripped = stripped.Length >= 2 ? stripped.Substring(2) : "";
                     q.AppendLine(stripped);
                     i++;
                 }
+
                 sb.Append("<blockquote>");
                 sb.Append(ToHtml(q.ToString()));
                 sb.Append("</blockquote>");
@@ -108,6 +120,7 @@ public static class SimpleMarkdown
                     sb.Append($"<li>{Inline(itemText)}</li>");
                     i++;
                 }
+
                 sb.Append("</ul>");
                 continue;
             }
@@ -122,6 +135,7 @@ public static class SimpleMarkdown
                     sb.Append($"<li>{Inline(itemText)}</li>");
                     i++;
                 }
+
                 sb.Append("</ol>");
                 continue;
             }
@@ -135,17 +149,15 @@ public static class SimpleMarkdown
 
             // -------- Paragraph (accumulate until blank or block start) --------
             var para = new StringBuilder();
-            while (i < lines.Length && !string.IsNullOrWhiteSpace(lines[i])
-                   && !lines[i].TrimStart().StartsWith("```")
-                   && !lines[i].TrimStart().StartsWith("#")
-                   && !lines[i].TrimStart().StartsWith("> ")
-                   && !Regex.IsMatch(lines[i], @"^\s*[-*+]\s+")
-                   && !Regex.IsMatch(lines[i], @"^\s*\d+\.\s+")
-                   && !Regex.IsMatch(lines[i], @"^---+\s*$"))
+            while (i < lines.Length && !string.IsNullOrWhiteSpace(lines[i]) && !lines[i].TrimStart().StartsWith("```") &&
+                   !lines[i].TrimStart().StartsWith("#") && !lines[i].TrimStart().StartsWith("> ") &&
+                   !Regex.IsMatch(lines[i], @"^\s*[-*+]\s+") && !Regex.IsMatch(lines[i], @"^\s*\d+\.\s+") &&
+                   !Regex.IsMatch(lines[i], @"^---+\s*$"))
             {
                 para.AppendLine(lines[i]);
                 i++;
             }
+
             sb.Append($"<p>{Inline(para.ToString().Trim())}</p>");
         }
 
@@ -158,8 +170,7 @@ public static class SimpleMarkdown
         var result = text;
 
         // Inline code — escape the inside so < and > render literally.
-        result = Regex.Replace(result, @"`([^`]+)`",
-            m => $"<code class=\"docs-inline\">{WebUtility.HtmlEncode(m.Groups[1].Value)}</code>");
+        result = Regex.Replace(result, @"`([^`]+)`", m => $"<code class=\"docs-inline\">{WebUtility.HtmlEncode(m.Groups[1].Value)}</code>");
 
         // Bold **text**
         result = Regex.Replace(result, @"\*\*([^\*]+)\*\*", "<strong>$1</strong>");
@@ -175,7 +186,9 @@ public static class SimpleMarkdown
 
     // ---------- helpers ----------
     private static string[] SplitTableRow(string line)
-        => line.Trim().Trim('|').Split('|').Select(c => c.Trim()).ToArray();
+    {
+        return line.Trim().Trim('|').Split('|').Select(c => c.Trim()).ToArray();
+    }
 
     private static bool IsTableSeparator(string line)
     {

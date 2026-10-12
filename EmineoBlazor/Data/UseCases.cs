@@ -11,7 +11,7 @@ public static class UseCases
         new("bi-brush", "Legacy .NET migrations",
             "Years of \"TODO: translate\" cleared in one pass. Audit reports show exactly what changed per culture."),
         new("bi-lock", "Regulated & air-gapped",
-            "Run Ollama inside your network. Nothing leaves the machine, no cloud vendor ever sees your strings."),
+            "Run Ollama inside your network. Nothing leaves the machine, no cloud vendor ever sees your strings.")
     ];
 
     public static readonly UseCase[] TestGenerator =
@@ -21,13 +21,16 @@ public static class UseCases
         new("bi-stoplights", "CI quality gates",
             "Fail the build when coverage drops or when new methods ship without tests. Zero-tolerance, zero-effort."),
         new("bi-book", "Onboarding & docs",
-            "Generated tests double as executable documentation — new team members see exactly how the code is meant to be used."),
+            "Generated tests double as executable documentation — new team members see exactly how the code is meant to be used.")
     ];
 
-    public static UseCase[] ForProduct(string slug) => slug switch
+    public static UseCase[] ForProduct(string slug)
     {
-        "resx-translator" => ResxTranslator,
-        "unittest-generator" => TestGenerator,
-        _ => []
-    };
+        return slug switch
+        {
+            "resx-translator" => ResxTranslator,
+            "unittest-generator" => TestGenerator,
+            _ => []
+        };
+    }
 }

@@ -1,5 +1,4 @@
 ﻿@* Components/Docs/DocsLayout.razor *@
-@using EmineoBlazor.Components.Docs
 
 <div class="docs-page">
     <div class="container">
@@ -15,7 +14,7 @@
         </nav>
 
         <div class="docs-grid">
-            <DocsSidebar />
+            <DocsSidebar/>
 
             <main class="docs-main">
                 @if (!string.IsNullOrEmpty(HeaderHtml))
@@ -34,7 +33,7 @@
                             <i class="bi bi-github me-1"></i> Edit on GitHub
                         </a>
                     }
-                   
+
                     <button class="docs-footer-link" @onclick="OpenSales">
                         <i class="bi bi-envelope me-1"></i> Contact sales
                     </button>
@@ -45,14 +44,18 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired] public string PageTitle { get; set; } = "";
+    [Parameter] [EditorRequired] public string PageTitle { get; set; } = "";
     [Parameter] public string? Section { get; set; }
     [Parameter] public string? SectionUrl { get; set; }
     [Parameter] public string? GitHubEditUrl { get; set; }
     [Parameter] public string? HeaderHtml { get; set; }
-    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter] [EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
 
     [Inject] private IJSRuntime JS { get; set; } = default!;
 
-    private Task OpenSales() => JS.InvokeVoidAsync("openSalesModal").AsTask();
+    private Task OpenSales()
+    {
+        return JS.InvokeVoidAsync("openSalesModal").AsTask();
+    }
+
 }

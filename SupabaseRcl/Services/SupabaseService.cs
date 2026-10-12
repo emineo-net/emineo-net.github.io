@@ -6,7 +6,6 @@ namespace SupabaseRcl.Services;
 
 public class SupabaseService
 {
-    public Client Client { get; private set; } = null!;
     private readonly IJSRuntime _jsRuntime;
     private Task? _initTask;
 
@@ -14,6 +13,8 @@ public class SupabaseService
     {
         _jsRuntime = jsRuntime;
     }
+
+    public Client Client { get; private set; } = null!;
 
     public Task InitializeAsync(string url, string anonKey)
     {
@@ -24,16 +25,15 @@ public class SupabaseService
 
     private async Task InitializeInternalAsync(string url, string anonKey)
     {
-        var options = new SupabaseOptions
-        {
-            AutoRefreshToken = true,
-            SessionHandler = new BlazorSessionHandler(_jsRuntime)
-        };
+        var options = new SupabaseOptions { AutoRefreshToken = true, SessionHandler = new BlazorSessionHandler(_jsRuntime) };
 
         Client = new Client(url, anonKey, options); // <- crasht hier vermutlich schon
         await Client.InitializeAsync();
     }
 
     // Von Komponenten aufrufen, bevor sie auf Client zugreifen.
-    public Task WaitForInitializationAsync() => _initTask ?? Task.CompletedTask;
+    public Task WaitForInitializationAsync()
+    {
+        return _initTask ?? Task.CompletedTask;
+    }
 }

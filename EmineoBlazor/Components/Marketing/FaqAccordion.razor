@@ -1,5 +1,4 @@
 @* Components/Marketing/FaqAccordion.razor *@
-@using EmineoBlazor.Data
 
 <div class="accordion" id="@AccordionId">
     @{ var i = 0; }
@@ -23,6 +22,6 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired] public FaqItem[] Items { get; set; } = [];
+    [Parameter] [EditorRequired] public FaqItem[] Items { get; set; } = [];
     [Parameter] public string AccordionId { get; set; } = "faqAccordion";
 }
