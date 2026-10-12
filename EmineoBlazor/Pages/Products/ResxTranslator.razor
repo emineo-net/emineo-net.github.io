@@ -9,7 +9,7 @@
 }
 
 <ProductHero Product="p"
-             Badge="MIT-licensed Â· NuGet Â· MSBuild-ready"
+             Badge="MIT-licensed - NuGet - MSBuild-ready"
              HeadlineHtml="No more hand-translating .resx files. <span class=&quot;text-gradient&quot;>Fills itself in during build.</span>"
              SubLead="@@p.Description Run locally via Ollama or with your own API key. Shipped as a NuGet package." />
 
@@ -49,9 +49,9 @@
 </section>
 
 <BeforeAfter Heading="What it actually does to your files."
-             BeforeLabel="Before Â· locales/Strings.de.resx"
+             BeforeLabel="Before - locales/Strings.de.resx"
              BeforeHtml="@BeforeHtml"
-             AfterLabel="After Â· dotnet build"
+             AfterLabel="After - dotnet build"
              AfterHtml="@AfterHtml" />
 
 <section class="bg-body-secondary">
@@ -102,7 +102,7 @@
         """;
 
     private const string BeforeHtml = """
-        <span class="c">&lt;!-- 47 keys Â· 12 untranslated --&gt;</span>
+        <span class="c">&lt;!-- 47 keys - 12 untranslated --&gt;</span>
         &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
           &lt;<span class="k">value</span>&gt;Sign in to your account&lt;/<span class="k">value</span>&gt;
         &lt;/<span class="k">data</span>&gt;
@@ -113,7 +113,7 @@
         """;
 
     private const string AfterHtml = """
-        <span class="c">&lt;!-- 47 keys Â· 0 untranslated --&gt;</span>
+        <span class="c">&lt;!-- 47 keys - 0 untranslated --&gt;</span>
         &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
           &lt;<span class="k">value</span>&gt;Bei Ihrem Konto anmelden&lt;/<span class="k">value</span>&gt;
         &lt;/<span class="k">data</span>&gt;

@@ -9,7 +9,7 @@
 }
 
 <ProductHero Product="p"
-             Badge="Roslyn Â· Compile-validated Â· xUnit Â· NUnit Â· MSTest"
+             Badge="Roslyn - Compile-validated - xUnit - NUnit - MSTest"
              HeadlineHtml="The AI doesn't write the whole test. <span class=&quot;text-gradient&quot;>It fills a Roslyn-verified skeleton.</span>"
              SubLead="@p.Description" />
 
@@ -50,9 +50,9 @@
 </section>
 
 <BeforeAfter Heading="From empty shell to real coverage."
-             BeforeLabel="Before Â· Services/InvoiceServiceTests.cs"
+             BeforeLabel="Before - Services/InvoiceServiceTests.cs"
              BeforeHtml="@BeforeHtml"
-             AfterLabel="After Â· dotnet build"
+             AfterLabel="After - dotnet build"
              AfterHtml="@AfterHtml" />
 
 <section class="bg-body-secondary">
@@ -105,7 +105,7 @@
         """;
 
     private const string BeforeHtml = """
-        <span class="c">// 0 tests Â· 14 methods untested</span>
+        <span class="c">// 0 tests - 14 methods untested</span>
         <span class="k">public class</span> <span class="b">InvoiceServiceTests</span>
         {
             <span class="c">// TODO: write tests</span>
@@ -114,7 +114,7 @@
         """;
 
     private const string AfterHtml = """
-        <span class="c">// 14 tests Â· coverage 82% Â· compiles âœ…</span>
+        <span class="c">// 14 tests - coverage 82% - compiles âœ…</span>
         [<span class="b">Fact</span>]
         <span class="k">public void</span> <span class="b">CalculateTotal_WithTax_ReturnsGross</span>()
         {
@@ -130,7 +130,7 @@
             Assert.Throws&lt;<span class="b">ArgumentOutOfRangeException</span>&gt;(
                 () =&gt; svc.CalculateTotal(<span class="b">-1m</span>, <span class="b">0.19m</span>));
         }
-        <span class="c">// âœ… Generated via OpenAI Â· gpt-4o-mini</span>
+        <span class="c">// âœ… Generated via OpenAI - gpt-4o-mini</span>
         """;
 
     private Task RequestOnePager(string context) => JS.InvokeVoidAsync("openSalesModal").AsTask();
