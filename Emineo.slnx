@@ -4,6 +4,5 @@
     <File Path="TODO.md" />
   </Folder>
   <Project Path="EmineoBlazor/EmineoBlazor.csproj" Id="2917253b-05d0-4ef8-a879-0740dc8eb490" />
-  <Project Path="ReadmeCopyCli/ReadmeCopyCli.csproj" Id="a2cf9006-5ec9-40a1-b27d-3f90af604321" />
   <Project Path="SupabaseRcl/SupabaseRcl.csproj" Id="392a0efe-ee04-4d6f-bd11-0162fb5384de" />
 </Solution>
