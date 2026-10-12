@@ -1,15 +1,14 @@
-﻿// ============================================================================
-// Emineo – site.js
-// Paddle setup + Bootstrap modal helpers
+// ============================================================================
+// Emineo â€“ site.js
+// Paddle setup + Bootstrap modal helpers + share helpers
 // ============================================================================
 
-// ---------- Paddle ----------
-const PADDLE_CLIENT_TOKEN = "test_XXXXXXXXXXXXXXXXXXXXXXXXXXX"; // TODO: fill in
-const PADDLE_ENV = "sandbox"; // "sandbox" | "production"
+const PADDLE_CLIENT_TOKEN = "test_XXXXXXXXXXXXXXXXXXXXXXXXXXX";
+const PADDLE_ENV = "sandbox";
 
 const PRICES = {
-  enterprise_single: "pri_XXXXXXXXXXXXXXXXXXXXXXXX", // TODO
-  bundle_enterprise: "pri_YYYYYYYYYYYYYYYYYYYYYYYY", // TODO
+  enterprise_single: "pri_XXXXXXXXXXXXXXXXXXXXXXXX",
+  bundle_enterprise: "pri_YYYYYYYYYYYYYYYYYYYYYYYY",
 };
 
 let paddleReady = false;
@@ -24,7 +23,6 @@ function initPaddle() {
   paddleReady = true;
 }
 
-// Called from Blazor via JS interop
 window.paddleCheckout = function (planKey) {
   if (!paddleReady) initPaddle();
 
@@ -48,7 +46,6 @@ window.paddleCheckout = function (planKey) {
   });
 };
 
-// ---------- Bootstrap modal ----------
 window.openSalesModal = function () {
   const el = document.getElementById("salesModal");
   if (!el) return;
@@ -63,5 +60,23 @@ window.closeSalesModal = function () {
   if (instance) instance.hide();
 };
 
-// ---------- Boot ----------
+window.emineoShare = {
+    async share(payload) {
+        if (navigator.share) {
+            try {
+                await navigator.share(payload);
+                return true;
+            } catch (e) {
+                if (e.name === 'AbortError') return false;
+            }
+        }
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(payload.url);
+            return true;
+        }
+        window.prompt("Copy this link:", payload.url);
+        return true;
+    }
+};
+
 document.addEventListener("DOMContentLoaded", initPaddle);
