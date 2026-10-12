@@ -1,0 +1,43 @@
+@* Components/Marketing/HowItWorks.razor *@
+
+<section class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">How it works</span>
+            <h2 class="display-custom mb-3">From config to committed in three steps.</h2>
+            <p class="lead-muted mx-auto" style="max-width: 640px;">
+                No dashboards to log into, no pipelines to rebuild.
+                Drop it in, run it, review the diff like any other PR.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var (step, idx) in Steps.Select((s, i) => (s, i + 1)))
+            {
+                <div class="col-lg-4">
+                    <div class="ent-card text-center h-100">
+                        <div class="ent-icon mx-auto fw-bold" style="font-size: 1.15rem;">
+                            @idx.ToString("D2")
+                        </div>
+                        <h3 class="h5 fw-bold mb-2">@step.Title</h3>
+                        <p class="text-secondary small mb-0">@((MarkupString)step.Body)</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    public sealed record Step(string Title, string Body);
+
+    [Parameter] public Step[] Steps { get; set; } =
+    [
+        new("Configure",
+            "Drop an <code>aisettings.json</code> into your repo. Pick your AI provider â€” Ollama locally, or a cloud API key. Set languages, test framework, and naming conventions."),
+        new("Scan",
+            "The tool walks your solution, detects missing translations or untested methods, and produces a report. You see exactly what would change before anything is written."),
+        new("Generate",
+            "Runs from MSBuild during <code>dotnet build</code> or <code>dotnet publish</code>. The AI fills the gaps, placeholders stay intact, and your team reviews the change like any other PR.")
+    ];
+}

@@ -1,0 +1,32 @@
+@* Components/Marketing/ProductCard.razor *@
+@using EmineoBlazor.Data
+
+<article class="product-card">
+    <div class="product-card-head">
+        <span class="ent-icon">@Product.Icon</span>
+        <span class="eyebrow">@Product.ShortName</span>
+    </div>
+
+    <h3 class="h4 fw-bold mb-2">@Product.Tagline</h3>
+    <p class="text-secondary small mb-4">@Product.Description</p>
+
+    <ul class="feature-list mb-4">
+        @foreach (var win in Product.QuickWins.Take(4))
+        {
+            <li>@win</li>
+        }
+    </ul>
+
+    <div class="product-card-actions">
+        <a href="@Product.ProductRoute" class="btn btn-brand">
+            Learn more â†’
+        </a>
+        <a href="@Product.GitHubUrl" target="_blank" rel="noopener" class="btn btn-outline-brand">
+            GitHub
+        </a>
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+}

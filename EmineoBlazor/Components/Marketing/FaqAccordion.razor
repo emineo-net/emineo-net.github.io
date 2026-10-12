@@ -1,0 +1,28 @@
+@* Components/Marketing/FaqAccordion.razor *@
+@using EmineoBlazor.Data
+
+<div class="accordion" id="@AccordionId">
+    @{ var i = 0; }
+    @foreach (var faq in Items)
+    {
+        var id = $"{AccordionId}-{i++}";
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#@id">
+                    @faq.Question
+                </button>
+            </h2>
+            <div id="@id" class="accordion-collapse collapse" data-bs-parent="#@AccordionId">
+                <div class="accordion-body">
+                    @((MarkupString)faq.Answer)
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public FaqItem[] Items { get; set; } = [];
+    [Parameter] public string AccordionId { get; set; } = "faqAccordion";
+}

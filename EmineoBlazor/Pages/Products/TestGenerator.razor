@@ -1,0 +1,146 @@
+@page "/products/unittest-generator"
+@using EmineoBlazor.Components.Marketing
+@using EmineoBlazor.Data
+
+<PageTitle>NetAI.TestGenerator â€“ Roslyn-verified unit tests</PageTitle>
+
+@{
+    var p = ProductCatalog.TestGenerator;
+}
+
+<ProductHero Product="p"
+             Badge="Roslyn Â· Compile-validated Â· xUnit Â· NUnit Â· MSTest"
+             HeadlineHtml="The AI doesn't write the whole test. <span class=&quot;text-gradient&quot;>It fills a Roslyn-verified skeleton.</span>"
+             SubLead="@p.Description" />
+
+<section>
+    <div class="container">
+        <div class="row align-items-center g-5 py-4 flex-lg-row-reverse">
+            <div class="col-lg-6">
+                <span class="eyebrow d-block mb-3">@p.Name</span>
+                <h2 class="fw-bold mb-3">Coverage without hallucinations.</h2>
+                <p class="mb-4 text-secondary">
+                    Test coverage matters â€” but nobody enjoys writing 400 test methods by hand.
+                    Most AI test generators hallucinate types and namespaces. Ours doesn't:
+                    usings, mock fields, constructor calls, and attributes are generated from actual
+                    symbols. The model only writes what belongs in the body.
+                </p>
+
+                <ul class="row row-cols-1 row-cols-md-2 g-2 mb-4 list-unstyled">
+                    @foreach (var win in p.QuickWins)
+                    {
+                        <li class="col d-flex gap-2">
+                            <i class="bi bi-check-lg text-success"></i>@win
+                        </li>
+                    }
+                </ul>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="/pricing" class="btn btn-brand btn-lg-custom">Choose a license â†’</a>
+                    <a href="@p.DocsRoute" class="btn btn-outline-brand btn-lg-custom">
+                        Read the docs â†’
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <CodeTerminal Label="aisettings.json" Html="@AisettingsHtml" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<BeforeAfter Heading="From empty shell to real coverage."
+             BeforeLabel="Before Â· Services/InvoiceServiceTests.cs"
+             BeforeHtml="@BeforeHtml"
+             AfterLabel="After Â· dotnet build"
+             AfterHtml="@AfterHtml" />
+
+<section class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">Use cases</span>
+            <h2 class="display-custom">Where teams feel the difference.</h2>
+        </div>
+        <UseCaseGrid UseCases="@UseCases.ForProduct(p.Slug)" />
+    </div>
+</section>
+
+<ShareWithTeamLead ProductName="@p.Name"
+                   PainPoint="@p.PainPoint"
+                   ValueProposition="@p.ValueProposition"
+                   OnRequestOnePager="RequestOnePager"
+                   OnBookDemo="BookDemo" />
+
+<EnterpriseTrustBar />
+
+<section>
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">FAQ</span>
+            <h2 class="display-custom">Common questions.</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <FaqAccordion Items="@Faqs.TestGenerator" AccordionId="faqTestGen" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<CrossSellBox CurrentSlug="@p.Slug" />
+
+@code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+
+    private const string AisettingsHtml = """
+        <span class="c">// aisettings.json</span>
+        {
+          <span class="k">"environment"</span>: {
+            <span class="k">"targetDotNetVersion"</span>: <span class="s">"net10.0"</span>,
+            <span class="k">"testProjectName"</span>: <span class="s">"{ProjectName}.Tests"</span>
+          },
+          <span class="k">"frameworks"</span>: {
+            <span class="k">"testFramework"</span>: <span class="s">"xunit"</span>,
+            <span class="k">"mockingFramework"</span>: <span class="s">"moq"</span>,
+            <span class="k">"useFluentAssertions"</span>: <span class="b">true</span>
+          },
+          <span class="k">"generationBehavior"</span>: {
+            <span class="k">"testStrategy"</span>: <span class="s">"Both"</span>,
+            <span class="k">"maxTestsPerClass"</span>: <span class="b">15</span>
+          }
+        }
+        """;
+
+    private const string BeforeHtml = """
+        <span class="c">// 0 tests Â· 14 methods untested</span>
+        <span class="k">public class</span> <span class="b">InvoiceServiceTests</span>
+        {
+            <span class="c">// TODO: write tests</span>
+        }
+        <span class="c">// âš ï¸ Coverage: 0%</span>
+        """;
+
+    private const string AfterHtml = """
+        <span class="c">// 14 tests Â· coverage 82% Â· compiles âœ…</span>
+        [<span class="b">Fact</span>]
+        <span class="k">public void</span> <span class="b">CalculateTotal_WithTax_ReturnsGross</span>()
+        {
+            <span class="k">var</span> svc = <span class="k">new</span> <span class="b">InvoiceService</span>();
+            <span class="k">var</span> result = svc.CalculateTotal(<span class="b">100m</span>, <span class="b">0.19m</span>);
+            Assert.Equal(<span class="b">119m</span>, result);
+        }
+
+        [<span class="b">Fact</span>]
+        <span class="k">public void</span> <span class="b">CalculateTotal_Negative_Throws</span>()
+        {
+            <span class="k">var</span> svc = <span class="k">new</span> <span class="b">InvoiceService</span>();
+            Assert.Throws&lt;<span class="b">ArgumentOutOfRangeException</span>&gt;(
+                () =&gt; svc.CalculateTotal(<span class="b">-1m</span>, <span class="b">0.19m</span>));
+        }
+        <span class="c">// âœ… Generated via OpenAI Â· gpt-4o-mini</span>
+        """;
+
+    private Task RequestOnePager(string context) => JS.InvokeVoidAsync("openSalesModal").AsTask();
+    private Task BookDemo() => JS.InvokeVoidAsync("openSalesModal").AsTask();
+}

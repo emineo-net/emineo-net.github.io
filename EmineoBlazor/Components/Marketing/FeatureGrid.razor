@@ -1,0 +1,21 @@
+@* Components/Marketing/FeatureGrid.razor *@
+@using EmineoBlazor.Data
+
+<div class="row g-4">
+    @foreach (var f in Features)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="ent-card h-100">
+                <div class="ent-icon">@f.Icon</div>
+                <h3 class="h6 fw-bold mb-2">@f.Title</h3>
+                <p class="text-secondary small mb-0">@((MarkupString)f.Description)</p>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Feature[] Features { get; set; } = [];
+
+    public sealed record Feature(string Icon, string Title, string Description);
+}

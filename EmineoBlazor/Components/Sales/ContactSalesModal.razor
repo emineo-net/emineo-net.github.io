@@ -1,0 +1,163 @@
+@* Components/Sales/ContactSalesModal.razor *@
+@using System.ComponentModel.DataAnnotations
+@inject IJSRuntime JS
+
+<div class="modal fade" id="salesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Contact sales</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body pt-2">
+                <p class="text-secondary small mb-4">
+                    We'll get back to you within one business day â€” with concrete answers, not marketing.
+                </p>
+
+                @if (submitted)
+                {
+                    <div class="alert alert-success mb-0">
+                        <strong>Thank you.</strong> Your request is on its way.
+                        We'll reply within one business day.
+                    </div>
+                }
+                else
+                {
+                    <EditForm Model="model" OnValidSubmit="SubmitAsync">
+                        <DataAnnotationsValidator />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="salesName" class="form-label">Name *</label>
+                                <InputText id="salesName" class="form-control" @bind-Value="model.Name" />
+                                <ValidationMessage For="@(() => model.Name)" class="text-danger small" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="salesCompany" class="form-label">Company *</label>
+                                <InputText id="salesCompany" class="form-control" @bind-Value="model.Company" />
+                                <ValidationMessage For="@(() => model.Company)" class="text-danger small" />
+                            </div>
+
+                            <div class="col-12">
+                                <label for="salesEmail" class="form-label">Work email *</label>
+                                <InputText id="salesEmail" type="email" class="form-control" @bind-Value="model.Email" />
+                                <ValidationMessage For="@(() => model.Email)" class="text-danger small" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="salesTeamSize" class="form-label">Team size</label>
+                                <InputSelect id="salesTeamSize" class="form-select" @bind-Value="model.TeamSize">
+                                    <option value="1-5">1 â€“ 5 developers</option>
+                                    <option value="6-20">6 â€“ 20 developers</option>
+                                    <option value="21-50">21 â€“ 50 developers</option>
+                                    <option value="51+">51+ developers</option>
+                                </InputSelect>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="salesDeployment" class="form-label">Deployment</label>
+                                <InputSelect id="salesDeployment" class="form-select" @bind-Value="model.Deployment">
+                                    <option value="cloud">Cloud (API key)</option>
+                                    <option value="ollama">On-prem (Ollama)</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="unsure">Not sure yet</option>
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="salesProduct" class="form-label">Product of interest</label>
+                                <InputSelect id="salesProduct" class="form-select" @bind-Value="model.Product">
+                                    <option value="resx">NetAI.ResxTranslator</option>
+                                    <option value="unittest">NetAI.TestGenerator</option>
+                                    <option value="bundle">Bundle (both)</option>
+                                    <option value="unsure">Not sure yet</option>
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="salesMessage" class="form-label">Message</label>
+                                <InputTextArea id="salesMessage" class="form-control" rows="3"
+                                               placeholder="What's it about? (e.g., PO, DPA, onboarding, custom licensing)"
+                                               @bind-Value="model.Message" />
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-brand w-100 btn-lg-custom" disabled="@sending">
+                                    @if (sending)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                        <span>Sendingâ€¦</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Send request</span>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="text-secondary small text-center mt-3 mb-0">
+                            By submitting, you agree that we may contact you to handle this inquiry.
+                            No data shared with third parties.
+                        </p>
+                    </EditForm>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? DefaultPlan { get; set; }
+    [Parameter] public string? DefaultProduct { get; set; }
+
+    private SalesInquiry model = new();
+    private bool sending;
+    private bool submitted;
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrEmpty(DefaultPlan))
+            model.Plan = DefaultPlan;
+        if (!string.IsNullOrEmpty(DefaultProduct))
+            model.Product = DefaultProduct;
+    }
+
+    private async Task SubmitAsync()
+    {
+        sending = true;
+        try
+        {
+            await Task.Delay(600);
+            submitted = true;
+            await Task.Delay(2500);
+            await JS.InvokeVoidAsync("closeSalesModal");
+            submitted = false;
+            model = new SalesInquiry { Plan = DefaultPlan ?? "", Product = DefaultProduct ?? "resx" };
+        }
+        finally
+        {
+            sending = false;
+        }
+    }
+
+    public sealed class SalesInquiry
+    {
+        public string Plan { get; set; } = "";
+
+        [Required(ErrorMessage = "Please enter your name.")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "Please enter your company.")]
+        public string Company { get; set; } = "";
+
+        [Required(ErrorMessage = "Please enter your work email.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string Email { get; set; } = "";
+
+        public string TeamSize { get; set; } = "6-20";
+        public string Deployment { get; set; } = "cloud";
+        public string Product { get; set; } = "resx";
+        public string Message { get; set; } = "";
+    }
+}

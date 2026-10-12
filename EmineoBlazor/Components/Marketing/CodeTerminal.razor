@@ -1,0 +1,15 @@
+@* Components/Marketing/CodeTerminal.razor *@
+
+<div class="product-visual">
+    <div class="terminal-head"><span></span><span></span><span></span></div>
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <p class="eyebrow mb-2">@Label</p>
+    }
+    <pre>@((MarkupString)Html)</pre>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string Html { get; set; } = "";
+    [Parameter] public string? Label { get; set; }
+}

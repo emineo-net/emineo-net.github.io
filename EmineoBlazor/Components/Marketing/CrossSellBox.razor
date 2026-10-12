@@ -1,0 +1,30 @@
+@* Components/Marketing/CrossSellBox.razor *@
+@using EmineoBlazor.Data
+
+@if (Other is not null)
+{
+    <section class="cross-sell">
+        <div class="container">
+            <div class="ent-cta-bar d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="ent-icon" style="margin-bottom: 0;">@Other.Icon</span>
+                    <div>
+                        <p class="eyebrow mb-1">Also from Emineo</p>
+                        <h3 class="h5 fw-bold mb-0">@Other.Name</h3>
+                        <p class="text-secondary small mb-0">@Other.Tagline</p>
+                    </div>
+                </div>
+                <a href="@Other.ProductRoute" class="btn btn-outline-brand btn-lg-custom">
+                    Explore @Other.ShortName â†’
+                </a>
+            </div>
+        </div>
+    </section>
+}
+
+@code {
+    [Parameter, EditorRequired] public string CurrentSlug { get; set; } = "";
+
+    private Product? Other =>
+        Products.All.FirstOrDefault(p => p.Slug != CurrentSlug);
+}

@@ -1,0 +1,184 @@
+@page "/pricing"
+@using EmineoBlazor.Components.Pricing
+@using EmineoBlazor.Components.Marketing
+
+<PageTitle>Pricing â€“ Emineo</PageTitle>
+
+<header class="hero">
+    <div class="container text-center">
+        <div class="badge-soft mb-4 d-inline-block">
+            <span class="dot"></span>
+            MIT-licensed core Â· Enterprise support
+        </div>
+        <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
+            Start for free.<br>
+            <span class="text-gradient">Scale when you're ready.</span>
+        </h1>
+        <p class="lead-muted mx-auto" style="max-width: 680px;">
+            Both products are MIT-licensed at their core â€” including commercial use.
+            Enterprise licenses add the team-scale features and the contracts.
+        </p>
+    </div>
+</header>
+
+<section class="bg-body-secondary">
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            @foreach (var card in Cards)
+            {
+                <div class="col-lg-4">
+                    <PricingCard Title="@card.Title"
+                                 Description="@card.Description"
+                                 Featured="@card.Featured"
+                                 RibbonLabel="@card.RibbonLabel"
+                                 PriceAmount="@card.PriceAmount"
+                                 PriceSuffix="@card.PriceSuffix"
+                                 PriceNote="@card.PriceNote"
+                                 Features="@card.Features"
+                                 Ctas="@card.Ctas"
+                                 FooterNote="@card.FooterNote" />
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">Compare plans</span>
+            <h2 class="display-custom mb-3">MIT vs. Enterprise vs. Bundle.</h2>
+            <p class="lead-muted mx-auto" style="max-width: 640px;">
+                Same core engine. Enterprise adds the team-scale features â€” and the contracts.
+            </p>
+        </div>
+
+        <ComparisonTable Columns="@Columns" Rows="@Rows" />
+    </div>
+</section>
+
+<EnterpriseTrustBar />
+
+@code {
+    private static readonly string[] Columns = ["MIT", "Enterprise", "Bundle"];
+
+    private static PricingCard.CtaItem Link(string label, string href, string css = "btn-outline-brand") =>
+        new() { Label = label, Href = href, CssClass = css, IsLink = true,
+                Target = href.StartsWith("http") ? "_blank" : null,
+                Rel = href.StartsWith("http") ? "noopener" : null };
+
+    private static PricingCard.CtaItem Button(string label, string css = "btn-brand") =>
+        new() { Label = label, CssClass = css, IsLink = false };
+
+    private sealed record CardData(
+        string Title,
+        string Description,
+        bool Featured,
+        string? RibbonLabel,
+        string PriceAmount,
+        string? PriceSuffix,
+        string PriceNote,
+        PricingCard.FeatureItem[] Features,
+        PricingCard.CtaItem[] Ctas,
+        string? FooterNote);
+
+    private static readonly CardData[] Cards =
+    [
+        new(
+            Title: "MIT (Free)",
+            Description: "For solo developers, OSS projects, and trying things out.",
+            Featured: false,
+            RibbonLabel: null,
+            PriceAmount: "â‚¬0",
+            PriceSuffix: null,
+            PriceNote: "Free forever",
+            Features:
+            [
+                new PricingCard.FeatureItem("Commercial use allowed"),
+                new PricingCard.FeatureItem("API key or Ollama"),
+                new PricingCard.FeatureItem("All base features"),
+                new PricingCard.FeatureItem("MSBuild integration"),
+                new PricingCard.FeatureItem("Pro features", true),
+                new PricingCard.FeatureItem("Priority support", true),
+                new PricingCard.FeatureItem("CI/CD integration", true)
+            ],
+            Ctas: [ Link("View on NuGet", "https://www.nuget.org/") ],
+            FooterNote: null
+        ),
+        new(
+            Title: "Enterprise",
+            Description: "For teams that scale productively and need support.",
+            Featured: true,
+            RibbonLabel: "Popular",
+            PriceAmount: "â‚¬249",
+            PriceSuffix: "/ year",
+            PriceNote: "or â‚¬29 / month Â· per product",
+            Features:
+            [
+                new PricingCard.FeatureItem("All MIT features"),
+                new PricingCard.FeatureItem("All pro features"),
+                new PricingCard.FeatureItem("CI/CD pipeline integration"),
+                new PricingCard.FeatureItem("Review workflow & drafts"),
+                new PricingCard.FeatureItem("Glossary / translation memory"),
+                new PricingCard.FeatureItem("Priority support with SLA"),
+                new PricingCard.FeatureItem("All major + minor updates")
+            ],
+            Ctas:
+            [
+                Button("Buy now"),
+                Button("Contact sales", "btn-outline-brand")
+            ],
+            FooterNote: "Invoice, PO & MSA available on request"
+        ),
+        new(
+            Title: "Bundle Enterprise",
+            Description: "Both products as Enterprise licenses â€” 20% off.",
+            Featured: false,
+            RibbonLabel: null,
+            PriceAmount: "â‚¬399",
+            PriceSuffix: "/ year",
+            PriceNote: "instead of â‚¬498 Â· both products",
+            Features:
+            [
+                new PricingCard.FeatureItem("ResxTranslator Enterprise"),
+                new PricingCard.FeatureItem("TestGenerator Enterprise"),
+                new PricingCard.FeatureItem("All pro features of both tools"),
+                new PricingCard.FeatureItem("Priority support with SLA"),
+                new PricingCard.FeatureItem("All major + minor updates"),
+                new PricingCard.FeatureItem("Central team conventions"),
+                new PricingCard.FeatureItem("Invoicing to company name")
+            ],
+            Ctas:
+            [
+                Button("Get the bundle", "btn-outline-brand"),
+                Button("Contact sales", "btn-outline-brand")
+            ],
+            FooterNote: "Custom quote for 10+ seats"
+        )
+    ];
+
+    private static ComparisonTable.Row R(string feature, params ComparisonTable.Cell[] cells) => new(feature, cells);
+    private static ComparisonTable.Cell Y() => new(true);
+    private static ComparisonTable.Cell N() => new(false);
+    private static ComparisonTable.Cell T(string text) => new(null, text);
+
+    private static readonly ComparisonTable.Row[] Rows =
+    [
+        R("Commercial use allowed",              Y(), Y(), Y()),
+        R("API key or local Ollama",             Y(), Y(), Y()),
+        R("MSBuild integration",                 Y(), Y(), Y()),
+        R("JSON-based configuration",            Y(), Y(), Y()),
+        R("Roslyn semantic analysis",            Y(), Y(), Y()),
+        R("Compile validation & auto-repair",    Y(), Y(), Y()),
+        R("Glossary / translation memory",       N(), Y(), Y()),
+        R("Review workflow & drafts",            N(), Y(), Y()),
+        R("CI/CD pipeline integration",          N(), Y(), Y()),
+        R("Coverage gate & branch analysis",     N(), Y(), Y()),
+        R("Central team conventions",            N(), Y(), Y()),
+        R("Priority support with SLA",           N(), Y(), Y()),
+        R("1:1 onboarding session",              N(), Y(), Y()),
+        R("All major + minor updates",           T("Community"), Y(), Y()),
+        R("Both products included",              N(), N(), Y()),
+        R("PO / invoice to company",             N(), Y(), Y()),
+    ];
+}

@@ -1,0 +1,71 @@
+@page "/products"
+@using EmineoBlazor.Components.Marketing
+@using EmineoBlazor.Data
+
+<PageTitle>Products â€“ Emineo</PageTitle>
+
+<header class="hero">
+    <div class="container text-center">
+        <div class="badge-soft mb-4 d-inline-block">
+            <span class="dot"></span>
+            MIT-licensed core Â· Enterprise-ready
+        </div>
+        <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
+            Two AI tools for .NET.<br>
+            <span class="text-gradient">Both run in your build.</span>
+        </h1>
+        <p class="lead-muted mb-0 mx-auto" style="max-width: 680px;">
+            Same engine philosophy: Roslyn does the facts, the LLM fills only the interesting part,
+            and every output is compile-validated before it lands.
+        </p>
+    </div>
+</header>
+
+<section>
+    <div class="container">
+        <div class="row g-4">
+            @foreach (var product in ProductCatalog.All)
+            {
+                <div class="col-lg-6">
+                    <ProductCard Product="product" />
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<HowItWorks />
+
+<section class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">Common foundation</span>
+            <h2 class="display-custom mb-3">What both products share.</h2>
+        </div>
+        <FeatureGrid Features="SharedFeatures" />
+    </div>
+</section>
+
+<EnterpriseTrustBar />
+
+@code {
+    private static readonly FeatureGrid.Feature[] SharedFeatures =
+    [
+        new("ðŸ§ ", "Roslyn-first engine",
+            "Symbol-level analysis drives every decision â€” no guessing from source text."),
+        new("ðŸ ", "Local-first, cloud-optional",
+            "Ollama, LM Studio, llama.cpp on your machine â€” or OpenAI, Azure, any corporate gateway."),
+        new("âœ…", "Compile-validated output",
+            "Every generated artifact is verified against your real project before it's written."),
+        new("ðŸ› ï¸", "MSBuild-native",
+            "Runs during <code>dotnet build</code>. Design-time skipped, WPF-safe, multi-targeting aware."),
+        new("ðŸ“¦", "Incremental by design",
+            "Only what's missing gets processed. Token-efficient, reproducible, idempotent."),
+        new("ðŸ§©", "MIT core, Enterprise on top",
+            "Free forever for the community. Team-scale features and contracts for Enterprise."),
+        new("ðŸ›¡ï¸", "Compliance-ready",
+            "DPA, MSA, PO, VAT invoice, EU data residency â€” prepared before procurement asks."),
+        new("ðŸš¦", "CI/CD friendly",
+            "Headless operation, JSON output, exit codes, quality gates â€” all without a dashboard.")
+    ];
+}

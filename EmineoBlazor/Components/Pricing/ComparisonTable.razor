@@ -1,0 +1,58 @@
+@* Components/Pricing/ComparisonTable.razor *@
+
+<div class="table-responsive">
+    <table class="table align-middle"
+           style="--bs-table-bg: transparent;
+                  --bs-table-color: var(--bs-body-color);
+                  --bs-table-border-color: var(--bs-border-color);">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 44%;">Feature</th>
+                @foreach (var col in Columns)
+                {
+                    <th scope="col" class="text-center">@col</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Rows)
+            {
+                <tr>
+                    <td>@row.Feature</td>
+                    @foreach (var cell in row.Cells)
+                    {
+                        <td class="text-center @cell.CssClass">
+                            @if (cell.Checked == true)
+                            {
+                                <i class="bi bi-check-lg"></i>
+                            }
+                            else if (cell.Checked == false)
+                            {
+                                <span>â€”</span>
+                            }
+                            else
+                            {
+                                <span class="small">@cell.Text</span>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public sealed record Cell(bool? Checked, string? Text = null)
+    {
+        public string CssClass =>
+            Checked == true ? "text-success"
+            : Checked == false ? "text-secondary"
+            : "text-secondary small";
+    }
+
+    public sealed record Row(string Feature, Cell[] Cells);
+
+    [Parameter, EditorRequired] public string[] Columns { get; set; } = [];
+    [Parameter, EditorRequired] public Row[] Rows { get; set; } = [];
+}

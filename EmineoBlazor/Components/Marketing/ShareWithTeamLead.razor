@@ -1,0 +1,147 @@
+@* Components/Marketing/ShareWithTeamLead.razor *@
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<section class="share-with-lead">
+    <div class="container">
+        <div class="share-lead-inner">
+            <div class="share-lead-copy">
+                <span class="eyebrow d-block mb-2">Convinced?</span>
+                <h3 class="h4 fw-bold mb-2">
+                    Your team lead needs 2 minutes, not 2 hours.
+                </h3>
+                <p class="text-secondary small mb-0">
+                    We prepared everything procurement and IT will ask for â€” DPA, MSA, PO, VAT invoice,
+                    SLA, EU data residency. All you have to do is forward one email.
+                </p>
+            </div>
+
+            <div class="share-lead-actions">
+                <button class="btn btn-brand btn-lg-custom" @onclick="CopyEmailAsync" disabled="@copying">
+                    @if (copying)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        <span>Copyingâ€¦</span>
+                    }
+                    else if (copied)
+                    {
+                        <span>âœ“ Copied â€” paste into your mail client</span>
+                    }
+                    else
+                    {
+                        <span>ðŸ“‹ Copy email for your lead</span>
+                    }
+                </button>
+
+                <button class="btn btn-outline-brand btn-lg-custom" @onclick="ShareAsync">
+                    ðŸ”— Share this page
+                </button>
+
+                <button class="btn btn-outline-brand btn-lg-custom" @onclick="OpenOnePager">
+                    ðŸ“„ Request one-pager
+                </button>
+
+                <button class="btn btn-outline-brand btn-lg-custom" @onclick="BookDemo">
+                    ðŸ“… Book a 15-min demo
+                </button>
+            </div>
+
+            <ul class="share-lead-checklist">
+                <li>âœ“ GDPR / DPA available</li>
+                <li>âœ“ MSA &amp; individual contracts</li>
+                <li>âœ“ PO &amp; VAT invoice</li>
+                <li>âœ“ EU data residency option</li>
+                <li>âœ“ SLA with 8h response</li>
+                <li>âœ“ MIT-licensed core</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public string ProductName { get; set; } = "";
+    [Parameter, EditorRequired] public string PainPoint { get; set; } = "";
+    [Parameter, EditorRequired] public string ValueProposition { get; set; } = "";
+    [Parameter] public string? LandingUrl { get; set; }
+
+    [Parameter] public EventCallback<string> OnRequestOnePager { get; set; }
+    [Parameter] public EventCallback OnBookDemo { get; set; }
+
+    private bool copying;
+    private bool copied;
+
+    private string EffectiveUrl =>
+        LandingUrl ?? Nav.BaseUri.TrimEnd('/') + Nav.ToBaseRelativePath(Nav.Uri).Split('?')[0];
+
+    private string BuildEmailTemplate() => $"""
+        Subject: New tool for our .NET build â€” {ProductName}
+
+        Hi,
+
+        I came across {ProductName} from Emineo and think it could save us real time on {PainPoint}.
+
+        What it does:
+        {ValueProposition}.
+
+        Why it's safe for us:
+        - Runs fully locally (Ollama) â€” no code or strings leave our machines
+        - MIT-licensed core, optional Enterprise support
+        - Compliance-ready: DPA, MSA, PO, VAT invoice, EU data residency
+        - Works with any OpenAI-compatible endpoint (including our own gateway)
+
+        Pricing: Free (MIT) or â‚¬249/year per product for Enterprise.
+        More info: {EffectiveUrl}
+
+        Worth a 15-minute look?
+
+        Thanks
+        """;
+
+    private async Task CopyEmailAsync()
+    {
+        copying = true;
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", BuildEmailTemplate());
+            copied = true;
+            StateHasChanged();
+            await Task.Delay(3000);
+            copied = false;
+            StateHasChanged();
+        }
+        catch
+        {
+            var mailto = $"mailto:?subject={Uri.EscapeDataString($"New tool for our .NET build â€” {ProductName}")}";
+            await JS.InvokeVoidAsync("open", mailto, "_blank");
+        }
+        finally
+        {
+            copying = false;
+        }
+    }
+
+    private async Task ShareAsync()
+    {
+        try
+        {
+            var payload = new { title = $"Emineo Â· {ProductName}", url = EffectiveUrl };
+            await JS.InvokeVoidAsync("emineoShare.share", payload);
+        }
+        catch
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", EffectiveUrl);
+        }
+    }
+
+    private async Task OpenOnePager()
+    {
+        if (OnRequestOnePager.HasDelegate)
+            await OnRequestOnePager.InvokeAsync("One-pager request");
+    }
+
+    private async Task BookDemo()
+    {
+        if (OnBookDemo.HasDelegate)
+            await OnBookDemo.InvokeAsync();
+    }
+}

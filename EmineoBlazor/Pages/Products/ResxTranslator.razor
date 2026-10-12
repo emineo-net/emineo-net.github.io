@@ -1,0 +1,135 @@
+@page "/products/resx-translator"
+@using EmineoBlazor.Components.Marketing
+@using EmineoBlazor.Data
+
+<PageTitle>NetAI.ResxTranslator â€“ AI-powered .resx localization</PageTitle>
+
+@{
+    var p = ProductCatalog.ResxTranslator;
+}
+
+<ProductHero Product="p"
+             Badge="MIT-licensed Â· NuGet Â· MSBuild-ready"
+             HeadlineHtml="No more hand-translating .resx files. <span class=&quot;text-gradient&quot;>Fills itself in during build.</span>"
+             SubLead="@@p.Description Run locally via Ollama or with your own API key. Shipped as a NuGet package." />
+
+<section>
+    <div class="container">
+        <div class="row align-items-center g-5 py-4">
+            <div class="col-lg-6">
+                <span class="eyebrow d-block mb-3">@p.Name</span>
+                <h2 class="fw-bold mb-3">Fills every gap â€” in your languages, with your model.</h2>
+                <p class="mb-4 text-secondary">
+                    Every .NET localization eventually hits the same wall: new keys in English, empty
+                    <code>.de.resx</code>, and someone copies the English text just to make it compile.
+                    NetAI.ResxTranslator cleans that up â€” with your own API key or entirely local via Ollama.
+                </p>
+
+                <ul class="row row-cols-1 row-cols-md-2 g-2 mb-4 list-unstyled">
+                    @foreach (var win in p.QuickWins)
+                    {
+                        <li class="col d-flex gap-2">
+                            <i class="bi bi-check-lg text-success"></i>@win
+                        </li>
+                    }
+                </ul>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="/pricing" class="btn btn-brand btn-lg-custom">Choose a license â†’</a>
+                    <a href="@p.DocsRoute" class="btn btn-outline-brand btn-lg-custom">
+                        Read the docs â†’
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <CodeTerminal Label="aisettings.json" Html="@AisettingsHtml" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<BeforeAfter Heading="What it actually does to your files."
+             BeforeLabel="Before Â· locales/Strings.de.resx"
+             BeforeHtml="@BeforeHtml"
+             AfterLabel="After Â· dotnet build"
+             AfterHtml="@AfterHtml" />
+
+<section class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">Use cases</span>
+            <h2 class="display-custom">Where teams feel the difference.</h2>
+        </div>
+        <UseCaseGrid UseCases="@UseCases.ForProduct(p.Slug)" />
+    </div>
+</section>
+
+<ShareWithTeamLead ProductName="@p.Name"
+                   PainPoint="@p.PainPoint"
+                   ValueProposition="@p.ValueProposition"
+                   OnRequestOnePager="RequestOnePager"
+                   OnBookDemo="BookDemo" />
+
+<EnterpriseTrustBar />
+
+<section>
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">FAQ</span>
+            <h2 class="display-custom">Common questions.</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <FaqAccordion Items="@Faqs.ResxTranslator" AccordionId="faqResx" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<CrossSellBox CurrentSlug="@p.Slug" />
+
+@code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+
+    private const string AisettingsHtml = """
+        <span class="c">// aisettings.json</span>
+        {
+          <span class="k">"translator"</span>: {
+            <span class="k">"mode"</span>: <span class="s">"all"</span>,
+            <span class="k">"defaultLanguage"</span>: <span class="s">"en"</span>,
+            <span class="k">"supportedLanguages"</span>: [<span class="s">"de"</span>, <span class="s">"fr"</span>, <span class="s">"es"</span>, <span class="s">"it"</span>]
+          },
+          <span class="k">"aiConfiguration"</span>: {
+            <span class="k">"baseUrl"</span>: <span class="s">"http://localhost:11434/"</span>,
+            <span class="k">"model"</span>: <span class="s">"qwen2.5:14b"</span>,
+            <span class="k">"temperature"</span>: <span class="b">0.2</span>
+          }
+        }
+        """;
+
+    private const string BeforeHtml = """
+        <span class="c">&lt;!-- 47 keys Â· 12 untranslated --&gt;</span>
+        &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
+          &lt;<span class="k">value</span>&gt;Sign in to your account&lt;/<span class="k">value</span>&gt;
+        &lt;/<span class="k">data</span>&gt;
+        &lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
+          &lt;<span class="k">value</span>&gt;Email&lt;/<span class="k">value</span>&gt;
+        &lt;/<span class="k">data</span>&gt;
+        <span class="c">// âš ï¸ 12 entries still in English</span>
+        """;
+
+    private const string AfterHtml = """
+        <span class="c">&lt;!-- 47 keys Â· 0 untranslated --&gt;</span>
+        &lt;<span class="k">data</span> name=<span class="s">"Login_Title"</span>&gt;
+          &lt;<span class="k">value</span>&gt;Bei Ihrem Konto anmelden&lt;/<span class="k">value</span>&gt;
+        &lt;/<span class="k">data</span>&gt;
+        &lt;<span class="k">data</span> name=<span class="s">"Login_Email"</span>&gt;
+          &lt;<span class="k">value</span>&gt;E-Mail-Adresse&lt;/<span class="k">value</span>&gt;
+        &lt;/<span class="k">data</span>&gt;
+        <span class="c">// âœ… Translated via Ollama Â· qwen2.5:14b</span>
+        """;
+
+    private Task RequestOnePager(string context) => JS.InvokeVoidAsync("openSalesModal").AsTask();
+    private Task BookDemo() => JS.InvokeVoidAsync("openSalesModal").AsTask();
+}

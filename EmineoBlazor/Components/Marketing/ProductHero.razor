@@ -1,0 +1,41 @@
+@* Components/Marketing/ProductHero.razor *@
+@using EmineoBlazor.Data
+
+<header class="hero">
+    <div class="container text-center">
+        <div class="badge-soft mb-4 d-inline-block">
+            <span class="dot"></span>
+            @Badge
+        </div>
+
+        <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
+            @((MarkupString)HeadlineHtml)
+        </h1>
+
+        <p class="lead-muted mb-5 mx-auto" style="max-width: 720px;">
+            @SubLead
+        </p>
+
+        <div class="d-flex gap-3 justify-content-center flex-wrap mb-4">
+            <a href="/docs/quickstart" class="btn btn-brand btn-lg-custom">
+                @PrimaryCta
+            </a>
+            <a href="@Product.GitHubUrl" target="_blank" rel="noopener"
+               class="btn btn-outline-brand btn-lg-custom">
+                View on GitHub
+            </a>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+            <div class="code-pill">dotnet add package @Product.NuGetPackage</div>
+        </div>
+    </div>
+</header>
+
+@code {
+    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+    [Parameter] public string Badge { get; set; } = "MIT-licensed Â· NuGet Â· MSBuild-ready";
+    [Parameter, EditorRequired] public string HeadlineHtml { get; set; } = "";
+    [Parameter, EditorRequired] public string SubLead { get; set; } = "";
+    [Parameter] public string PrimaryCta { get; set; } = "Start for free";
+}

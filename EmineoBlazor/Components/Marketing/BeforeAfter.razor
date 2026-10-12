@@ -1,0 +1,34 @@
+@* Components/Marketing/BeforeAfter.razor *@
+@using EmineoBlazor.Components.Marketing
+
+<section>
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">@Eyebrow</span>
+            <h2 class="display-custom">@Heading</h2>
+            @if (!string.IsNullOrEmpty(SubHeading))
+            {
+                <p class="lead-muted mx-auto" style="max-width: 640px;">@SubHeading</p>
+            }
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <CodeTerminal Label="@BeforeLabel" Html="@BeforeHtml" />
+            </div>
+            <div class="col-lg-6">
+                <CodeTerminal Label="@AfterLabel" Html="@AfterHtml" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter] public string Eyebrow { get; set; } = "Before / After";
+    [Parameter, EditorRequired] public string Heading { get; set; } = "";
+    [Parameter] public string? SubHeading { get; set; }
+    [Parameter, EditorRequired] public string BeforeLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string BeforeHtml { get; set; } = "";
+    [Parameter, EditorRequired] public string AfterLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string AfterHtml { get; set; } = "";
+}
