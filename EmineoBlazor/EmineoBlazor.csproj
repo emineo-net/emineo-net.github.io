@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PaddleRcl\PaddleRcl.csproj" />
     <ProjectReference Include="..\SupabaseRcl\SupabaseRcl.csproj" />
   </ItemGroup>
 

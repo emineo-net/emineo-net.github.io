@@ -10,27 +10,11 @@ public static class Faqs
             "Emineo builds AI-powered NuGet packages for .NET teams. Both products â€” <strong>NetAI.ResxTranslator</strong> and <strong>NetAI.TestGenerator</strong> â€” run during <code>dotnet build</code>, use any OpenAI-compatible LLM (local or cloud), and are MIT-licensed at their core."),
         new("Do I need a cloud API key?",
             "No. Both products work fully locally via <strong>Ollama</strong>, <strong>LM Studio</strong>, <strong>llama.cpp</strong>, or our companion app <strong>LLMRunner</strong> (serves a model on localhost:8080 with one click). Cloud providers like OpenAI or Azure are optional â€” same configuration, your choice."),
-        new("Is the community edition really MIT-licensed?",
-            "Yes. The community core of both products is MIT-licensed, including commercial use. Enterprise editions are built on top of the same repositories and add team-scale features on top of the free core."),
+      
         new("How do I get started?",
             "<code>dotnet add package NetAI.ResxTranslator.Tasks</code> (or <code>.TestGenerator.Tasks</code>), build once to scaffold <code>aisettings.json</code>, point it at your LLM, build again. Full walkthrough in the <a href=\"/docs/quickstart\">Quickstart</a>."),
     ];
 
-    public static readonly FaqItem[] Enterprise =
-    [
-        new("Can we pay by invoice (purchase order)?",
-            "Yes. For Enterprise and Bundle licenses we issue standard invoices with VAT â€” made out to your company name, with PO number and 30-day net payment terms. For individual purchases via Paddle, the invoice is available in your dashboard immediately after checkout."),
-        new("Is there an MSA or DPA available?",
-            "Yes. On request we provide a <strong>Master Service Agreement (MSA)</strong> and a <strong>Data Processing Agreement (DPA) per GDPR Art. 28</strong>. Because running with Ollama processes no personal data at all, an on-prem deployment often doesn't require a DPA â€” and when using cloud providers with your own API key, the data processing is between you and your chosen AI vendor."),
-        new("Where is our data processed?",
-            "You decide. <strong>1. Local (Ollama)</strong> â€” code and translations stay on your machine, no external calls. <strong>2. Cloud with your API key</strong> â€” requests go directly from your machine to your AI provider (OpenAI, Azure EU, Anthropic); we never see the data. <strong>3. Hybrid</strong> â€” sensitive resources locally, non-critical ones in the cloud, configurable per project or per file."),
-        new("What happens after purchase â€” how do we get license keys?",
-            "Within minutes you receive by email: the license key (<code>EMN-XXXX-XXXX-XXXX-XXXX</code>), access to the user dashboard with all licenses and invoices, an onboarding email, and â€” for Enterprise â€” a proposed slot for the 1:1 onboarding session."),
-        new("Can we integrate into CI/CD?",
-            "Yes. Both tools run headless during <code>dotnet build</code> / <code>dotnet publish</code> and read their configuration from <code>aisettings.json</code>. They slot directly into GitHub Actions, Azure DevOps, GitLab CI, and any generic MSBuild pipeline, and can act as a quality gate. For air-gapped setups, run Ollama in the runner â€” no byte leaves your network."),
-        new("Which AI providers and models are supported?",
-            "Any endpoint that speaks the OpenAI Chat Completions API: OpenAI, Azure OpenAI, Ollama, LM Studio, llama.cpp server, or your corporate gateway. Set <code>baseUrl</code>, <code>model</code>, and optionally <code>apiKey</code> or <code>apiKeyEnvVar</code>."),
-    ];
 
     public static readonly FaqItem[] ResxTranslator =
     [
