@@ -1,4 +1,4 @@
-﻿# NetAI.TestGenerator
+# NetAI.TestGenerator
 
 [![NuGet](https://img.shields.io/nuget/v/NetAI.TestGenerator.Tasks.svg?label=NuGet%20(Tasks))](https://www.nuget.org/packages/NetAI.TestGenerator.Tasks)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/NetAI.TestGenerator.Tasks.svg)](https://www.nuget.org/packages/NetAI.TestGenerator.Tasks)

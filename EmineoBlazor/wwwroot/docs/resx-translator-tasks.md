@@ -1,4 +1,4 @@
-# NetAI.ResxTranslator.Tasks
+﻿# NetAI.ResxTranslator.Tasks
 
 [![NuGet](https://img.shields.io/nuget/v/NetAI.ResxTranslator.Tasks.svg?label=NuGet)](https://www.nuget.org/packages/NetAI.ResxTranslator.Tasks)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/NetAI.ResxTranslator.Tasks.svg)](https://www.nuget.org/packages/NetAI.ResxTranslator.Tasks)

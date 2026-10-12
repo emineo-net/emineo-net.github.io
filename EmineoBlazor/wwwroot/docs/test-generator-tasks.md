@@ -27,7 +27,7 @@ This README covers the **MSBuild task / NuGet package**. For the full project ov
 
 ---
 
-## Why a Build Task?
+## Why a Build Task? 
 
 Because test coverage shouldn't depend on anyone remembering to write tests.
 
