@@ -12,21 +12,23 @@
     <link rel="stylesheet" href="css/site.css" />
     <link rel="stylesheet" href="bootstrap.min.css" />
 
+    <link rel="stylesheet" href="css/bootstrap-icons.css" />
+
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
     <script type="importmap"></script>
 
     <script>
-            (function () {
-                try {
-                    var t = localStorage.getItem('emineo-theme')
-                        || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-                    document.documentElement.setAttribute('data-bs-theme', t);
-                } catch (e) {
-                    document.documentElement.setAttribute('data-bs-theme', 'dark');
-                }
-            })();
+                            (function () {
+                                try {
+                                    var t = localStorage.getItem('emineo-theme')
+                                        || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                                    document.documentElement.setAttribute('data-bs-theme', t);
+                                } catch (e) {
+                                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                                }
+                            })();
     </script>
 
 </head>

@@ -11,14 +11,14 @@
 @inject PaddlePortalService PortalService
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Emineo â€“ AI tools for .NET teams</PageTitle>
+<PageTitle>Emineo – AI tools for .NET teams</PageTitle>
 
 @* ============ HERO (Marke) ============ *@
 <header class="hero">
     <div class="container text-center">
         <div class="badge-soft mb-4 d-inline-block">
             <span class="dot"></span>
-            New Â· v1.1 Â· MIT-licensed core
+            New · v1.1 · MIT-licensed core
         </div>
 
         <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
@@ -71,7 +71,7 @@
         </section>
     </Authorized>
     <NotAuthorized>
-        @* Landing page stays public â€” no login wall. *@
+        @* Landing page stays public — no login wall. *@
     </NotAuthorized>
 </AuthorizeView>
 
@@ -111,7 +111,7 @@
             <span class="eyebrow d-block mb-2">Why Emineo</span>
             <h2 class="display-custom mb-3">Not another "prompt and pray" wrapper.</h2>
             <p class="lead-muted mx-auto" style="max-width: 640px;">
-                The engine does the hard work before the LLM ever sees a prompt â€”
+                The engine does the hard work before the LLM ever sees a prompt —
                 so the output compiles, respects your conventions, and stays reviewable.
             </p>
         </div>
@@ -122,7 +122,7 @@
 
 @* ============ SHARE WITH TEAM LEAD ============ *@
 <ShareWithTeamLead ProductName="Emineo"
-                   PainPoint="repetitive .NET boilerplate â€” translations, test scaffolding, and the compliance paperwork that comes with every new tool"
+                   PainPoint="repetitive .NET boilerplate — translations, test scaffolding, and the compliance paperwork that comes with every new tool"
                    ValueProposition="builds AI tools that run inside our existing build pipeline, keep code on-prem when we want it, and ship with the compliance paperwork already prepared" />
 
 @* ============ ENTERPRISE TRUST ============ *@
@@ -149,10 +149,10 @@
         <div class="ent-cta-bar text-center">
             <h3 class="h4 fw-bold mb-2">Questions about security, contracts, or onboarding?</h3>
             <p class="text-secondary mb-4">
-                We get back to you within one business day â€” with concrete answers, not marketing.
+                We get back to you within one business day — with concrete answers, not marketing.
             </p>
             <button class="btn btn-brand btn-lg-custom" @onclick='() => ContactSales("General")'>
-                Contact sales â†’
+                Contact sales →
             </button>
         </div>
     </div>
@@ -161,22 +161,22 @@
 @code {
     private static readonly FeatureGrid.Feature[] BrandFeatures =
     [
-        new("ðŸ§ ", "Roslyn-first, not text-based",
+        new("bi-cpu", "Roslyn-first, not text-based",
             "Symbol-level analysis (<code>IMethodSymbol</code>, <code>INamedTypeSymbol</code>, <code>IOperation</code>) drives every decision. No guessing from source text."),
-        new("âœ…", "Compile-validated output",
+        new("bi-check-circle", "Compile-validated output",
             "Generated tests are compiled against your real project. Missing usings, NuGet packages, and type errors are detected and repaired automatically."),
-        new("ðŸ ", "Local-first, cloud-optional",
-            "Ollama, LM Studio, llama.cpp on your machine â€” or OpenAI, Azure OpenAI, and any corporate gateway. Same configuration, your choice."),
-        new("ðŸ› ï¸", "MSBuild-native",
+        new("bi-house", "Local-first, cloud-optional",
+            "Ollama, LM Studio, llama.cpp on your machine — or OpenAI, Azure OpenAI, and any corporate gateway. Same configuration, your choice."),
+        new("bi-tools", "MSBuild-native",
             "Runs during <code>dotnet build</code>. Design-time builds skipped, WPF-safe, multi-targeting aware, and never locks the assembly in Visual Studio."),
-        new("ðŸ›¡ï¸", "Placeholder-safe",
+        new("bi-shield-check", "Placeholder-safe",
             "<code>{0}</code>, <code>{name}</code>, <code>%s</code>, <code>\\n</code>, <code>\\t</code> are treated as immutable by the prompt and validated on return."),
-        new("ðŸ“¦", "Batched, incremental",
+        new("bi-box-seam", "Batched, incremental",
             "Missing keys only, 20 per request, already-translated keys never re-sent. Token-efficient and reproducible."),
-        new("ðŸŽ¯", "Domain-aware",
-            "A one-shot analysis call detects the software's domain and injects it into every prompt â€” so terminology feels native, not literal."),
-        new("ðŸ§©", "Enterprise-ready foundation",
-            "MIT core, clean configuration surface, and an Enterprise edition planned on top â€” see <a href=\"/enterprise\">Enterprise</a>.")
+        new("bi-bullseye", "Domain-aware",
+            "A one-shot analysis call detects the software's domain and injects it into every prompt — so terminology feels native, not literal."),
+        new("bi-puzzle", "Enterprise-ready foundation",
+            "MIT core, clean configuration surface, and an Enterprise edition planned on top — see <a href=\"/enterprise\">Enterprise</a>.")
     ];
 
     private void HandlePaymentSuccess(object data) => Console.WriteLine("Zahlung war erfolgreich!");

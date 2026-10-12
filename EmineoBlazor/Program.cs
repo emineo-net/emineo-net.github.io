@@ -1,9 +1,10 @@
+using EmineoBlazor.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.Authorization;
 using PaddleRcl.Services;
-using SupabaseRcl.Services;
 using SupabaseRcl.Providers;
+using SupabaseRcl.Services;
 
 namespace EmineoBlazor;
 
@@ -22,6 +23,7 @@ public class Program
         builder.Services.AddScoped<AuthenticationStateProvider, SupabaseAuthStateProvider>();
         builder.Services.AddPaddleRcl();
         builder.Services.AddScoped<AuthDialogService>();
+        builder.Services.AddScoped<DocsContentService>();
 
         var host = builder.Build();
 

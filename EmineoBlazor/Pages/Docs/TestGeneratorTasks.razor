@@ -1,0 +1,23 @@
+﻿@page "/docs/test-generator/tasks"
+@using EmineoBlazor.Components.Docs
+@using EmineoBlazor.Services
+
+<PageTitle>TestGenerator Tasks – Documentation</PageTitle>
+
+<DocsLayout PageTitle="MSBuild task"
+            Section="NetAI.TestGenerator"
+            SectionUrl="/docs/test-generator"
+            GitHubEditUrl="https://github.com/emineo-net/NetAI.TestGenerator/edit/main/src/Libraries/NetAI.TestGenerator.Tasks/README.md">
+    <MarkdownView Markdown="@_md" />
+</DocsLayout>
+
+@code {
+    [Inject] private DocsContentService Docs { get; set; } = default!;
+
+    private string _md = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _md = await Docs.GetMarkdownAsync("test-generator-tasks.md");
+    }
+}

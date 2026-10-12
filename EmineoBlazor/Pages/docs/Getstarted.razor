@@ -1,191 +1,195 @@
 ﻿@page "/docs/getstarted"
+@using EmineoBlazor.Data
 
-<PageTitle>NetAI.TestGenerator – Get Started</PageTitle>
-<h3 class="mb-4">Get Started</h3>
+<PageTitle>Get started – Emineo Documentation</PageTitle>
 
-<!-- Intro -->
-<section class="mb-5">
-    <p class="lead">
-        <strong>NetAI.TestGenerator</strong> automatisiert die Erstellung von Unit Tests in
-        .NET-Projekten. Die MSBuild-Task wird als NuGet-Paket in ein Host-Projekt injiziert,
-        analysiert den Quellcode während des Builds, erkennt fehlende Tests und generiert ein
-        semantisch korrektes Test-Skelett, das anschließend von einer KI vervollständigt wird.
-    </p>
-    <div class="alert alert-info shadow-sm" role="alert">
-        <strong>Kernidee:</strong> Die KI muss nicht den gesamten Test erfinden. Roslyn
-        analysiert Typen, Abhängigkeiten, Access Modifiers, Async-Patterns und WPF/STA-Anforderungen –
-        das LLM füllt nur den eigentlichen Test-Body. Das reduziert Halluzinationen, spart Tokens
-        und verbessert die Kompilierbarkeit erheblich.
+<header class="hero">
+    <div class="container text-center">
+        <div class="badge-soft mb-4 d-inline-block">
+            <span class="dot"></span>
+            Which product for me?
+        </div>
+        <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
+            Two questions. One clear answer.<br>
+            <span class="text-gradient">Then you're set up.</span>
+        </h1>
+        <p class="lead-muted mb-0 mx-auto" style="max-width: 680px;">
+            Both products run during <code>dotnet build</code>, both speak to any OpenAI-compatible
+            LLM, and both use the same <code>aisettings.json</code>. The only difference is <em>what</em>
+            they automate.
+        </p>
     </div>
-</section>
+</header>
 
-<!-- 1. Projekte -->
-<section class="mb-5">
-    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">1. Projekte</h2>
-    <div class="row g-3">
-        @foreach (var project in Projects)
-        {
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">@project.Name</h5>
-                        <p class="card-text small text-muted mb-0">@project.Description</p>
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="docs-decision-grid">
+                    <div class="docs-decision-card">
+                        <div class="ent-icon"><i class="bi bi-globe"></i></div>
+                        <h3 class="h5 fw-bold mb-2">You ship multi-language software</h3>
+                        <p class="text-secondary small mb-3">
+                            Your team has English keys, empty <code>.de.resx</code> files, and someone
+                            keeps copy-pasting English to make the build pass.
+                        </p>
+                        <p class="fw-bold mb-2">Use NetAI.ResxTranslator.</p>
+                        <a href="/docs/resx-translator" class="btn btn-brand btn-sm">
+                            Open the ResxTranslator docs →
+                        </a>
+                    </div>
+
+                    <div class="docs-decision-card">
+                        <div class="ent-icon"><i class="bi bi-eyedropper"></i></div>
+                        <h3 class="h5 fw-bold mb-2">You want more test coverage</h3>
+                        <p class="text-secondary small mb-3">
+                            You keep missing coverage gates, hand-writing test scaffolding, and
+                            know the AI tools out there hallucinate types.
+                        </p>
+                        <p class="fw-bold mb-2">Use NetAI.TestGenerator.</p>
+                        <a href="/docs/test-generator" class="btn btn-brand btn-sm">
+                            Open the TestGenerator docs →
+                        </a>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-</section>
 
-<!-- 2. Warum NetAI.TestGenerator? -->
-<section class="mb-5">
-    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">2. Warum NetAI.TestGenerator?</h2>
-    <div class="row g-3">
-        @foreach (var reason in Reasons)
-        {
-            <div class="col-md-6">
-                <div class="d-flex">
-                    <div class="feature-icon me-3">@reason.Icon</div>
-                    <div>
-                        <h6 class="mb-1">@reason.Title</h6>
-                        <p class="small text-muted mb-0">@reason.Description</p>
+                <div class="docs-callout mt-5">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-lightbulb docs-callout-icon"></i>
+                        <div>
+                            <h4 class="h6 fw-bold mb-2">Both?</h4>
+                            <p class="mb-2 text-secondary small">
+                                They're independent NuGet packages, so you can install them side by side
+                                and share the same <code>aisettings.json</code>. The Bundle Enterprise
+                                license covers both at a discount.
+                            </p>
+                            <a href="/pricing" class="docs-callout-link">
+                                See Bundle pricing →
+                            </a>
+                        </div>
                     </div>
                 </div>
+
             </div>
-        }
+        </div>
     </div>
 </section>
 
-<!-- 3. Architektur & Flow -->
-<section class="mb-5">
-    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">3. Architektur &amp; Flow</h2>
+<section class="bg-body-secondary">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="eyebrow d-block mb-2">Shared foundation</span>
+            <h2 class="display-custom mb-3">What both products have in common.</h2>
+        </div>
 
-    <pre class="code-block mb-4"><code>@ArchitectureDiagram</code></pre>
-
-    <ol class="list-group list-group-numbered shadow-sm">
-        @foreach (var step in FlowSteps)
-        {
-            <li class="list-group-item">@step</li>
-        }
-    </ol>
-</section>
-
-<!-- 4. Installation -->
-<section class="mb-5">
-    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">4. Installation</h2>
-
-    <p class="mb-2">Voraussetzungen:</p>
-    <ul class="list-group list-group-flush shadow-sm rounded mb-4">
-        <li class="list-group-item">✅ .NET SDK (getestet mit .NET 10, Task-Assembly <code class="inline">netstandard2.0</code>-kompatibel)</li>
-        <li class="list-group-item">✅ Solution-/Projektverzeichnis mit <code class="inline">.sln</code> oder <code class="inline">.slnx</code></li>
-        <li class="list-group-item">✅ Optional: laufender OpenAI-kompatibler LLM-Endpoint (lokal oder gehostet)</li>
-    </ul>
-
-    <p class="mb-2">NuGet-Paket installieren:</p>
-    <pre class="code-block mb-4"><code>dotnet add package NetAI.TestGenerator.Tasks</code></pre>
-
-    <p class="mb-2">Oder direkt in der <code class="inline">.csproj</code>:</p>
-<pre class="code-block"><code>&lt;PackageReference Include="NetAI.TestGenerator.Tasks"
-                  Version="1.0.0"
-                  PrivateAssets="all" /&gt;</code></pre>
-
-    <div class="alert alert-secondary shadow-sm mt-4 mb-0" role="alert">
-        Das Paket bringt die Targets mit und kopiert <code class="inline">aisettings.json</code>
-        sowie <code class="inline">aisettings-schema.json</code> beim ersten Build automatisch ins
-        Projektverzeichnis – sofern sie noch nicht existieren.
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="ent-card h-100">
+                    <div class="ent-icon"><i class="bi bi-filetype-json"></i></div>
+                    <h4 class="h6 fw-bold mb-2">One config file</h4>
+                    <p class="text-secondary small mb-0">
+                        <code>aisettings.json</code> at the project root — with full JSON Schema
+                        validation in VS, Rider, and VS Code.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="ent-card h-100">
+                    <div class="ent-icon"><i class="bi bi-house"></i></div>
+                    <h4 class="h6 fw-bold mb-2">Local-first</h4>
+                    <p class="text-secondary small mb-0">
+                        Ollama, LM Studio, llama.cpp, or the companion LLMRunner app.
+                        Cloud APIs are optional.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="ent-card h-100">
+                    <div class="ent-icon"><i class="bi bi-tools"></i></div>
+                    <h4 class="h6 fw-bold mb-2">MSBuild-native</h4>
+                    <p class="text-secondary small mb-0">
+                        Runs during <code>dotnet build</code>. Design-time skipped, WPF-safe,
+                        multi-targeting aware.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="ent-card h-100">
+                    <div class="ent-icon"><i class="bi bi-shield-check"></i></div>
+                    <h4 class="h6 fw-bold mb-2">MIT core</h4>
+                    <p class="text-secondary small mb-0">
+                        Free forever, commercial use allowed. Enterprise editions add
+                        team-scale features and support.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- 5. Ordnerstruktur / Projekt-Layout -->
-<section class="mb-5">
-    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">5. Projekt-Layout</h2>
-    <pre class="code-block"><code>@FolderTree</code></pre>
-</section>
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="docs-prereq">
+                    <h3 class="h5 fw-bold mb-4">Before you install anything</h3>
 
-<!-- 6. Nächste Schritte -->
-<section class="mb-5">
-    <h2 class="h4 fw-bold border-bottom pb-2 mb-3">6. Nächste Schritte</h2>
-    <div class="alert alert-success shadow-sm d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-0"
-         role="alert">
-        <span>
-            Bereit zum Loslegen? Konfiguration, MSBuild-Integration, Prompt-Only-Modus
-            und Beispiele findest du im Quickstart.
-        </span>
-        <a href="/docs/quickstart" class="btn btn-success btn-sm text-nowrap">
-            Zum Quickstart →
-        </a>
+                    <div class="docs-prereq-item">
+                        <span class="docs-prereq-num">1</span>
+                        <div>
+                            <strong>.NET SDK 10.0 or later</strong>
+                            <p class="text-secondary small mb-0">
+                                The task itself runs on <code>netstandard2.0</code> inside MSBuild's
+                                runtime, so any modern host project works.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="docs-prereq-item">
+                        <span class="docs-prereq-num">2</span>
+                        <div>
+                            <strong>A .sln or .slnx file</strong>
+                            <p class="text-secondary small mb-0">
+                                The task searches upward from your project directory to place the test
+                                project. It stops at the first match.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="docs-prereq-item">
+                        <span class="docs-prereq-num">3</span>
+                        <div>
+                            <strong>An OpenAI-compatible LLM endpoint</strong>
+                            <p class="text-secondary small mb-2">
+                                Three ways to get one:
+                            </p>
+                            <ul class="docs-prereq-list">
+                                <li>
+                                    <strong>LLMRunner</strong> (recommended) — the companion WPF app
+                                    from the same authors. Pick a model, click <em>Serve</em>, done.
+                                    Serves on <code>http://localhost:8080/</code> — exactly what
+                                    <code>aisettings.json</code> expects.
+                                </li>
+                                <li>
+                                    <strong>Ollama</strong> — <code>ollama pull qwen2.5:14b</code> then
+                                    <code>ollama serve</code>. Listens on <code>http://localhost:11434/</code>.
+                                </li>
+                                <li>
+                                    <strong>Hosted</strong> — OpenAI, Azure OpenAI, or any gateway
+                                    exposing <code>/v1/chat/completions</code>.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <a href="/docs/quickstart" class="btn btn-brand btn-lg-custom">
+                        Continue to Quickstart →
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
-
-
-@code {
-    private record Project(string Name, string Description);
-    private record Reason(string Icon, string Title, string Description);
-
-    private static readonly Project[] Projects =
-    {
-        new("NetAI.TestGenerator.Core",
-            "Roslyn-Analyse, Prompt-Generierung, LLM-Kommunikation, Test-Projekt-Management, Compile-Validierung und Repair-Logik."),
-        new("NetAI.TestGenerator.Tasks",
-            "MSBuild-Task und NuGet-Paket, das ins Host-Projekt injiziert wird und die Generierung während des Build-Prozesses startet.")
-    };
-
-    private static readonly Reason[] Reasons =
-    {
-        new("🔬", "Semantische Analyse statt Text-Raten",
-            "Roslyn liefert präzise Informationen über Methoden, Parameter, Rückgabetypen, Abhängigkeiten und Blocker."),
-        new("🤖", "KI nur für den Test-Body",
-            "Das bindende Skelett bleibt maßgeblich. Usings, Namespace, Klassenname, Felder, Konstruktor und Test-Attribute werden nicht vom Modell verändert."),
-        new("✅", "Compile-Validierung inklusive",
-            "Generierte Tests werden gegen das echte Test-Projekt kompiliert. Fehlende Usings, NuGet-Pakete oder falsche Typen werden automatisch behandelt."),
-        new("🧪", "Mehrere Frameworks",
-            "xUnit, NUnit, MSTest sowie Moq, NSubstitute und FakeItEasy."),
-        new("🪟", "WPF/STA-Support",
-            "WPF-Typen werden erkannt; STA-Attribute und passende Test-Attribute werden berücksichtigt."),
-        new("⚙️", "MSBuild-Integration",
-            "Läuft automatisch während des Builds – kein separater CLI-Aufruf nötig."),
-        new("🎛️", "Konfigurierbar",
-            "Framework, Mocking, Code-Style, AI-Endpoint und Generierungsverhalten steuerst du über aisettings.json."),
-        new("🚀", "Enterprise-ready geplant",
-            "Enterprise-Version auf Basis dieses Repos mit Policy-Enforcement, Audit-Logs und CI/CD-Gates geplant.")
-    };
-
-    private const string ArchitectureDiagram =
-@"Host Project
-   │
-   ├─ NetAI.TestGenerator.Tasks (MSBuild task, NuGet)
-   │     └─ calls Core
-   │
-   └─ NetAI.TestGenerator.Core
-         ├─ RoslynDllTestabilityAnalyzer
-         ├─ UnitTestSkeletonGenerator
-         ├─ TestProjectManager
-         ├─ TestProjectManagerCompilerService
-         ├─ TestCodeProcessor / TestCodeBeautifier
-         ├─ LocalLlmClient
-         └─ AiPromptBuilder / PromptTemplates";
-
-    private static readonly string[] FlowSteps =
-    {
-        "Die MSBuild-Task wird über NetAI.TestGenerator.Tasks.targets eingebunden.",
-        "NetAI.TestGenerator.Core lädt die Quellcode-Dateien und Referenzen.",
-        "Roslyn erstellt eine Compilation – entweder via MSBuild-Workspace, Solution/Projekt oder In-Memory.",
-        "Der RoslynDllTestabilityAnalyzer analysiert jede Methode: Access Modifiers, async/async void, statische Abhängigkeiten, konkrete vs. abstrakte Abhängigkeiten, Mockability, WPF/STA-Relevanz und Test-Strategie (Direct, Reflection, RefactorFirst, Skip).",
-        "Der UnitTestSkeletonGenerator erstellt ein bindendes Test-Skelett.",
-        "Das LLM erhält das Skelett und füllt nur den markierten AI-AREA-Bereich.",
-        "Der TestProjectManager schreibt die Test-Klasse, referenziert das Quellprojekt, löst NuGet-Pakete auf und kompiliert.",
-        "Bei Fehlern folgen automatische Roslyn-Fixes und optional ein KI-Repair-Lauf."
-    };
-
-    private const string FolderTree =
-@"NetAI.TestGenerator/
-├── NetAI.TestGenerator.Core/
-│   ├── Analysis/
-│   ├── Config/
-│   ├── Prompts/
-│   ├── Services/
-│   └── Templates/
-└── NetAI.TestGenerator.Tasks/
-    ├── Build/
-    └── targets/";
-}

@@ -1,0 +1,58 @@
+﻿@* Components/Docs/DocsSidebar.razor *@
+@using Microsoft.AspNetCore.Components.Routing
+
+<aside class="docs-sidebar">
+    <nav class="docs-nav">
+        <div class="docs-nav-group">
+            <span class="docs-nav-heading">Getting Started</span>
+            <NavLink class="docs-nav-link" href="/docs" Match="NavLinkMatch.All">
+                Documentation hub
+            </NavLink>
+            <NavLink class="docs-nav-link" href="/docs/getstarted">
+                Which product for me?
+            </NavLink>
+            <NavLink class="docs-nav-link" href="/docs/quickstart">
+                Quickstart
+            </NavLink>
+        </div>
+
+        <div class="docs-nav-group">
+            <span class="docs-nav-heading">NetAI.ResxTranslator</span>
+            <NavLink class="docs-nav-link" href="/docs/resx-translator" Match="NavLinkMatch.All">
+                Overview
+            </NavLink>
+            <NavLink class="docs-nav-link" href="/docs/resx-translator/tasks">
+                MSBuild task
+            </NavLink>
+            <NavLink class="docs-nav-link" href="/docs/resx-translator/cli">
+                CLI (netai-resx)
+            </NavLink>
+        </div>
+
+        <div class="docs-nav-group">
+            <span class="docs-nav-heading">NetAI.TestGenerator</span>
+            <NavLink class="docs-nav-link" href="/docs/test-generator" Match="NavLinkMatch.All">
+                Overview
+            </NavLink>
+            <NavLink class="docs-nav-link" href="/docs/test-generator/tasks">
+                MSBuild task
+            </NavLink>
+            <NavLink class="docs-nav-link" href="/docs/test-generator/cli">
+                CLI (netai)
+            </NavLink>
+        </div>
+
+        <div class="docs-nav-group">
+            <span class="docs-nav-heading">More</span>
+            <a class="docs-nav-link" href="/products">
+                All products
+            </a>
+            <a class="docs-nav-link" href="/enterprise">
+                Enterprise
+            </a>
+            <a class="docs-nav-link" href="https://github.com/emineo-net" target="_blank" rel="noopener">
+                GitHub org ↗
+            </a>
+        </div>
+    </nav>
+</aside>

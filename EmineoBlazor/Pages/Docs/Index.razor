@@ -1,0 +1,114 @@
+﻿@page "/docs"
+@using EmineoBlazor.Data
+
+<PageTitle>Documentation – Emineo</PageTitle>
+
+<header class="hero">
+    <div class="container text-center">
+        <div class="badge-soft mb-4 d-inline-block">
+            <span class="dot"></span>
+            Two products · One config format
+        </div>
+        <h1 class="hero-title mb-4 mx-auto" style="max-width: 900px;">
+            Documentation<br>
+            <span class="text-gradient">for both products.</span>
+        </h1>
+        <p class="lead-muted mb-0 mx-auto" style="max-width: 680px;">
+            Each product ships as an MSBuild task and a CLI. Same engine, same
+            <code>aisettings.json</code>, same results. Pick the entry point that fits your workflow.
+        </p>
+    </div>
+</header>
+
+<section>
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <div class="col-lg-6">
+                <a href="/docs/getstarted" class="docs-hub-card">
+                    <div class="ent-icon"><i class="bi bi-signpost-split"></i></div>
+                    <h3 class="h5 fw-bold mb-2">Which product for me?</h3>
+                    <p class="text-secondary small mb-0">
+                        Not sure where to start? Two quick questions and you're in the right place.
+                    </p>
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <a href="/docs/quickstart" class="docs-hub-card">
+                    <div class="ent-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                    <h3 class="h5 fw-bold mb-2">Quickstart</h3>
+                    <p class="text-secondary small mb-0">
+                        From <code>dotnet add package</code> to your first generated result in five minutes.
+                    </p>
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var product in ProductCatalog.All)
+            {
+                <div class="col-lg-6">
+                    <div class="docs-hub-product">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <span class="ent-icon" style="margin-bottom: 0;"><i class="bi @product.Icon"></i></span>
+                            <div>
+                                <span class="eyebrow d-block">@product.ShortName</span>
+                                <h3 class="h5 fw-bold mb-0">@product.Name</h3>
+                            </div>
+                        </div>
+                        <p class="text-secondary small mb-4">@product.Tagline</p>
+
+                        <ul class="docs-hub-links">
+                            <li>
+                                <a href="@product.DocsRoute">
+                                    <i class="bi bi-book me-2"></i> Overview &amp; architecture
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@product.DocsRoute/tasks">
+                                    <i class="bi bi-box-seam me-2"></i> MSBuild task (NuGet)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@product.DocsRoute/cli">
+                                    <i class="bi bi-terminal me-2"></i> CLI (dotnet tool)
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="docs-hub-more">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <a href="/products" class="docs-hub-mini">
+                        <i class="bi bi-grid-1x2"></i>
+                        <div>
+                            <strong>All products</strong>
+                            <span>Features, use cases, deep dives</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/enterprise" class="docs-hub-mini">
+                        <i class="bi bi-shield-check"></i>
+                        <div>
+                            <strong>Enterprise</strong>
+                            <span>Compliance, DPA, SLA, data residency</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://github.com/emineo-net" target="_blank" rel="noopener" class="docs-hub-mini">
+                        <i class="bi bi-github"></i>
+                        <div>
+                            <strong>GitHub</strong>
+                            <span>Source, issues, releases</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

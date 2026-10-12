@@ -1,0 +1,20 @@
+﻿@* Components/Docs/MarkdownView.razor *@
+@using EmineoBlazor.Services
+
+@if (string.IsNullOrWhiteSpace(Markdown))
+{
+    <div class="docs-loading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        <span>Loading documentation…</span>
+    </div>
+}
+else
+{
+    <article class="docs-content">
+        @((MarkupString)SimpleMarkdown.ToHtml(Markdown))
+    </article>
+}
+
+@code {
+    [Parameter, EditorRequired] public string Markdown { get; set; } = "";
+}

@@ -1,0 +1,23 @@
+﻿@page "/docs/resx-translator"
+@using EmineoBlazor.Components.Docs
+@using EmineoBlazor.Services
+
+<PageTitle>NetAI.ResxTranslator – Documentation</PageTitle>
+
+<DocsLayout PageTitle="Overview"
+            Section="NetAI.ResxTranslator"
+            SectionUrl="/docs/resx-translator"
+            GitHubEditUrl="https://github.com/emineo-net/NetAI.ResxTranslator/edit/main/README.md">
+    <MarkdownView Markdown="@_md" />
+</DocsLayout>
+
+@code {
+    [Inject] private DocsContentService Docs { get; set; } = default!;
+
+    private string _md = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _md = await Docs.GetMarkdownAsync("resx-translator.md");
+    }
+}

@@ -1,0 +1,23 @@
+﻿@page "/docs/test-generator/cli"
+@using EmineoBlazor.Components.Docs
+@using EmineoBlazor.Services
+
+<PageTitle>netai CLI – Documentation</PageTitle>
+
+<DocsLayout PageTitle="CLI (netai)"
+            Section="NetAI.TestGenerator"
+            SectionUrl="/docs/test-generator"
+            GitHubEditUrl="https://github.com/emineo-net/NetAI.TestGenerator/edit/main/src/Libraries/NetAI.TestGenerator.Cli/README.md">
+    <MarkdownView Markdown="@_md" />
+</DocsLayout>
+
+@code {
+    [Inject] private DocsContentService Docs { get; set; } = default!;
+
+    private string _md = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _md = await Docs.GetMarkdownAsync("test-generator-cli.md");
+    }
+}

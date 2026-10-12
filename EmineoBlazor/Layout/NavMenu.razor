@@ -106,7 +106,7 @@
                         @onclick="ToggleTheme"
                         title="@ThemeToggleTitle"
                         aria-label="@ThemeToggleTitle">
-                    <span aria-hidden="true">@themeIcon</span>
+                    <i class="bi @themeIcon" aria-hidden="true"></i>
                 </button>
             </div>
 
@@ -119,10 +119,12 @@
     private bool isProductsOpen;
     private bool isDocsOpen;
 
-    private string themeIcon = "â˜€ï¸";
+    // Bootstrap Icon class. Updated after first render and on every toggle.
+    // Dark mode → sun (click to go light). Light mode → moon (click to go dark).
+    private string themeIcon = "bi-sun";
 
     private string ThemeToggleTitle =>
-        themeIcon == "â˜€ï¸" ? "Switch to light theme" : "Switch to dark theme";
+        themeIcon == "bi-sun" ? "Switch to light theme" : "Switch to dark theme";
 
     private void Toggle() => isOpen = !isOpen;
     private void ToggleProducts() { isProductsOpen = !isProductsOpen; isDocsOpen = false; }
@@ -152,5 +154,6 @@
         catch { }
     }
 
-    private void UpdateIcon(string theme) => themeIcon = theme == "dark" ? "â˜€ï¸" : "ðŸŒ™";
+    private void UpdateIcon(string theme) =>
+        themeIcon = theme == "dark" ? "bi-sun" : "bi-moon-stars";
 }
