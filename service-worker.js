@@ -1,4 +1,4 @@
-/* Manifest version: KFERqrqB */
+/* Manifest version: 8m8GRRTo */
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
@@ -16,6 +16,11 @@ const offlineAssetsExclude = [ /^service-worker\.js$/ ];
 const base = "/";
 const baseUrl = new URL(base, self.origin);
 const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.url, baseUrl).href);
+
+// Pfad-Präfix der Schwester-App (LetterLoomWeb). Anfragen unterhalb dieses
+// Präfixes werden vom Service Worker NICHT abgefangen, damit die andere
+// Blazor-App ihre eigenen Assets laden kann.
+const bypassPrefixes = ['/LetterLoomWeb'];
 
 async function onInstall(event) {
     console.info('Service worker: Install');
@@ -39,6 +44,20 @@ async function onActivate(event) {
 }
 
 async function onFetch(event) {
+    // Anfragen an Schwester-Apps (z. B. /LetterLoomWeb/...) komplett am
+    // Service Worker vorbeileiten. Ohne diesen Block würde der SW mit
+    // Scope "/" JEDE Navigation abfangen und seine eigene index.html
+    // ausliefern - die andere App bekäme dann nur 404er auf ihre Assets.
+    //
+    // Wichtig: kein event.respondWith() aufrufen! Wenn der fetch-Handler
+    // nicht respondWith aufruft, geht die Anfrage direkt ans Netzwerk,
+    // als wäre kein Service Worker registriert.
+    const requestUrl = new URL(event.request.url);
+    if (bypassPrefixes.some(prefix =>
+        requestUrl.pathname === prefix || requestUrl.pathname.startsWith(prefix + '/'))) {
+        return;
+    }
+
     let cachedResponse = null;
     if (event.request.method === 'GET') {
         // For all navigation requests, try to serve index.html from cache,
